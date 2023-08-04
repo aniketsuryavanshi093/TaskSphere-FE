@@ -15,10 +15,10 @@ export const authOptions: NextAuthOptions = {
     },
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
-        // GitHubProvider({
-        //   clientId: env.GITHUB_CLIENT_ID,
-        //   clientSecret: env.GITHUB_CLIENT_SECRET,
-        // }),
+        GitHubProvider({
+            clientId: process.env.GITHUB_CLIENTID!,
+            clientSecret: process.env.GITHUB_SECRET!,
+        }),
         GoogleProvider({
             name: "google",
             clientId: process.env.AUTH_GOOGLE_CLIENTID!,
