@@ -2,22 +2,23 @@ import GitHubProvider from "next-auth/providers/github"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
 import { NextAuthOptions } from "next-auth";
+import axiosInterceptorInstance from "@/http";
+import { json } from "stream/consumers";
+import { NextRequest, } from "next/server";
 
 export const authOptions: NextAuthOptions = {
-    // huh any! I know.
-    // This is a temporary fix for prisma client.
-    // @see https://github.com/prisma/prisma/issues/16117
     session: {
         strategy: "jwt",
     },
-    pages: {
-        signIn: "/login",
-    },
+    // pages: {
+    //     signIn: "/signup",
+    // },
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
         GitHubProvider({
             clientId: process.env.GITHUB_CLIENTID!,
             clientSecret: process.env.GITHUB_SECRET!,
+
         }),
         GoogleProvider({
             name: "google",
@@ -26,55 +27,110 @@ export const authOptions: NextAuthOptions = {
         }),
         CredentialsProvider({
             name: 'Credentials',
+            type: "credentials",
             credentials: {
                 username: { label: "Username", type: "text", placeholder: "jsmith" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, _req) {
-                // You need to provide your own logic here that takes the credentials
-                // submitted and returns either a object representing a user or value
-                // that is false/null if the credentials are invalid.
-                // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-                // You can also use the `req` object to obtain additional parameters
-                // (i.e., the request IP address)
-                const res = await fetch("/your/endpoint", {
-                    method: 'POST',
-                    body: JSON.stringify(credentials),
-                    headers: { "Content-Type": "application/json" }
-                })
-                const user = await res.json()
-                // If no error and we have user data, return it
-                if (res.ok && user) {
+                try {
+                    // You need to provide your own logic here that takes the credentials
+                    // submitted and returns either a object representing a user or value
+                    // that is false/null if the credentials are invalid.
+                    // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
+                    // You can also use the `req` object to obtain additional parameters
+                    // (i.e., the request IP address)
+                    const res = await fetch('http://localhost:4000/api/v1/auth/login', {
+                        method: "POST", body: JSON.stringify({
+                            "loginCredential": credentials?.username,
+                            "password": credentials?.password
+                        })
+                        ,
+                        headers: {
+                            'Content-Type': 'application/json', // this needs to be defined
+                        },
+                    })
+                    // If no error and we have user data, return it
+                    // console.log("credentials 😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂", credentials)
+
+                    const data = await res.json()
+                    console.log(data)
+                    if (data.status === "fail") {
+                        return Promise.reject(data)
+                    }
+                    const user = {
+                        "_id": data?.data?._id,
+                        "name": data?.data?.name,
+                        "userName": data?.data?.userName,
+                        "email": data?.data?.email,
+                        "role": data?.data?.role,
+                        "createdAt": data?.data?.createdAt,
+                        "updatedAt": data?.data?.updatedAt,
+                        "authToken": data?.data?.authToken
+                    }
+                    console.log(user);
                     return user
+                } catch (error) {
+                    return error
                 }
-                // Return null if user data could not be retrieved
-                return null
             }
         }),
     ],
+    pages: {
+        signIn: "/login",
+        signOut: "/login"
+    },
     callbacks: {
-        async signIn(data) {
-            const isAllowedToSignIn = true
-            console.log(data, "💋💋💋");
-
-            if (isAllowedToSignIn) {
-                return true
-            } else {
-                // Return false to display a default error message
-                return false
-                // Or you can return a URL to redirect to:
-                // return '/unauthorized'
+        async jwt(params) {
+            console.log(params)
+            if (params.account?.provider === "google" || params.account?.provider === "github") {
+                const res = await fetch('http://localhost:4000/api/v1/auth/login', {
+                    method: "POST", body: JSON.stringify({
+                        "loginCredential": params.user.email,
+                        isGoogleLogin: true
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json', // this needs to be defined
+                    },
+                })
+                const datares = await res.json()
+                if (datares.status === "fail") {
+                    return Promise.reject(datares)
+                }
+                params.token._id = datares?.data?._id,
+                    params.token.organizationName = datares?.data?.name,
+                    params.token.email = datares?.data?.email,
+                    params.token.role = datares?.data?.role,
+                    params.token.userName = datares?.data?.userName
+                params.token.createdAt = datares?.data?.createdAt,
+                    params.token.updatedAt = datares?.data?.updatedAt,
+                    params.token.authToken = datares?.data?.authToken
+                return params.token
             }
+            if (params.user) {
+                params.token.authToken = params.user.authToken
+                params.token._id = params.user._id
+                params.token.userName = params.user.userName
+                params.token.organizationName = params.user.name
+                params.token.role = params.user.role
+                params.token.createdAt = params.user.createdAt
+                params.token.updatedAt = params.user.updatedAt
+            }
+            return params.token
         },
         async session({ token, session }) {
             console.log(token, session, "from server");
-
             // here we can add the role of the user this function will be called when the session is created 
             if (token) {
-                session.user.id = token.id
+                session.user.id = token._id
                 session.user.name = token.name
                 session.user.email = token.email
                 session.user.image = token.picture
+                session.user.role = token.role
+                session.user.createdAt = token.createdAt
+                session.user.updatedAt = token.updatedAt
+                session.user.organizationName = token.organizationName
+                session.user.authToken = token.authToken
             }
             return session
         },
