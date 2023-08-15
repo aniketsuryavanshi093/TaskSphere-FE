@@ -1,0 +1,100 @@
+.responsive_sidebar_hero {
+    position: fixed;
+    top: 0;
+    left: 0;
+    font-size: 20px;
+    background: var(--primary-background-color);
+    width: 35vw;
+    height: 100%;
+    z-index: 40;
+    transition: all ease-in-out 0.2s;
+    .top_bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 44px 0 20px 20px;
+      background-color: #dce1e7;
+      margin-bottom: 24px;
+      h5 {
+        font-size: 16px;
+      }
+      h6 {
+        font-size: 11px;
+      }
+      .profile_pic_container {
+        border: double 3px transparent;
+        border-radius: 80px;
+        background-image: linear-gradient(#dce1e7, #dce1e7),
+          radial-gradient(circle at top left, #10e4ef, #227dd1);
+        background-origin: border-box;
+        background-clip: padding-box, border-box;
+        padding: 4px;
+        position: relative;
+  
+        img {
+          border-radius: 50%;
+          max-width: 61px;
+        }
+        .edit_icon {
+          position: absolute;
+          bottom: 0;
+          right: -15%;
+          background-color: #fff;
+          border-radius: 50%;
+          padding: 10px;
+          cursor: pointer;
+        }
+      }
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        position: relative;
+        padding-left: 20px;
+        margin-bottom: 30px;
+        font-size: 13px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        .active {
+          font-weight: normal !important;
+        }
+        .active::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          left: 0;
+          background: linear-gradient(78deg, #00ffe0 0%, #7579ff 100%);
+          height: 32px;
+          width: 8px;
+          border-radius: 0px 5px 5px 0px;
+          z-index: 20;
+        }
+      }
+    }
+  }
+  
+  // // media query
+  @media (max-width: 850px) {
+    .responsive_sidebar_hero {
+      width: 40vw;
+    }
+  }
+  @media (max-width: 700px) {
+    .responsive_sidebar_hero {
+      width: 45vw;
+    }
+  }
+  @media (max-width: 600px) {
+    .responsive_sidebar_hero {
+      width: 50vw;
+    }
+  }
+  @media (max-width: 530px) {
+    .responsive_sidebar_hero {
+      width: 75vw;
+    }
+  }
+  

@@ -17,6 +17,12 @@ text-align: center;
 font-weight: 700;
 }
 
+.erorindicatior {
+    color: red;
+    margin-bottom: 0;
+    font-size: 13px;
+    text-align: center;
+}
 .loginright{
     height: inherit;    // background:  lightgray 0% 0% / 100px 100px repeat, linear-gradient(224deg, #9181F4 0%, #5038ED 100%);
     background-image: url('/images/loginback.png');

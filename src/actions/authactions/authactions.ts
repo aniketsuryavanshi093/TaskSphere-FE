@@ -17,7 +17,6 @@ export async function handleSubmit(values: FormSignupvalueType | null, type: str
                     resolve(res)
                 }
             }
-
         } catch (error) {
             console.log(error);
             reject(error)
