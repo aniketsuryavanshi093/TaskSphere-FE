@@ -30,10 +30,11 @@ type PageProps = {
 const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
     const [OpenModal, setOpenModal] = useState<{ open: boolean, openType: string }>({ open: false, openType: "" })
     const [isPending, startTransition] = useTransition()
-    console.log(user)
-    if (user?._id) {
-        window.location.reload()
-    }
+    const [Error, setError] = useState("")
+    // console.log(user)
+    // if (user?._id) {
+    //     window.location.reload()
+    // }
     const initialValue: FormSignupvalueType =
         formtype === "login"
             ? {
@@ -58,16 +59,26 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                     // const usersession = await signIn(type, { redirect: false, username: values?.userName, password: values?.password })
                     console.log(values, type, formtype);
                 } else {
-                    console.log("❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤❤", "STEP!!!!!!!!11111111")
                     const data = await handleSubmit(values, type, formtype)
                     console.log(data)
-                    const usersession = await signIn(type, { redirect: true, username: values?.email, password: values?.password })
+                    signIn(type, { redirect: true, username: values?.email, password: values?.password }).then((data: any) => {
+                        if (data?.error) {
+                            setError(data.error)
+                        } else {
+                            window.location.replace("/dashboard")
+                        }
+                    }).catch(er => console.log(er))
                 }
             }
             else {
                 signIn(type, { redirect: false, username: values?.email, password: values?.password })
                     .then((data: any) => {
-                        console.log(data);
+                        if (data?.error) {
+                            setError(data.error)
+                        }
+                        else {
+                            window.location.replace("/dashboard")
+                        }
                     }).catch(er => console.log(er))
             }
         } catch (error: any) {
@@ -75,6 +86,7 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
         }
     }
     const handleOtherClick = (values: FormSignupvalueType, type: string) => {
+        setError("")
         if (formtype === "register") {
             if (values.name) {
                 startTransition(() => handleServerAction({ name: values.name }, type,))
@@ -92,12 +104,18 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                 initialValues={initialValue}
                 validationSchema={validation}
                 onSubmit={(value: FormSignupvalueType) => {
-                    console.log("hello")
                     startTransition(() => handleServerAction(value, "credentials"))
                 }}
             >
                 {({ values }) => (
                     <Form className="wrapper m-3 flex-column">
+                        {
+                            Error && (
+                                <div className="w-100">
+                                    <p className="erorindicatior">{Error}</p>
+                                </div>
+                            )
+                        }
                         <div className="w-100">
                             <Field
                                 type="email"

@@ -5,6 +5,7 @@ import { NextAuthOptions } from "next-auth";
 import axiosInterceptorInstance from "@/http";
 import { json } from "stream/consumers";
 import { NextRequest, } from "next/server";
+import { AxiosError } from "axios";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -40,23 +41,23 @@ export const authOptions: NextAuthOptions = {
                     // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
                     // You can also use the `req` object to obtain additional parameters
                     // (i.e., the request IP address)
-                    const res = await fetch('http://localhost:4000/api/v1/auth/login', {
-                        method: "POST", body: JSON.stringify({
-                            "loginCredential": credentials?.username,
-                            "password": credentials?.password
-                        })
-                        ,
+                    const res = await axiosInterceptorInstance.post('http://localhost:4000/api/v1/auth/login', {
+                        "loginCredential": credentials?.username,
+                        "password": credentials?.password
+                    }, {
                         headers: {
                             'Content-Type': 'application/json', // this needs to be defined
-                        },
-                    })
+                        }
+                    }
+                    )
                     // If no error and we have user data, return it
                     // console.log("credentials 😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂", credentials)
-
-                    const data = await res.json()
-                    console.log(data)
+                    const data = res.data
+                    console.log(data, "fail")
                     if (data.status === "fail") {
-                        return Promise.reject(data)
+                        // throw Error(data)
+                        return
+                        // return Promise.reject(data)
                     }
                     const user = {
                         "_id": data?.data?._id,
@@ -68,10 +69,11 @@ export const authOptions: NextAuthOptions = {
                         "updatedAt": data?.data?.updatedAt,
                         "authToken": data?.data?.authToken
                     }
-                    console.log(user);
+                    console.log(user, "user");
                     return user
-                } catch (error) {
-                    return error
+                } catch (error: any) {
+                    console.log(error?.response?.data, "error");
+                    throw Error(error?.response?.data?.message)
                 }
             }
         }),

@@ -1,5 +1,7 @@
 :root {
   --max-width: 1100px;
+  --border-color: #DBDBDB;
+  --text-secondry: #787486;
   --border-radius: 12px;
   --font-mono: ui-monospace, Menlo, Monaco, 'Cascadia Mono', 'Segoe UI Mono',
     'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
@@ -39,7 +41,9 @@
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 }
-
+.text_primary{
+  color: #0D062D!important;
+}
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
