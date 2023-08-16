@@ -1,6 +1,6 @@
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import React, { useState } from 'react'
 
 const ProfileMenu: React.FC = () => {

@@ -25,3 +25,5 @@ export const dataItems = [
         logo: '/images/icons/setting.svg',
     },
 ];
+
+export const Administratortype = ["organization", "member",]

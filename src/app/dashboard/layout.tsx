@@ -5,6 +5,7 @@ import ResponsiveSidebar from '../_components/layouts/ResponsiveSidebar'
 import AuthProviders from '@/providers/AuthProviders'
 import Search from '../_components/Search/Search'
 import ProfileMenu from '../_components/layouts/ProfileMenu'
+import "./dashboardpage.scss"
 
 type PageProps = {
     children: React.JSX.Element
@@ -34,7 +35,7 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
                             <ProfileMenu />
                         </div>
                     </div>
-                    <div className={'scrollbar'}>
+                    <div className='w-100 pagewrapper'>
                         {children}
                     </div>
                 </div>
