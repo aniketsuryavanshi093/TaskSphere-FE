@@ -25,7 +25,12 @@
     right: 8.5%;
   }
 }
-
+.custom_date_picker_icon {
+  position: absolute;
+  top: 11px;
+  right: 15px;
+  font-size: 13px;
+}
 @media only screen and (max-width: 1200px) {
   .signup_psw_input {
     .eye_after_error {

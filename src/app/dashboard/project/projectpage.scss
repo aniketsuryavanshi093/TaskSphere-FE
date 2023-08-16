@@ -1,0 +1,83 @@
+.projecttitlep{
+    color: #0D062D;
+font-size: 46px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+text-transform: capitalize;
+}
+    .invitebtn {
+        padding: 5px 12px;
+        background: #5030e512;
+        color: #5030E5;
+        cursor: pointer;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        border-radius: 6px;
+}
+.filterwrapper{
+    margin: 20px 0px;
+}
+.userimagediv{
+    border-radius: 50%;
+    border: 1px solid white;
+    height: 38px;
+    width: 38px;
+    background-color: #F4D7DA;
+    color:#D25B68;
+    font-size: 15px;
+}
+.toggle_filter {
+    padding: 7px 16px;
+  }
+  
+  .filtertogglebtn {
+    border: 1px solid var(--borderbottom-light);
+    &:hover {
+      border: 1px solid var(--borderbottom-light);
+    }
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      border: 1px solid var(--borderbottom-light);
+    }
+  }
+  .sitesmenu {
+    padding: 0;
+    border-radius: 16px;
+    left: -235% !important;
+    background: var(--second-primary-background-color);
+    .sitesfilter {
+      .radio_btn_cont {
+        margin-left: -8px;
+      }
+      .create_date_cont,
+      .update_date_cont {
+        margin-bottom: 10px;
+        input {
+          width: 140px;
+        }
+      }
+      .cancel_btn {
+        border-color: var(--text-primary);
+      }
+    }
+  }
+  
+  .overallanalysiswrapper {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+  
+  // // media query
+  @media (max-width: 409px) {
+    .sitesmenu {
+      left: -15% !important;
+    }
+    .search {
+      margin-bottom: 8px;
+    }
+  }
+  
