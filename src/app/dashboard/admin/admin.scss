@@ -2,8 +2,52 @@
     background-color: transparent !important;
     border: 1px solid #5030E5 !important;
     padding: 10px 20px;
+    &:hover{
+        transition: all .5s;
+        background-color: #5030e53b !important;
+    }
 }
 .btntext{
     color: #5030E5;
-
 }
+
+.previous{
+    span{
+        color: #0D062D;
+        font-family: Inter;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    margin: 15px 0px;
+    svg{
+        font-size: 30px;
+    }
+}
+.tabul{
+    width: 100%;
+    padding: 0;
+    list-style: none;
+    margin: 10px 0px;
+    li{
+        padding: 11px;
+        font-family: Inter;
+        color: #0D062D;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        cursor: pointer;
+        line-height: normal;
+    }
+    .selected{
+        border-bottom: 1.5px solid #5030E5;
+        color: #5030E5!important;
+        margin-top: 1px;
+    }
+}
+.tabwrapper{
+    width: 15%;
+}
+
+// dropszone

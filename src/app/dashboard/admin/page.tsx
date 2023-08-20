@@ -1,26 +1,34 @@
 'use client'
-import Image from 'next/image'
-import React from 'react'
-import { Button } from 'reactstrap'
+import React, { useEffect, useState } from 'react'
 import "./admin.scss"
+import AdminTabs from './_AdminComponents/AdminTabs'
+import AdminUsers from './_AdminComponents/AdminUsers'
+import AdminProjects from './_AdminComponents/AdminProjects'
+import { useSearchParams } from 'next/navigation'
 
-const AdminPage = () => {
-
+const AdminPage: React.FC = () => {
+    const [SelectedTab, setSelectedTab] = useState("project");
+    // const [createProjectModal, setcreateProjectModal] = useState<{ open: boolean, data: {} | null }>({ open: false, data: null })
+    const tabtype = useSearchParams().get('tab')
+    useEffect(() => {
+        if (tabtype) {
+            setSelectedTab(tabtype)
+        }
+    }, [setSelectedTab, tabtype])
     return (
         <div>
-            <div className='wrapper justify-end w-100'>
-                <Button className=' admincreatebtn' >
-                    <div className='wrapper'>
-                        <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
-                        <span className='btntext'>Create Project</span>
-                    </div>
-                </Button>
-                <Button className='admincreatebtn mx-3'  >
-                    <div className='wrapper'>
-                        <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
-                        <span className='btntext'>Create User</span>
-                    </div>
-                </Button>
+            <AdminTabs SelectedTab={SelectedTab} />
+            <div className='w-100 my-2'>
+                {
+                    SelectedTab === "project" && (
+                        <AdminProjects />
+                    )
+                }
+                {
+                    SelectedTab === "users" && (
+                        <AdminUsers />
+                    )
+                }
             </div>
         </div>
     )

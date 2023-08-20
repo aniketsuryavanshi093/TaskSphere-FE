@@ -231,3 +231,48 @@ input#horizontal-email-Input.deposit__usd {
     padding: 5px 0;
     font-weight: 450;
   }
+
+/* react select css */
+.react-select-multi-container {
+  background: var(--react-select-multi-control-bg);
+  border-radius: 10px;
+  width: 97%;
+  border-color: var(--text-primary);
+}
+.react-select-multi__control {
+  background: var(--react-select-multi-control-bg);
+  border-radius: 10px;
+  width: 100%;
+  float: left;
+  border-color: var(--editColor);
+}
+.react-select-multi__menu {
+  background: var(--react-select-multi-control-bg);
+}
+.react-select-multi__option {
+  border-color: var(--text-primary);
+  background: #fff;
+}
+/* .react-select-multi__option:hover{
+      background-color: #000222;
+  } */
+.react-select-multi__input-container {
+  padding: 0px;
+  margin: 0px;
+}
+.react-select-multi__menu{
+  margin-top: 35px!important;
+}
+.react-select-multi__option:active,
+.react-select__option:hover {
+  color: #66c5cc;
+  cursor: pointer;
+}
+.react-select-multi__multi-value__label {
+  color: white !important;
+}
+.react-select-multi__multi-value {
+  background: green !important;
+  color: white !important;
+  border-radius: 20px !important;
+}

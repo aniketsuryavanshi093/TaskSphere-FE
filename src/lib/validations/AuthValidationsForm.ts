@@ -7,6 +7,11 @@ export const loginvalidations = Yup.object({
     password: Yup.string().required('password is required!')
 })
 
+export const createProjectvalidation = Yup.object({
+    title: Yup.string().required('Project Title is required!'),
+    description: Yup.string().required('description is required!')
+})
+
 export const signupvalidations = Yup.object({
     email: Yup.string().email("Email format does not match!").required('please enter email !'),
     userName: Yup.string().max(15, "Username character limit is 15 char!").required('please enter username !'),
