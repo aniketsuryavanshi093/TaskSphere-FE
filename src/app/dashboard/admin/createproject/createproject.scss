@@ -1,0 +1,27 @@
+
+.dropCOntainer{
+    width: 60%;
+    border: 2px dotted blue;
+    border-radius: 30px;
+}
+
+.draging{
+    border: 2px dotted green;
+}
+.closemarkx{
+    color: red;
+}
+
+.createprojectinp{
+    width: 40%;
+}
+.addicon{
+    font-size: 21px;
+    color: #5030E5;
+    margin-right: 10px;
+}
+@media (max-width: 1024px) and (min-width: 400px) {
+    .createprojectinp {
+      width: 100% !important;
+    }
+  }
