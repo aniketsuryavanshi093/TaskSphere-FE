@@ -1,23 +1,34 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable no-underscore-dangle */
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Label, Form } from 'reactstrap';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import './index.css';
 
-const Pagination = ({ paginationConfig }) => {
-  const {
-    pageCount,
-    itemCount,
-    currentPage,
-    onPageChange,
-    showLabel = true,
-    perpageItemCount,
-    onperpageItemCountchange,
-    showStartEndPage = true,
-  } = paginationConfig;
+export type PaginationConfigType = {
+  pageCount: number
+  itemCount: number,
+  currentPage: number,
+  onPageChange: (number: number) => void,
+  showLabel?: boolean,
+  perpageItemCount: number,
+  onperpageItemCountchange: (number: number) => void,
+  showStartEndPage?: boolean,
+}
+
+const Pagination: React.FC<PaginationConfigType> = ({ pageCount,
+  itemCount,
+  currentPage,
+  onPageChange,
+  showLabel = true,
+  perpageItemCount,
+  onperpageItemCountchange,
+  showStartEndPage = true }
+) => {
+
   const [_currentPage, setCurrentPage] = useState(currentPage || 1);
   const perpagearr = [2, 5, 10, 15, 25, 50];
-  const _onPageChange = page => {
+  const _onPageChange = (page: number) => {
     setCurrentPage(page);
     onPageChange(page);
   };
@@ -87,7 +98,7 @@ const Pagination = ({ paginationConfig }) => {
                 {Array.from(Array(pageCount), (ele, i) => {
                   const start = currentPage + 4 <= pageCount ? currentPage : pageCount - 4;
                   const end = currentPage + 4 <= pageCount ? currentPage + 4 : pageCount;
-                  let dom = '';
+                  let dom: ReactNode = null;
                   if (i + 1 >= start && i + 1 <= end) {
                     dom = (
                       <span
