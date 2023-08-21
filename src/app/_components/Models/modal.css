@@ -4,7 +4,6 @@ input[type='number']::-webkit-inner-spin-button {
   margin: 0;
 }
 .modal-body {
-  padding: 30px 45px !important;
   border-radius: 16px;
 }
 .faq__box {
@@ -261,7 +260,7 @@ input#horizontal-email-Input.deposit__usd {
   margin: 0px;
 }
 .react-select-multi__menu{
-  margin-top: 35px!important;
+  margin-top: 40px!important;
 }
 .react-select-multi__option:active,
 .react-select__option:hover {
@@ -272,7 +271,7 @@ input#horizontal-email-Input.deposit__usd {
   color: white !important;
 }
 .react-select-multi__multi-value {
-  background: green !important;
+  background: #5b92ec !important;
   color: white !important;
   border-radius: 20px !important;
 }

@@ -1,7 +1,6 @@
 import * as Yup from 'yup';
 
 
-
 export const loginvalidations = Yup.object({
     email: Yup.string().required('please enter username or email !'),
     password: Yup.string().required('password is required!')
@@ -10,6 +9,13 @@ export const loginvalidations = Yup.object({
 export const createProjectvalidation = Yup.object({
     title: Yup.string().required('Project Title is required!'),
     description: Yup.string().required('description is required!')
+})
+
+export const createuservalidation = Yup.object({
+    email: Yup.string().required('please enter email !'),
+    name: Yup.string().required('Name is required!'),
+    password: Yup.string().min(8, "Password must be minimum 8 chars.").required('password is required!'),
+    userName: Yup.string().required('User name is required!')
 })
 
 export const signupvalidations = Yup.object({
