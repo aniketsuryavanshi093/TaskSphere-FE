@@ -220,31 +220,13 @@ line-height: normal;
       height: 100vh ;
     }
   }
+
+  @media (max-width: 1024px) and (min-width: 400px) {
+    .pagewrapper {
+      padding: 20px;
+    }
+  }
   
-  @media (min-width: 384px) and (max-width: 650px) {
-    .maincontent {
-      height: 100vh ;
-    }
-    .scrollbar {
-      height: 100vh ;
-    }
-  }
-  @media (min-width: 650px) and (max-width: 951px) {
-    .maincontent {
-      height: 100vh ;
-    }
-    .scrollbar {
-      height: 100vh ;
-    }
-  }
-  @media (min-width: 951px) and (max-width: 991px) {
-    .maincontent {
-      height: 100vh ;
-    }
-    .scrollbar {
-      height: 100vh ;
-    }
-  }
   @media (min-width: 991px) {
     .largecontent {
       transition: all ease-in-out 0.2s;

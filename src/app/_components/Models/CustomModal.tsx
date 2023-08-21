@@ -50,7 +50,7 @@ const CustomModal: React.FC<PageProps> = ({
               <p className="mb-0"> Go Back </p>
             </div>
           )}
-          <h5 className="modal-title text-center mb-2 w-100">{title}</h5>
+          <h5 className="modal-title text-center  w-100">{title}</h5>
         </div>
         {onClose && (
           <div onClick={onClose} className="closemark cp">

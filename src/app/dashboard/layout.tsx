@@ -6,6 +6,7 @@ import AuthProviders from '@/providers/AuthProviders'
 import Search from '../_components/Search/Search'
 import ProfileMenu from '../_components/layouts/ProfileMenu'
 import "./dashboardpage.scss"
+import { Providers } from '@/redux/dashboardstore/providers'
 
 type PageProps = {
     children: React.JSX.Element
@@ -17,29 +18,31 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
     const [SearchValue, setSearchValue] = useState<string>("")
     return (
         <AuthProviders>
-            <div className="wrapper align-start">
-                <Sidebar
-                    MobileSidebar={MobileSidebar}
-                    setMobileSidebar={() => setMobileSidebar(false)}
-                    openSidebar={openSidebar}
-                    setOpenSidebar={setOpenSidebar}
-                />
-                <ResponsiveSidebar
-                    openMobileSidebar={openMobileSidebar}
-                    setOpenMobileSidebar={setOpenMobileSidebar}
-                />
-                <div className={`maincontent ${openSidebar && 'largecontent'}`} id="style-1">
-                    <div className="  top_nav_wrapper">
-                        <div className='wrapper justify-between px-4 w-100' >
-                            <Search waitTime={1000} setValue={(val) => setSearchValue(val)} placeholder='Search for anything...' />
-                            <ProfileMenu />
+            <Providers>
+                <div className="wrapper align-start">
+                    <Sidebar
+                        MobileSidebar={MobileSidebar}
+                        setMobileSidebar={() => setMobileSidebar(false)}
+                        openSidebar={openSidebar}
+                        setOpenSidebar={setOpenSidebar}
+                    />
+                    <ResponsiveSidebar
+                        openMobileSidebar={openMobileSidebar}
+                        setOpenMobileSidebar={setOpenMobileSidebar}
+                    />
+                    <div className={`maincontent ${openSidebar && 'largecontent'} scrollbar`} id="style-1">
+                        <div className="  top_nav_wrapper">
+                            <div className='wrapper justify-between px-4 w-100' >
+                                <Search waitTime={1000} setValue={(val) => setSearchValue(val)} placeholder='Search for anything...' />
+                                <ProfileMenu />
+                            </div>
+                        </div>
+                        <div className='w-100 pagewrapper'>
+                            {children}
                         </div>
                     </div>
-                    <div className='w-100 pagewrapper'>
-                        {children}
-                    </div>
                 </div>
-            </div>
+            </Providers>
         </AuthProviders>
     )
 }

@@ -3,3 +3,9 @@ export type dataItemsTypes = {
     name: string,
     link: string
 }
+
+export type selectUsers = {
+    value: string,
+    label: string,
+    pic?: string
+}

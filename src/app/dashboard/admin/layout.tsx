@@ -11,7 +11,7 @@ const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <div>
             <div className='wrapper justify-between w-100'>
-                <PageHeaderTitle />
+                <PageHeaderTitle title="Administration" />
                 <div>
                     <Button onClick={() => router.push('/dashboard/admin/createproject')} className=' admincreatebtn' >
                         <div className='wrapper'>
@@ -19,7 +19,7 @@ const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
                             <span className='btntext'>Create Project</span>
                         </div>
                     </Button>
-                    <Button onClick={() => router.push('/dashboard/admin?tab=createuser')} className='admincreatebtn mx-3'  >
+                    <Button onClick={() => router.push('/dashboard/admin/createuser')} className='admincreatebtn mx-3'  >
                         <div className='wrapper'>
                             <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
                             <span className='btntext'>Create User</span>
@@ -33,5 +33,4 @@ const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
         </div>
     )
 }
-
 export default AdminLayout
