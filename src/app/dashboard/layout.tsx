@@ -6,7 +6,7 @@ import AuthProviders from '@/providers/AuthProviders'
 import Search from '../_components/Search/Search'
 import ProfileMenu from '../_components/layouts/ProfileMenu'
 import "./dashboardpage.scss"
-import { Providers } from '@/redux/dashboardstore/providers'
+import { Providers } from '@/providers/providers'
 
 type PageProps = {
     children: React.JSX.Element

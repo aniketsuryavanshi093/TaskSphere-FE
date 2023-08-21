@@ -1,9 +1,10 @@
 'use client'
+import { PaginationConfigType } from '@/app/_components/UI/Pagination/Pagination';
 import { useState } from 'react';
 
 const usePaginationHook = () => {
   const [PerpageItemCount, setPerpageItemCount] = useState<number>(5);
-  const [PaginationCOnfig, setsetPaginationCOnfig] = useState({});
+  const [PaginationCOnfig, setsetPaginationCOnfig] = useState<PaginationConfigType>({});
   const [currentPage, setCurrentPage] = useState<number>(1);
   const onPageChange = (page: number) => {
     setCurrentPage(page);
