@@ -87,15 +87,17 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
                 key={item.name}
                 onClick={
                   () => {
-                    router.push('/dashboard/project')
+
                     setSelectedTab(item.color)
                   }
                 }
               >
-                <div className="myprojectcolor" style={{ background: item.color }} />
-                <span className={`${item.color === SelectedTab && "text_primary"} projecttitle ms-2`}>
-                  {item.name}
-                </span>
+                <Link className="wrapper" href={"/dashboard/project"}>
+                  <div className="myprojectcolor" style={{ background: item.color }} />
+                  <span className={`${item.color === SelectedTab && "text_primary"} projecttitle ms-2`}>
+                    {item.name}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
