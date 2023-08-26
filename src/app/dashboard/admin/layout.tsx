@@ -1,18 +1,17 @@
 "use client"
 import PageHeaderTitle from '@/app/_components/UI/PageHeaderTitle'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import React, { ReactNode } from 'react'
 import { Button } from 'reactstrap'
 import "./admin.scss"
 import Link from 'next/link'
 
 const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const router = useRouter()
+
     return (
         <div>
             <div className='wrapper justify-between w-100'>
-                <PageHeaderTitle title="Administration" />
+                <PageHeaderTitle title="Administration" isRedirectto="/dashboard/admin" />
                 <div>
                     <Link href={"/dashboard/admin/createproject"} >
                         <Button className=' admincreatebtn' >

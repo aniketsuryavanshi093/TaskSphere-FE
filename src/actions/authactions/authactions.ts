@@ -51,13 +51,12 @@ export async function createUseraction(values: any) {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await getCurrentUser()
-            const loginres = await Fetch({
+            const result = await Fetch({
                 method: "POST", data: (values),
                 url: "members/addMember",
                 token: user?.authToken,
             })
-
-            resolve(loginres)
+            resolve(result)
         } catch (error: any) {
             reject(error)
         }

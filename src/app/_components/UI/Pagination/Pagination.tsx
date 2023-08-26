@@ -16,15 +16,16 @@ export type PaginationConfigType = {
   showStartEndPage?: boolean,
 }
 
-const Pagination: React.FC<PaginationConfigType> = ({ pageCount,
+const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ paginationConfig: {
+  pageCount,
   itemCount,
   currentPage,
   onPageChange,
   showLabel = true,
   perpageItemCount,
   onperpageItemCountchange,
-  showStartEndPage = true }
-) => {
+  showStartEndPage = true
+} }) => {
 
   const [_currentPage, setCurrentPage] = useState(currentPage || 1);
   const perpagearr = [2, 5, 10, 15, 25, 50];

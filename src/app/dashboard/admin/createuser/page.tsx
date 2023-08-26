@@ -1,16 +1,17 @@
 "use client"
 /* eslint-disable react/no-unescaped-entities */
 import React, { useState, useTransition } from 'react'
-import { Field, Form, Formik, } from 'formik';
+import { Field, Form, Formik, FormikState, } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { AiOutlineUserAdd } from 'react-icons/ai';
-import { Button, Col, Label, Row } from 'reactstrap';
+import { Button, Col, Label, Row, Spinner } from 'reactstrap';
 import { GrFormPreviousLink, } from 'react-icons/gr';
 import { createuservalidation } from '@/lib/validations/AuthValidationsForm';
 import { CustomInput, CustomPswInput, } from '@/lib/customcomponents/customComponents';
 import { createUseraction } from '@/actions/authactions/authactions';
 import "./createuser.scss"
+import enqueSnackBar from '@/lib/enqueSnackBar';
 
 type initialType = {
     name: string,
@@ -31,20 +32,25 @@ const AdminUserProject = () => {
         "email": "",
         "password": ""
     }
-    const handlCreateUser = async (val: any) => {
+    const handlCreateUser = async (val: any, resetForm: (nextState?: Partial<FormikState<initialType>> | undefined) => void) => {
         try {
             const result = await createUseraction(val) as { status: string, message: string }
             if (result?.status === "fail") {
                 console.log("Error occured", result);
+                enqueSnackBar({ type: "error", message: result.message, })
+                return
             }
-            console.log(result)
+            enqueSnackBar({ type: "success", message: "User created Successfully!" })
+            resetForm()
         } catch (error) {
             console.log(error)
         }
     }
-    const handleSubmit = async (value: initialType) => {
+    const handleSubmit = async (value: initialType, resetForm: (nextState?: Partial<FormikState<initialType>> | undefined) => void) => {
         try {
-            startTransition(() => handlCreateUser(value))
+            startTransition(() => handlCreateUser(value, resetForm))
+            // console.log(value);
+
         } catch (error) {
             console.log(error);
         }
@@ -59,8 +65,8 @@ const AdminUserProject = () => {
             <Formik
                 initialValues={initialValues}
                 validationSchema={createuservalidation}
-                onSubmit={(value: initialType) => {
-                    handleSubmit(value)
+                onSubmit={(value: initialType, { resetForm }) => {
+                    handleSubmit(value, resetForm)
                 }}
             >
                 {({ values, setFieldValue }) => (
@@ -148,7 +154,7 @@ const AdminUserProject = () => {
                                         <Button type='submit' className=' admincreatebtn' >
                                             <div className='wrapper'>
                                                 <AiOutlineUserAdd className='addicon' />
-                                                <span className='btntext'>Add User</span>
+                                                <span className='btntext'>{isPending ? <Spinner size="sm" /> : "Add User"} </span>
                                             </div>
                                         </Button>
                                     </div>

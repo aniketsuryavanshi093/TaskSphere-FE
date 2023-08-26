@@ -7,13 +7,13 @@ export const adminprojectscolumn = [
   },
   {
     label: 'Project Title',
-    field: 'title',
+    field: 'projecttitle',
     sort: 'disabled',
     width: 100,
   },
   {
     label: 'No of Users',
-    field: 'users',
+    field: 'members',
     sort: 'disabled',
     width: 100,
   },
@@ -31,7 +31,7 @@ export const adminprojectscolumn = [
   },
   {
     label: 'Created At',
-    field: 'createdat',
+    field: 'createdAt',
     width: 100
   }
 ];
@@ -44,12 +44,12 @@ export const adminusercolumn = [
   },
   {
     label: 'Username',
-    field: 'username',
+    field: 'userName',
     width: 100,
   },
   {
     label: 'Name',
-    field: 'name',
+    field: 'fullname',
     width: 100,
   },
   {
@@ -64,7 +64,7 @@ export const adminusercolumn = [
   },
   {
     label: 'Created At',
-    field: 'createdat',
+    field: 'createdAt',
     width: 100
   },
   {
