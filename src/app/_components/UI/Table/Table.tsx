@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { MDBDataTable, MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 import { Row, Col, Progress } from "reactstrap";
 import "./datatables.scss";
-import Pagination from "../Pagination/Pagination";
+import Pagination, { PaginationConfigType } from "../Pagination/Pagination";
 
 const DatatableTables: React.FC<any> = ({
   column,
@@ -260,7 +260,7 @@ const DatatableTables: React.FC<any> = ({
         </Col>
         {paginationConfig && (
           <Col className="col-12">
-            <Pagination paginationConfig={paginationConfig} />
+            <Pagination paginationConfig={paginationConfig as PaginationConfigType} />
           </Col>
         )}
       </Row>

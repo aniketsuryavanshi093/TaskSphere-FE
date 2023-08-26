@@ -4,23 +4,15 @@ import Select, { createFilter } from 'react-select';
 import CustomModal from './CustomModal'
 import Image from 'next/image';
 import { Button } from 'reactstrap';
-import { selectUsers } from '@/commontypes';
+import { CurrentUserObjectType, selectUsers } from '@/commontypes';
 import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook';
 import { setAddedUsers } from '@/redux/dashboardstore/reducer/user/user';
-
-const skills: selectUsers[] = [
-    { value: 'jjrfn', label: 'Aayush' },
-    { value: 'akdal', label: 'Saurabh' },
-    { value: 'amdnajkn', label: 'Badal' },
-    { value: 'oajkdnua', label: 'Shruti' },
-    { label: 'Aniket', value: 'addga' },
-    { label: 'somya ranjan', value: '78261hj2eu' },
-    { label: 'kahan', value: '72ey1uind287' },
-    { label: 'shaishav', value: 'a-=wd90iw' },
-    { label: 'Parth patel', value: '8dyauihq78' }
-];
+import { useQueryClient } from "@tanstack/react-query"
 
 const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOpen, onClose }) => {
+    const [userlist, setUsersList] = useState<selectUsers[]>([]);
+    const queryClient = useQueryClient()
+    const allusers = queryClient.getQueryData(["orgainzationusers", ""]) as any
     const animatedComponents = makeAnimated();
     const dispatch = useAppDispatch()
     const { addedUsers } = useAppSelector((state) => state.userreducer)
@@ -30,10 +22,14 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
             setValue(addedUsers)
         }
     }, [addedUsers])
-
-    const [skillslist] = useState(skills);
+    useEffect(() => {
+        if (allusers?.data?.data?.members?.length) {
+            setUsersList(allusers?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
+                value: _user._id, label: _user.name, name: _user.userName
+            })))
+        }
+    }, [allusers])
     const handleChange = (_, action) => {
-        console.log(action);
         switch (action.action) {
             case 'select-option': {
                 setValue([...value, action.option]);
@@ -47,7 +43,7 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
                 if (value) {
                     setValue([...value.filter((o) => o.value !== action?.removedValue?.value)]);
                 } else {
-                    setValue(skills);
+                    setValue(user);
                 }
                 break;
             }
@@ -72,14 +68,14 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
                         filterOption={createFilter({
                             matchFrom: 'any',
                             ignoreCase: true,
-                            stringify: option => `${option.label}`,
+                            stringify: option => `${option.label}${option.name}`,
                         })}
                         isMulti
                         placeholder="Select Member"
                         isSearchable
                         classNamePrefix="react-select-multi"
                         isClearable={true}
-                        options={skillslist}
+                        options={userlist}
                         value={value}
                         onChange={handleChange}
                     />
@@ -87,7 +83,7 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
                 <div className="skills_wrapper w-100 ">
                     <h5 className="mt-2">All Members</h5>
                     <div className=" suggesteeduser ">
-                        {skills.map((elem: selectUsers) => (
+                        {userlist.map((elem: selectUsers) => (
                             <div
                                 key={elem.label}
                                 onClick={() => handleSuggestedCLick(elem)}
