@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, Suspense } from 'react'
 import { Providers } from '@/providers/providers'
 import { SnackbarProvider } from 'notistack'
 import Sidebar from '../_components/layouts/SideBar'
@@ -18,6 +18,9 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
     const [MobileSidebar, setMobileSidebar] = useState<boolean>(false);
     const [SearchValue, setSearchValue] = useState<string>("")
     return (
+        // <Suspense fallback={
+        //     <div className={`loader `} />
+        // }>
         <AuthProviders>
             <SnackbarProvider
                 anchorOrigin={{
@@ -58,6 +61,7 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
                 </Providers>
             </SnackbarProvider>
         </AuthProviders>
+        // </Suspense>
     )
 }
 
