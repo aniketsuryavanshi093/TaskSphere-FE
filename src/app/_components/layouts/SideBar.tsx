@@ -31,7 +31,7 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
     >
       <div className="sidebar_wrapper">
         <div className={`${openSidebar ? "ml-3 mr-2" : "ml-3"} mb-1 sidebartopdiv wrapper`}>
-          <Link href="/dashboard" className="wrapper  ">
+          <Link href="/dashboard" prefetch={false} className="wrapper  ">
             <Image
               src='/images/colorfilter.png'
               alt="brandLogo"
@@ -49,7 +49,7 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
                 <li
                   className="sidebar-nav-item nonActive position-relative"
                 >
-                  <Link href="/dashboard/admin" className="color-black">
+                  <Link prefetch={false} href="/dashboard/admin" className="color-black">
                     <Image src="/images/icons/admins.png" alt="admin" height={24} width={24} />
                     <span className={`${openSidebar && "d-none"} linkname`}>
                       Administration
@@ -63,7 +63,7 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
                 className="sidebar-nav-item nonActive position-relative"
                 key={item.name}
               >
-                <Link href={item.link} className="color-black">
+                <Link prefetch={false} href={item.link} className="color-black">
                   <Image src={item.logo} alt={item.name} height={24} width={24} />
                   <span className={`${openSidebar && "d-none"} linkname`}>
                     {item.name}
@@ -90,7 +90,7 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
                   }
                 }
               >
-                <Link className="wrapper" href={"/dashboard/project"}>
+                <Link prefetch={false} className="wrapper" href={"/dashboard/project"}>
                   <div className="myprojectcolor" style={{ background: item.color }} />
                   <span className={`${item.color === SelectedTab && "text_primary"} projecttitle ms-2`}>
                     {item.name}

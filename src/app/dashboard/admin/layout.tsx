@@ -13,7 +13,7 @@ const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
             <div className='wrapper justify-between w-100'>
                 <PageHeaderTitle title="Administration" isRedirectto="/dashboard/admin" />
                 <div>
-                    <Link href={"/dashboard/admin/createproject"} >
+                    <Link prefetch={false} href={"/dashboard/admin/createproject"} >
                         <Button className=' admincreatebtn' >
                             <div className='wrapper'>
                                 <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
@@ -21,7 +21,7 @@ const AdminLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
                             </div>
                         </Button>
                     </Link>
-                    <Link href={"/dashboard/admin/createuser"} >
+                    <Link prefetch={false} href={"/dashboard/admin/createuser"} >
                         <Button className='admincreatebtn mx-3'  >
                             <div className='wrapper'>
                                 <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
