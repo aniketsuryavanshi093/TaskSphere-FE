@@ -118,7 +118,7 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                         }
                         <div className="w-100">
                             <Field
-                                type="email"
+                                type="text"
                                 withIcon
                                 Icon={
                                     <Image

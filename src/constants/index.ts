@@ -25,5 +25,6 @@ export const dataItems = [
         logo: '/images/icons/setting.svg',
     },
 ];
-
-export const Administratortype = ["organization", "member",]
+export const Administratortype = ["organization", "member"]
+export const priority = [{ label: 'low', value: "low" }, { label: 'medium', value: "medium" }, { label: 'high', value: "high" }]
+export const label = [{ label: 'BE', value: "BE" }, { label: 'FE', value: "FE" }, { label: 'QA', value: "QA" }]

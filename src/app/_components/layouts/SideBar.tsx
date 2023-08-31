@@ -21,7 +21,6 @@ type tempproject = {
 }
 const muyprojects: tempproject[] = [{ name: ' Mobile App', color: '#7AC555' }, { name: 'Website Redesign', color: '#FFA500' }, { name: 'Design System', color: '#E4CCFD' }, { name: 'Wireframes', color: "#76A5EA" }]
 const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params }) => {
-  const { pathname } = useParams();
   const { data } = useSession()
   const [SelectedTab, setSelectedTab] = useState<string>("#7AC555")
   return (
@@ -45,7 +44,7 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
         <div className="scrollbar">
           <ul className="list_wrapper">
             {
-              Administratortype.includes(data?.user?.role) && (
+              data?.user?.role === "organization" && (
                 <li
                   className="sidebar-nav-item nonActive position-relative"
                 >
@@ -53,6 +52,20 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
                     <Image src="/images/icons/admins.png" alt="admin" height={24} width={24} />
                     <span className={`${openSidebar && "d-none"} linkname`}>
                       Administration
+                    </span>
+                  </Link>
+                </li>
+              )
+            }
+            {
+              (data?.user?.ticketAdministrator || data?.user?.role === "organization") && (
+                <li
+                  className="sidebar-nav-item nonActive position-relative"
+                >
+                  <Link prefetch={false} href="/dashboard/manageticket" className="color-black">
+                    <i className="fa-solid fa-ticket ticketimg" ></i>
+                    <span className={`${openSidebar && "d-none"} linkname`}>
+                      Manage Ticket
                     </span>
                   </Link>
                 </li>

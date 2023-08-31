@@ -5,13 +5,13 @@ import Image from 'next/image';
 
 
 export type optionstype = {
-  label: string, value: string
+  label: string, value: string, img?: string
 }
 
 type Pageprops = {
   title?: string,
-  Imptitle: string,
-  icon: string,
+  Imptitle?: string,
+  icon?: string,
   options: optionstype[],
   onDropdownSelect: (val: string) => void,
   defaultValue?: string,
@@ -71,7 +71,7 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
         <i className="fa-solid fa-chevron-down" />
       </DropdownToggle>
       <DropdownMenu className='custonmenu'>
-        {options.map(({ label, value }: optionstype) => (
+        {options.map(({ label, value, img }: optionstype) => (
           <DropdownItem
             active={value === selectedValue}
             key={value}
@@ -80,11 +80,14 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
             <div className="wrapper text_primary justify-content-between">
               {value === selectedValue && !reset_value ? (
                 <>
+                  {img && <Image src={img} alt={label} height={25} width={25} />}
                   <p className="check-selected">{label}</p>
                   <i className="fa-solid check-selected fa-check ms-2" />
                 </>
               ) : (
-                <><p className="check-selected">{label}</p></>
+                <>
+                  {img && <Image src={img} alt={label} height={25} width={25} />}
+                  <p className="check-selected">{label}</p></>
               )}
             </div>
           </DropdownItem>
