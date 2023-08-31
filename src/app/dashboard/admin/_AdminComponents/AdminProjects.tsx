@@ -5,6 +5,7 @@ import { adminprojectscolumn } from '@/constants/tableColumns'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useQuery } from "@tanstack/react-query"
+import useGetAllOrganizationsProjecthook from '@/hooks/UseQuery/ProjectsQueryHooks/usegetAllOrganizationsProjecthook'
 
 type ProjectsType = {
     srNo: number,
@@ -23,16 +24,7 @@ type ProjectsType = {
 const AdminProjects = () => {
     const [Rows, setRows] = useState<ProjectsType[]>([])
     const { data } = useSession()
-    const { data: orgProjects, isLoading } = useQuery({
-        queryFn: () => getAllOrganizationsProject(data?.user),
-        queryKey: ['orgainzationprojects', ""],
-        enabled: data?.user.id ? true : false,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        staleTime: 1000 * 60 * 5,
-        retry: false,
-        refetchOnmount: false,
-    })
+    const { data: orgProjects, isLoading } = useGetAllOrganizationsProjecthook(data)
     useEffect(() => {
         if (orgProjects?.data?.data?.projects?.length as any) {
             const temp = orgProjects?.data?.data?.projects.map((elem: ProjectsType, i) => ({

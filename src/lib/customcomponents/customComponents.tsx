@@ -11,6 +11,7 @@ type Props = {
   style: React.CSSProperties;
   withOutLabel: boolean;
   field: any; form: any;
+  data: any
   label: string;
   name: string
   classNameDiv: string
@@ -225,6 +226,42 @@ export const CustomCheckbox: React.FC<Props> = ({
       {error && touch && (
         <div className="invalid-feedback d-block mt-0">{error}</div>
       )}
+    </>
+  );
+};
+
+export const CustomSelect: React.FC<Props> = ({
+  field,
+  form: { touched, errors },
+  ...props
+}) => {
+  const touch = getIn(touched, field.name);
+  const error = getIn(errors, field.name);
+  const { setFieldValue } = useFormikContext();
+  return (
+    <>
+      <div className={` ${props.styleData} cursor-pointer custom-checkbox wrapper position-relative justify-content-start`}>
+        <select
+          name={props.name}
+          id={props.id}
+          className={`${error && touch && "is-invalid"} form-control ${props.inputClassName} cp`}
+          disabled={props.disabled}
+          onChange={(e) => {
+            setFieldValue(field.name, e.target.value);
+          }}
+        >
+          {
+            props.data?.map((elem: any) => (
+              <option key={elem.value} value={elem.value} >{elem.label}</option>
+            ))
+          }
+        </select>
+        <i className={`fa-solid fa-chevron-down ${error && touch ? "selecticonmove" : ""} selecticon`} />
+      </div >
+      {error && touch && (
+        <div className="invalid-feedback d-block mt-0">{error}</div>
+      )
+      }
     </>
   );
 };

@@ -3,23 +3,16 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
 import { NextAuthOptions } from "next-auth";
 import axiosInterceptorInstance from "@/http";
-import { json } from "stream/consumers";
-import { NextRequest, } from "next/server";
-import { AxiosError } from "axios";
 
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
     },
-    // pages: {
-    //     signIn: "/signup",
-    // },
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
         GitHubProvider({
             clientId: process.env.GITHUB_CLIENTID!,
             clientSecret: process.env.GITHUB_SECRET!,
-
         }),
         GoogleProvider({
             name: "google",
@@ -51,13 +44,10 @@ export const authOptions: NextAuthOptions = {
                     }
                     )
                     // If no error and we have user data, return it
-                    // console.log("credentials 😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂😂", credentials)
                     const data = res.data
                     console.log(data, "fail")
                     if (data.status === "fail") {
-                        // throw Error(data)
                         return
-                        // return Promise.reject(data)
                     }
                     const user = {
                         "_id": data?.data?._id,
@@ -65,6 +55,8 @@ export const authOptions: NextAuthOptions = {
                         "userName": data?.data?.userName,
                         "email": data?.data?.email,
                         "role": data?.data?.role,
+                        "organizationId": data?.data?.organizationId,
+                        "ticketAdministrator": data?.data?.ticketAdministrator,
                         "createdAt": data?.data?.createdAt,
                         "updatedAt": data?.data?.updatedAt,
                         "authToken": data?.data?.authToken
@@ -102,10 +94,12 @@ export const authOptions: NextAuthOptions = {
                 params.token._id = datares?.data?._id,
                     params.token.organizationName = datares?.data?.name,
                     params.token.email = datares?.data?.email,
+                    params.token.organizationId = datares?.data?.organizationId,
                     params.token.role = datares?.data?.role,
                     params.token.userName = datares?.data?.userName
                 params.token.createdAt = datares?.data?.createdAt,
-                    params.token.updatedAt = datares?.data?.updatedAt,
+                    params.token.ticketAdministrator = datares?.data?.ticketAdministrator
+                params.token.updatedAt = datares?.data?.updatedAt,
                     params.token.authToken = datares?.data?.authToken
                 return params.token
             }
@@ -113,8 +107,10 @@ export const authOptions: NextAuthOptions = {
                 params.token.authToken = params.user.authToken
                 params.token._id = params.user._id
                 params.token.userName = params.user.userName
+                params.token.ticketAdministrator = params?.user?.ticketAdministrator
                 params.token.organizationName = params.user.name
-                params.token.role = params.user.role
+                params.token.organizationId = params?.user?.organizationId,
+                    params.token.role = params.user.role
                 params.token.createdAt = params.user.createdAt
                 params.token.updatedAt = params.user.updatedAt
             }
@@ -128,8 +124,10 @@ export const authOptions: NextAuthOptions = {
                 session.user.name = token.name
                 session.user.email = token.email
                 session.user.image = token.picture
+                session.user.ticketAdministrator = token.ticketAdministrator
                 session.user.role = token.role
-                session.user.createdAt = token.createdAt
+                session.user.organizationId = token?.organizationId,
+                    session.user.createdAt = token.createdAt
                 session.user.updatedAt = token.updatedAt
                 session.user.organizationName = token.organizationName
                 session.user.authToken = token.authToken

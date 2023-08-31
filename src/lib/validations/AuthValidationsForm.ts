@@ -30,3 +30,12 @@ export const signupvalidations = Yup.object({
 export const namevalidation = Yup.object({
     name: Yup.string().max(20, "Organization name should less than 20 characters!").required('please enter organization name !'),
 })
+
+export const createticketvalidation = Yup.object({
+    title: Yup.string().required('ticket title is required!'),
+    description: Yup.string().required('ticket description is required!'),
+    label: Yup.string().required('please select ticket label!'),
+    priority: Yup.string().required('please select ticket priority!'),
+    assignTo: Yup.string().required('please select user to assign ticket!'),
+    projectId: Yup.string().required('please select project to assign ticket!'),
+})

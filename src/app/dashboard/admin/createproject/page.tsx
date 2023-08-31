@@ -2,46 +2,30 @@
 /* eslint-disable react/no-unescaped-entities */
 import React, { useCallback, useState, useTransition } from 'react'
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { Field, Form, Formik, FormikProps, FormikState } from 'formik';
+import { Field, Form, Formik, FormikState } from 'formik';
 import { useDropzone } from 'react-dropzone';
 import { createProjectvalidation } from '@/lib/validations/AuthValidationsForm';
 import { CustomInput, CustomTextArea } from '@/lib/customcomponents/customComponents';
 import { storage } from '@/lib/firebase';
 import "./createproject.scss"
-import { GrFormPreviousLink, GrProjects } from 'react-icons/gr';
-import { useRouter } from 'next/navigation';
+import { GrProjects } from 'react-icons/gr';
 import { Button, Col, Label, Row, Spinner } from 'reactstrap';
 import Image from 'next/image';
-import { useQuery } from "@tanstack/react-query"
 import { AiOutlineUserAdd } from 'react-icons/ai';
 import AddUserModel from '@/app/_components/Models/AddUserModel';
 import { selectUsers } from '@/commontypes';
 import { useAppSelector } from '@/redux/dashboardstore/hook';
-import { createProjectaction } from '@/actions/authactions/authactions';
 import { useSession } from 'next-auth/react';
-import { getAllOrganizationsUser } from '@/apiServices/admin/adminservices';
 import enqueSnackBar from '@/lib/enqueSnackBar';
+import GoBack from '@/app/_components/UI/GoBack';
+import { createProjectaction } from '@/actions/authactions/adminaction';
 
 type initialType = { title: string, description: string }
 
 const AdminCreateProject = () => {
     const [isPending, startTransition] = useTransition()
-    const { data } = useSession();
     const [Loading, setLoading] = useState(false)
-    console.log(data)
-    const { data: usersData, isLoading } = useQuery({
-        queryFn: () => getAllOrganizationsUser(data?.user),
-        queryKey: ['orgainzationusers', ""],
-        enabled: data?.user.id ? true : false,
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        staleTime: 1000 * 60 * 5,
-        retry: false,
-        refetchOnmount: false,
-    })
-
     const [AdduserModal, setAddUserModal] = useState<{ open: boolean }>({ open: false })
-    const router = useRouter()
     const [PreviewUrl, setPreviewUrl] = useState<string>("")
     const { addedUsers } = useAppSelector((state) => state.userreducer)
     const [attachments, setAttachments] = useState<FileList | File | any>([]);
@@ -97,7 +81,6 @@ const AdminCreateProject = () => {
                     console.log(imaeurl);
                     attachmenturl.push({ url: imaeurl });
                 }
-
             }
             setLoading(false)
             startTransition(() => handlCreateProject({
@@ -113,12 +96,10 @@ const AdminCreateProject = () => {
 
     return (
         <div>
-            <div className='previous wrapper  justify-start w-100'>
-                <GrFormPreviousLink className='cp' onClick={() => router.back()} />
-                <span className='cp' onClick={() => router.back()} >Go Back</span>
-            </div>
+            <GoBack />
             <Formik
                 initialValues={initialValues}
+                enableReinitialize
                 validationSchema={createProjectvalidation}
                 onSubmit={(value: initialType, { resetForm }) => {
                     handleSubmit(value, resetForm)

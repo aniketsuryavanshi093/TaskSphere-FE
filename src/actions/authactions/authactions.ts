@@ -1,9 +1,6 @@
 'use server';
 import { FormSignupvalueType } from "@/app/_components/auth/LoginForm"
-import axiosInterceptorInstance from "@/http";
-import { Fetch } from "@/lib/apiservice";
-import { getCurrentUser } from "@/lib/session";
-import { cookies } from 'next/headers'
+
 
 
 
@@ -30,35 +27,3 @@ export async function handleSubmit(values: FormSignupvalueType | null, type: str
     })
 }
 
-export async function createProjectaction(values: any) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const user = await getCurrentUser()
-            const loginres = await Fetch({
-                method: "POST", data: (values)
-                ,
-                url: "project/createProject",
-                token: user?.authToken,
-            })
-            resolve(loginres)
-        } catch (error: any) {
-            reject(error)
-        }
-    });
-}
-
-export async function createUseraction(values: any) {
-    return new Promise(async (resolve, reject) => {
-        try {
-            const user = await getCurrentUser()
-            const result = await Fetch({
-                method: "POST", data: (values),
-                url: "members/addMember",
-                token: user?.authToken,
-            })
-            resolve(result)
-        } catch (error: any) {
-            reject(error)
-        }
-    });
-}

@@ -25,6 +25,15 @@
     right: 8.5%;
   }
 }
+.selecticon{
+  position: absolute;
+  color: var(--text-primary);
+  bottom: 35%;
+  right: 7%;
+}
+.selecticonmove{
+  right: 18% !important;
+}
 .custom_date_picker_icon {
   position: absolute;
   top: 11px;

@@ -7,12 +7,13 @@ import { Button } from 'reactstrap';
 import { CurrentUserObjectType, selectUsers } from '@/commontypes';
 import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook';
 import { setAddedUsers } from '@/redux/dashboardstore/reducer/user/user';
-import { useQueryClient } from "@tanstack/react-query"
+import useGetAllOrganizationUser from '@/hooks/UseQuery/UsersQueryHook/useGetAllOrganizationUser';
+import { useSession } from 'next-auth/react';
 
 const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOpen, onClose }) => {
     const [userlist, setUsersList] = useState<selectUsers[]>([]);
-    const queryClient = useQueryClient()
-    const allusers = queryClient.getQueryData(["orgainzationusers", ""]) as any
+    const { data } = useSession()
+    const { data: usersData, isLoading } = useGetAllOrganizationUser(data)
     const animatedComponents = makeAnimated();
     const dispatch = useAppDispatch()
     const { addedUsers } = useAppSelector((state) => state.userreducer)
@@ -23,12 +24,12 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void }> = ({ isOp
         }
     }, [addedUsers])
     useEffect(() => {
-        if (allusers?.data?.data?.members?.length) {
-            setUsersList(allusers?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
+        if (usersData?.data?.data?.members?.length) {
+            setUsersList(usersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
                 value: _user._id, label: _user.name, name: _user.userName
             })))
         }
-    }, [allusers])
+    }, [usersData])
     const handleChange = (_, action) => {
         switch (action.action) {
             case 'select-option': {
