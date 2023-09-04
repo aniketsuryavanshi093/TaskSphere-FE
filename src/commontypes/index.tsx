@@ -41,6 +41,8 @@ export interface projectTypes {
     members: memberInput[]
     description: string
     tasks: any
+    updatedAt: string,
+    createdAt: string,
     logoUrl: string
     organizationId: string
 }

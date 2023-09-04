@@ -55,6 +55,22 @@
   margin-bottom: 0;
   font-size: 14px;
 }
+.dropdownsearch{
+  padding: 7px 26px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  background: #F5F5F5;
+  color: black;
+}
+.dropdownsearchicon{
+  position: absolute;
+  left: 5px;
+  top: 49%;
+  width: 17px;
+  transform: translateY(-50%);
+  font-size: 6px;
+}
 .custonmenu {
   background: var(--table-striped-bg);
   border-radius: 8px !important;

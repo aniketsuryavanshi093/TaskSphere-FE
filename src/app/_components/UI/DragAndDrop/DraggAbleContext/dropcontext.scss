@@ -1,0 +1,51 @@
+.dragdroparea{
+    display: flex;
+}
+.taskclumnwrapper{
+    display: flex;
+    width: 100%;
+    min-height: 80vh;
+}
+.tasklist{
+    align-self: stretch;
+    border-radius: 16px 16px 0px 0px;
+    background: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    width: 32%;
+    flex-grow: 1;
+    padding: 20px 20px;
+}
+.column-title{
+    color: #0D062D;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+}
+.tasksindicator{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #E0E0E0;
+    span{
+        color: #625F6D;
+        font-family: Inter;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+}
+.colindicator{
+    width: 8px;
+    height: 8px;
+    
+    border-radius: 50%;
+}
+.columnstroke{
+    height: 3px 
+    ;
+    width: 100%;
+    border-radius: 10px;
+}

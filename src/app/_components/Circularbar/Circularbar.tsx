@@ -1,12 +1,14 @@
 import React from 'react'
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-const Circularbar = ({ value, textColor, pathColor }: { value: number, textColor: string, pathColor: string }) => {
+const Circularbar = ({ value, textColor, pathColor, background }: { value: number, textColor: string, pathColor: string, background: string }) => {
     return (
         <CircularProgressbar className='circularbar' styles={buildStyles({
             textColor,
             pathColor,
-        })} value={value} text={`${value}%`} />
+            backgroundColor: background,
+
+        })} background value={value} text={`${value}%`} />
     )
 }
 

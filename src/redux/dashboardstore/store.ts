@@ -1,9 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userRootReducer from "./reducer/user";
+import manageticketRootReducer from "./reducer/managetickets";
 
 export const store = configureStore({
     reducer: {
-        userreducer: userRootReducer
+        userreducer: userRootReducer,
+        manageticketreducer: manageticketRootReducer,
     },
     devTools: process.env.NODE_ENV !== "production",
 });

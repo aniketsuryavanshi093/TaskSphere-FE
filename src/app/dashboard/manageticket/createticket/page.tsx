@@ -20,6 +20,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { storage } from '@/lib/firebase'
 import enqueSnackBar from '@/lib/enqueSnackBar'
 import { createTicketAction } from '@/actions/authactions/ticketadminactions'
+import CustomDropDownButton from '@/app/_components/CustomDropDownButton/CustomDropDownButton'
 
 type initialType = {
     "title": string,
@@ -180,14 +181,14 @@ const CreateTicket: React.FC = () => {
                                     <Row className='wrapper justify-start w-100'>
                                         <Col lg={4} className=" mt-4">
                                             <Label className='mb-0' htmlFor="priority">Priority</Label>
-                                            <Field
-                                                type="select"
-                                                component={CustomSelect}
-                                                styleData="selecttabtciket"
-                                                inputClassName={`my-2 selectticket`}
-                                                id="priority"
-                                                data={priority}
-                                                name="priority"
+                                            <CustomDropDownButton
+                                                defaultValue="all"
+                                                icon='/images/icons/filter.png'
+                                                classname='selectticket'
+                                                onDropdownSelect={value =>
+                                                    setFieldValue('priority', value)
+                                                }
+                                                options={priority}
                                             />
                                         </Col>
                                         <Col lg={4} className="  mx-2 mt-4">
