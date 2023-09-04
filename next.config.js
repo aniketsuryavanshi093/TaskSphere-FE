@@ -4,8 +4,9 @@ const nextConfig = {
         serverActions: true,
         serverActionsBodySizeLimit: '2mb',
     },
+    reactStrictMode: false,
     images: {
-       'domains' : ["firebasestorage.googleapis.com"],
+       'domains' : ["firebasestorage.googleapis.com","jira.solulab.com"],
     
     },
     env: {

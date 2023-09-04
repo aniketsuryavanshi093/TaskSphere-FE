@@ -9,8 +9,6 @@ import { usePathname } from 'next/navigation'
 
 const TicketLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     const path = usePathname()
-    console.log(path);
-
     return (
         <div>
             <div className='wrapper justify-between w-100'>

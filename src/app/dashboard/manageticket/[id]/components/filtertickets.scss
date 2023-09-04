@@ -1,0 +1,65 @@
+.filterwrapper{
+  margin: 10px 0px;
+}
+  
+.filtertogglebtn {
+    border: 1px solid var(--borderbottom-light);
+    &:hover {
+      border: 1px solid var(--borderbottom-light);
+    }
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      border: 1px solid var(--borderbottom-light);
+    }
+  }
+  .toggle_filter {
+    padding: 7px 16px;
+  }
+  .sitesmenu {
+    padding: 0;
+    border-radius: 16px;
+    left: -235% !important;
+    background: var(--second-primary-background-color);
+    .sitesfilter {
+      .radio_btn_cont {
+        margin-left: -8px;
+      }
+      .create_date_cont,
+      .update_date_cont {
+        margin-bottom: 10px;
+        input {
+          width: 140px;
+        }
+      }
+      .cancel_btn {
+        border-color: var(--text-primary);
+      }
+    }
+  }
+
+  .hover-border-button {
+    padding: 10px 1px;
+    text-decoration: none;
+    position: relative; /* To position the pseudo-element */
+  }
+  
+  .hover-border-button::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ff003c; /* Your desired border color */
+    transition: width 0.3s ease; /* Adjust the duration and easing as needed */
+  }
+  
+  .hover-border-button:hover::after {
+    width: 100%;
+  }
+  .hover-border-button:hover{
+    p{
+        color: #ff003c;
+    }
+  }

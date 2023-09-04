@@ -19,7 +19,6 @@ const ProjectPage = () => {
         label: "All Tasks"
     }]
     const { data } = useSession()
-
     const [openFilter, setOpenFilter] = useState<{ open: boolean, data: { updatedDateTo: string, updatedDateFrom: string } }>({ open: false, data: { updatedDateTo: "", updatedDateFrom: "" } });
     const initialValueForFilter = {
         updatedDateFrom: openFilter?.data?.updatedDateFrom || '',

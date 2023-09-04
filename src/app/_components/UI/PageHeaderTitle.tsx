@@ -7,7 +7,7 @@ const PageHeaderTitle: React.FC<{ classname?: string, title: string, isRedirectt
         <div>
             {
                 isRedirectto ? (
-                    <Link href={isRedirectto}>
+                    <Link prefetch={false} href={isRedirectto}>
                         <h5 className={`pageheadertitle text_primary mb-0 ${classname}`} >
                             {title}
                         </h5>
