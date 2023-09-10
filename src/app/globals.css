@@ -76,6 +76,11 @@ body{
 .text_muted{
   color: var(--text-muted);
 }
+.addicon{
+  font-size: 18px;
+  color: #5030E5;
+  margin-right: 10px;
+}
 .spinner-card {
   height: 50px;
   position: relative;

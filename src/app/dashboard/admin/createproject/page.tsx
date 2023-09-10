@@ -214,7 +214,7 @@ const AdminCreateProject = () => {
             </Formik>
             {
                 AdduserModal?.open && (
-                    <AddUserModel isOpen={AdduserModal.open} onClose={() => setAddUserModal({ open: false, })} />
+                    <AddUserModel isOpen={AdduserModal.open} onClose={() => setAddUserModal({ open: false, })} isMulti={true} />
                 )
             }
         </div>

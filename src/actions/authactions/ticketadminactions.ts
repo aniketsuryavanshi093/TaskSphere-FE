@@ -19,3 +19,20 @@ export async function createTicketAction(values: any) {
         }
     });
 }
+
+
+export async function addUsertoProjectaction(values: any) {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const user = await getCurrentUser()
+            const result = await Fetch({
+                method: "POST",
+                url: `project/addMember/${values.userId}/${values.projectId}`,
+                token: user?.authToken,
+            })
+            resolve(result)
+        } catch (error: any) {
+            reject(error)
+        }
+    });
+}
