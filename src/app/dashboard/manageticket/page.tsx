@@ -3,6 +3,7 @@ import Circularbar from '@/app/_components/Circularbar/Circularbar'
 import NumberAnimation from '@/app/_components/UI/AnimateNumbers'
 /* eslint-disable react/jsx-key */
 import { projectTypes } from '@/commontypes'
+import useGetProjectsByUserhook from '@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectsByUserhook'
 import useGetAllOrganizationsProjecthook from '@/hooks/UseQuery/ProjectsQueryHooks/usegetAllOrganizationsProjecthook'
 import { useAppDispatch } from '@/redux/dashboardstore/hook'
 import { setselectedProject } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
@@ -15,12 +16,14 @@ import React from 'react'
 const ManageTicket = () => {
     const { data } = useSession()
     const dispatch = useAppDispatch()
-    const { data: orgproject, isLoading } = useGetAllOrganizationsProjecthook(data)
+    const { data: userproject, isLoading: userisLoading } = useGetProjectsByUserhook(data)
+    const { data: orgproject, isLoading: orgisLoading } = useGetAllOrganizationsProjecthook(data)
+
     return (
         <div className='w-100'>
             <div className='projectsgrid my-3 scrollbar w-100'>
                 {
-                    orgproject?.data?.data?.projects.map((elem: projectTypes) => (
+                    (orgproject || userproject)?.data?.data?.projects?.map((elem: projectTypes) => (
                         <Link prefetch={false} onClick={() => {
                             dispatch(setselectedProject(elem))
                         }} href={`/dashboard/manageticket/${elem._id}`}>

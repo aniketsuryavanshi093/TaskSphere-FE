@@ -12,7 +12,6 @@ import { CustomInput, CustomSelect } from '@/lib/customcomponents/customComponen
 import { useDropzone } from 'react-dropzone'
 import { label, priority } from '@/constants'
 import { GrProjects } from 'react-icons/gr'
-import useGetAllOrganizationUser from '@/hooks/UseQuery/UsersQueryHook/useGetAllOrganizationUser'
 import { useSession } from 'next-auth/react'
 import { CurrentUserObjectType, projectTypes } from '@/commontypes'
 import useGetAllOrganizationsProjecthook from '@/hooks/UseQuery/ProjectsQueryHooks/usegetAllOrganizationsProjecthook'
@@ -21,6 +20,8 @@ import { storage } from '@/lib/firebase'
 import enqueSnackBar from '@/lib/enqueSnackBar'
 import { createTicketAction } from '@/actions/authactions/ticketadminactions'
 import CustomDropDownButton from '@/app/_components/CustomDropDownButton/CustomDropDownButton'
+import useGetProjectsByUserhook from '@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectsByUserhook'
+import useGetProjectUsers from '@/hooks/UseQuery/UsersQueryHook/useGetProjectUsers'
 
 type initialType = {
     "title": string,
@@ -34,7 +35,9 @@ type initialType = {
 
 const CreateTicket: React.FC = () => {
     const { data } = useSession()
-    const { data: usersData, } = useGetAllOrganizationUser(data)
+    const [ProjectId, setProjectId] = useState("")
+    const { data: projectusersData, } = useGetProjectUsers(data, ProjectId)
+    const { data: userproject } = useGetProjectsByUserhook(data)
     const { data: orgProjects, } = useGetAllOrganizationsProjecthook(data)
     const [isPending, startTransition] = useTransition()
     const [Loading, setLoading] = useState(false)
@@ -50,20 +53,19 @@ const CreateTicket: React.FC = () => {
         assignedTo: "", projectId: ""
     }
     useEffect(() => {
-        if (usersData?.data?.data?.members?.length) {
-            setUsersList(usersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
+        if ((projectusersData)?.data?.data?.members?.length) {
+            setUsersList((projectusersData)?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
                 value: _user._id, label: _user.name, name: _user.userName, profilePic: _user.profilePic
             })))
         }
-    }, [usersData])
+    }, [projectusersData])
     useEffect(() => {
-        if (orgProjects?.data?.data?.projects?.length as any) {
-            setprojectsList(orgProjects?.data?.data?.projects.map((_project: projectTypes) => ({
+        if ((orgProjects || userproject)?.data?.data?.projects?.length as any) {
+            setprojectsList((orgProjects || userproject)?.data?.data?.projects.map((_project: projectTypes) => ({
                 value: _project._id, label: _project.title as string,
             })))
         }
-    }, [orgProjects])
-
+    }, [orgProjects, userproject])
     const onDrop = useCallback(
         (acceptedFiles: FileList) => {
             if (acceptedFiles) {
@@ -114,7 +116,6 @@ const CreateTicket: React.FC = () => {
                     attachmenturl.push({ name: i?.name, ext: i?.type, url: imaeurl });
                 }
             }
-            console.log(attachmenturl);
             setLoading(false)
             startTransition(() => handlCreateTicket({
                 ...values,
@@ -127,10 +128,20 @@ const CreateTicket: React.FC = () => {
     const handleChange = (data: { value: string }, action: ActionMeta<undefined>, setFieldValue: any, type: string) => {
         switch (action.action) {
             case 'select-option': {
+                if (type === "projectId") {
+                    setUsersList([])
+                    setFieldValue("assignedTo", "")
+                    setProjectId(data.value)
+                }
                 setFieldValue(type, data.value)
                 break;
             }
             case 'clear': {
+                if (type === "projectId") {
+                    setFieldValue("assignedTo", "")
+                    setUsersList([])
+                    setProjectId("")
+                }
                 setFieldValue(type, "")
                 break
             }
@@ -147,7 +158,6 @@ const CreateTicket: React.FC = () => {
                 }}
             >
                 {({ values, setFieldValue, errors, touched }) => (
-
                     <Form className='mt-2' >
                         <Row className='w-100'>
                             <Col lg={8} sm={12}>
@@ -246,6 +256,8 @@ const CreateTicket: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className='w-100 p-2'>
+                                    {console.log(values)}
+                                    {values.assignedTo ? null : <span className='infotext'>Please select project first to assign user!</span>}
                                     <Label className='mb-2' >Assign To</Label>
                                     <Select
                                         closeMenuOnSelect={false}
@@ -255,7 +267,9 @@ const CreateTicket: React.FC = () => {
                                             stringify: option => `${option.label}${option.name}`,
                                         })}
                                         placeholder="Select Member"
+                                        value={UsersList.find(elem => elem.value === values.assignedTo) || {}}
                                         isSearchable
+                                        isDisabled={!values.projectId}
                                         classNamePrefix="react-select-multi"
                                         isClearable={true}
                                         options={UsersList}

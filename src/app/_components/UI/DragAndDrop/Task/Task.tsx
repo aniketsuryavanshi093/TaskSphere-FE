@@ -2,20 +2,19 @@
 import React, { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import "./task.scss"
-import { Tooltip, UncontrolledTooltip } from 'reactstrap';
+import { Tooltip, } from 'reactstrap';
 import Image from 'next/image'
+import { TaskType } from '@/commontypes';
 
 type pageprops = {
-    key: number;
-    item: any;
+    item: TaskType;
     index: number
 }
-const TaskCard: React.FC<pageprops> = ({ item, index }) => {
+const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
     const [tooltipOpen, setTooltipOpen] = useState(false);
     const toggle = () => setTooltipOpen(!tooltipOpen);
-
     return (
-        <Draggable key={item.id} draggableId={item.id} index={index}>
+        <Draggable key={item._id} draggableId={item._id} index={index}>
             {(provided, snapshot) => {
                 if (snapshot.isDragging) {
                     provided.draggableProps.style.left = provided.draggableProps.style.offsetLeft;
@@ -35,7 +34,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index }) => {
                         <div className='w-100  '>
                             <GetPriority type="label" priority={item.priority} />
                             <p className='tasktag mb-0 my-2'>Con-123</p>
-                            <p className='tasktitle mb-2'>{item.Task}</p>
+                            <p className='tasktitle mb-2'>{item.title}</p>
                             <div className='wrapper taskions justify-between'>
                                 <div className='wrapper justify-start'>
                                     <GetPriority type="icon" priority={item.priority} />
@@ -56,7 +55,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index }) => {
                                     target={`DisabledAutoHideExample${index}`}
                                     toggle={toggle}
                                 >
-                                    Try to select this text!
+                                    {item.assignedUser.userName}:{item.assignedUser.name}
                                 </Tooltip>
                             </div>
                         </div>

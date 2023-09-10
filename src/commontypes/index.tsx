@@ -16,9 +16,11 @@ export type CurrentUserObjectType = {
     createdAt: string,
     userName: string,
     email: string,
+    projectId: string
     id: string,
     _id: string,
     name: string
+    isDeleted: false,
     profilePic: string,
     organizationName: string,
     organizationId: string
@@ -45,4 +47,28 @@ export interface projectTypes {
     createdAt: string,
     logoUrl: string
     organizationId: string
+}
+export interface TaskType {
+    title: string
+    label: 'BE' | 'FE' | 'QA'
+    priority: 'low' | 'medium' | 'high'
+    status: 'pending' | 'progress' | 'readyForQA' | 'done' | 'close'
+    projectId: string
+    description: string
+    project: projectTypes
+    createdBy: string
+    _id: string
+    assignedUser: CurrentUserObjectType,
+    createdByOrg: string
+    assignedTo: string
+    updatedBy: string
+    attachments: string[]
+}
+
+export interface DragDropCOlumnstype {
+    [key: string]: {
+        title: string;
+        color: string;
+        items: TaskType[]
+    }
 }
