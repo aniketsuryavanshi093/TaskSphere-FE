@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { useParams } from 'next/navigation'
+import { Button } from 'reactstrap'
+import { useSession } from 'next-auth/react'
+import { Field, Form, Formik } from 'formik'
 import CustomDropDownButton, { optionstype } from '@/app/_components/CustomDropDownButton/CustomDropDownButton'
 import FilterComponent from '@/app/_components/filtercomponents/FilterComponent'
 import { CustomDateInput } from '@/lib/customcomponents/customComponents'
-import { Field, Form, Formik } from 'formik'
-import { Button } from 'reactstrap'
-import { useSession } from 'next-auth/react'
-import "./filtertickets.scss"
 import { CurrentUserObjectType } from '@/commontypes'
 import { label, priority } from '@/constants'
-import { useParams } from 'next/navigation'
 import generateURL from '@/lib/generateUrl'
 import useTicketsQueryhook from '@/hooks/UseQuery/ticketmanagementhooks/useTicketsQueryhook'
 import useGetProjectUsers from '@/hooks/UseQuery/UsersQueryHook/useGetProjectUsers'
+import "./filtertickets.scss"
 
 const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTickets: (e: any) => void }> = ({ setloading, setTickets }) => {
     const [UsersList, setUsersList] = useState([{ value: "all", label: "all" }])
@@ -169,8 +169,6 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
 }
 
 export default ProjectsTicketsFilters
-// filter by user
-// filter by status
 
 const ToggleComponent = () => (
     <div className="wrapper toggle_filter text_primary">

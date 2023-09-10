@@ -1,0 +1,35 @@
+.userinfo {
+    position: relative; /* Add this to make sure the absolute positioned element is positioned relative to userinfo */
+    /* Initial styles for userinfo */
+    background-color: transparent; /* Initial background color */
+    transition: background-color 0.4s; /* Transition for background color change */
+    p {
+        margin-bottom: 0px;
+    }
+    &:hover {
+        /* Change background color of userinfo */
+        background-color: #b6abff6e !important;
+        border-radius: 5px;
+    }
+    &:hover .addhoverbtb {
+        /* Transition and display style for addhoverbtb */
+        opacity: 1; /* Change opacity to make it appear */
+        transition: opacity 0.4s; /* Apply transition to opacity */
+    }
+}
+
+.addhoverbtb {
+    opacity: 0; padding: 5px;
+    border-radius: 50%;
+    background-color: #775fe1bc;
+}
+.select-wrapper{
+    display: block;
+    width: 100%;
+    height: 38px;
+}
+.select-wrapper-extend{
+    display: block;
+    width: 100%;
+    height: 200px;
+}
