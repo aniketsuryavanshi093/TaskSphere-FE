@@ -4,7 +4,6 @@ import FilterComponent from '@/app/_components/filtercomponents/FilterComponent'
 import { CustomDateInput } from '@/lib/customcomponents/customComponents'
 import { Field, Form, Formik } from 'formik'
 import { Button } from 'reactstrap'
-import useGetAllOrganizationUser from '@/hooks/UseQuery/UsersQueryHook/useGetAllOrganizationUser'
 import { useSession } from 'next-auth/react'
 import "./filtertickets.scss"
 import { CurrentUserObjectType } from '@/commontypes'
@@ -12,6 +11,7 @@ import { label, priority } from '@/constants'
 import { useParams } from 'next/navigation'
 import generateURL from '@/lib/generateUrl'
 import useTicketsQueryhook from '@/hooks/UseQuery/ticketmanagementhooks/useTicketsQueryhook'
+import useGetProjectUsers from '@/hooks/UseQuery/UsersQueryHook/useGetProjectUsers'
 
 const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTickets: (e: any) => void }> = ({ setloading, setTickets }) => {
     const [UsersList, setUsersList] = useState([{ value: "all", label: "all" }])
@@ -36,7 +36,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
         value: "1",
         label: "Old issued"
     }]
-    const { data: usersData, } = useGetAllOrganizationUser(data)
+    const { data: usersData, } = useGetProjectUsers(data, id)
     useEffect(() => {
         if (usersData?.data?.data?.members?.length) {
             setUsersList(usersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
@@ -44,6 +44,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
             })))
         }
     }, [usersData])
+
     const [openFilter, setOpenFilter] = useState<{ open: boolean, data: { updatedDateTo: string, updatedDateFrom: string } }>({ open: false, data: { updatedDateTo: "", updatedDateFrom: "" } });
     const initialValueForFilter = {
         updatedDateFrom: openFilter?.data?.updatedDateFrom || '',

@@ -5,14 +5,16 @@ import DraggableContext from '@/app/_components/UI/DragAndDrop/DraggAbleContext/
 import { Placeholder } from 'reactstrap'
 import "./ticketmanage.scss"
 import { useAppSelector } from '@/redux/dashboardstore/hook'
+import { DragDropCOlumnstype, TaskType } from '@/commontypes'
 
 const ProjectTickets = () => {
     const [Loading, setLoading] = useState<boolean>(false)
+    const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(null)
     const [Tickets, setTickets] = useState(null)
     const { selectedProject } = useAppSelector((state) => state.manageticketreducer)
     useEffect(() => {
         if (Tickets?.data?.data?.tickets?.list?.length) {
-            let res = {
+            let res: DragDropCOlumnstype = {
                 "pending": {
                     title: 'To Do',
                     color: "#5030E5",
@@ -20,16 +22,16 @@ const ProjectTickets = () => {
                 },
                 "progress": {
                     title: 'On Progress',
+                    color: "#FFA500",
                     items: [],
-                    color: "#FFA500"
                 },
                 "done": {
                     title: 'Done',
+                    color: "#8BC48A",
                     items: [],
-                    color: "#8BC48A"
                 }
             };
-            Tickets.data.data.tickets?.list?.forEach((elem) => {
+            Tickets.data.data.tickets?.list?.forEach((elem: TaskType) => {
                 switch (elem.status) {
                     case "pending":
                         res.pending.items = [...res.pending.items, elem]
@@ -44,7 +46,9 @@ const ProjectTickets = () => {
                         break;
                 }
             })
-            console.log(Tickets.data.data.tickets?.list, res)
+            setdragDropData(res)
+        } else {
+            setdragDropData(null)
         }
     }, [Tickets])
     return (
@@ -55,14 +59,14 @@ const ProjectTickets = () => {
                 {
                     Loading ? (
                         <Placeholder animation='wave' className='dragdroparealoader' tag="div" >
-                            <Placeholder tag={'div'} className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                            <Placeholder tag={'div'} className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                            <Placeholder tag={'div'} className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
+                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
+                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
+                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
                         </Placeholder>
                     )
                         :
                         (
-                            <DraggableContext />
+                            <DraggableContext dragDropdata={dragDropData} />
                         )
                 }
             </div>
