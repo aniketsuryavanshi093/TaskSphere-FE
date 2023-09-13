@@ -22,12 +22,16 @@ import { createTicketAction } from '@/actions/authactions/ticketadminactions'
 import CustomDropDownButton from '@/app/_components/CustomDropDownButton/CustomDropDownButton'
 import useGetProjectsByUserhook from '@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectsByUserhook'
 import useGetProjectUsers from '@/hooks/UseQuery/UsersQueryHook/useGetProjectUsers'
+import useGetProjectDetails from "@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectDetails"
+import { useParams, useSearchParams } from 'next/navigation'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 type initialType = {
     "title": string,
     "description": string,
     "priority": string,
     "label": string
+    ticketTag?: string,
     assignedTo: string,
     projectId: '',
     attachments?: { ext: string; name: string; url: string; }[],
@@ -35,8 +39,13 @@ type initialType = {
 
 const CreateTicket: React.FC = () => {
     const { data } = useSession()
-    const [ProjectId, setProjectId] = useState("")
+    const searchParams = useSearchParams();
+    const _project = searchParams.get('projectId')
+    const [ProjectId, setProjectId] = useState(_project)
     const { data: projectusersData, } = useGetProjectUsers(data, ProjectId)
+    const { data: projectDetail } = useGetProjectDetails(data, ProjectId || _project, true)
+    console.log(projectDetail);
+    const queryClient = useQueryClient()
     const { data: userproject } = useGetProjectsByUserhook(data)
     const { data: orgProjects, } = useGetAllOrganizationsProjecthook(data)
     const [isPending, startTransition] = useTransition()
@@ -95,6 +104,7 @@ const CreateTicket: React.FC = () => {
                 return
             }
             enqueSnackBar({ type: "success", message: "Ticket created Successfully!" })
+            queryClient.invalidateQueries({ queryKey: ["projectdetail", ProjectId] })
             resetForm()
         } catch (error) {
             console.log(error)
@@ -117,8 +127,10 @@ const CreateTicket: React.FC = () => {
                 }
             }
             setLoading(false)
+            const ticketTag = (orgProjects || userproject)?.data?.data?.projects?.find((el) => el._id === values.projectId)?.title?.substring(0, 3)?.toUpperCase() + "-" + projectDetail?.data?.data?.project?.ticketsCount
             startTransition(() => handlCreateTicket({
                 ...values,
+                ticketTag,
                 "attachments": attachmenturl?.length ? attachmenturl : undefined,
             }, resetForm))
         } catch (error) {
@@ -256,8 +268,32 @@ const CreateTicket: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className='w-100 p-2'>
-                                    {console.log(values)}
-                                    {values.assignedTo ? null : <span className='infotext'>Please select project first to assign user!</span>}
+                                    <Label className='mb-2' >Project</Label>
+                                    <Select
+                                        closeMenuOnSelect={false}
+                                        filterOption={createFilter({
+                                            matchFrom: 'any',
+                                            ignoreCase: true,
+                                            stringify: option => `${option.label}`,
+                                        })}
+                                        placeholder="Select Project"
+                                        isSearchable
+                                        classNamePrefix="react-select-multi"
+                                        isClearable={true}
+                                        options={projectsList}
+                                        name='projectId'
+                                        onChange={(e, action) => {
+                                            handleChange(e, action, setFieldValue, "projectId")
+                                        }}
+                                    />
+                                    {
+                                        errors.projectId && touched.projectId && (
+                                            <div className="invalid-feedback d-block mb-1">{errors.projectId}</div>
+                                        )
+                                    }
+                                </div>
+                                <div className='w-100 p-2 mt-4'>
+                                    {values.assignedTo ? null : <p className='infotext mb-0'>Please select project first to assign user!</p>}
                                     <Label className='mb-2' >Assign To</Label>
                                     <Select
                                         closeMenuOnSelect={false}
@@ -284,31 +320,7 @@ const CreateTicket: React.FC = () => {
                                         )
                                     }
                                 </div>
-                                <div className='w-100 p-2'>
-                                    <Label className='mb-2' >Project</Label>
-                                    <Select
-                                        closeMenuOnSelect={false}
-                                        filterOption={createFilter({
-                                            matchFrom: 'any',
-                                            ignoreCase: true,
-                                            stringify: option => `${option.label}`,
-                                        })}
-                                        placeholder="Select Project"
-                                        isSearchable
-                                        classNamePrefix="react-select-multi"
-                                        isClearable={true}
-                                        options={projectsList}
-                                        name='projectId'
-                                        onChange={(e, action) => {
-                                            handleChange(e, action, setFieldValue, "projectId")
-                                        }}
-                                    />
-                                    {
-                                        errors.projectId && touched.projectId && (
-                                            <div className="invalid-feedback d-block mb-1">{errors.projectId}</div>
-                                        )
-                                    }
-                                </div>
+
                             </Col>
                         </Row>
                     </Form>
