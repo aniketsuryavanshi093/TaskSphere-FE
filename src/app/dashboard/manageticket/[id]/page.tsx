@@ -1,16 +1,35 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import ProjectsTicketsFilters from './components/ProjectsTicketsFilters'
 import DraggableContext from '@/app/_components/UI/DragAndDrop/DraggAbleContext/DraggableContext'
 import { Placeholder } from 'reactstrap'
 import "./ticketmanage.scss"
 import { useAppSelector } from '@/redux/dashboardstore/hook'
 import { DragDropCOlumnstype, TaskType } from '@/commontypes'
+import { DropResult } from 'react-beautiful-dnd'
+import { updateTicketAction } from '@/actions/authactions/ticketadminactions'
+import enqueSnackBar from '@/lib/enqueSnackBar'
+import { useSession } from 'next-auth/react'
+import { useParams } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
+
+export type ticketUpdateValuesType = {
+    status: string;
+    updatedBy: string | undefined;
+    assignedTo: string | undefined;
+    projectId: string | string[];
+    ticketId: string;
+}
 
 const ProjectTickets = () => {
+    const { filterURLValue } = useAppSelector((state) => state.manageticketreducer)
     const [Loading, setLoading] = useState<boolean>(false)
     const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(null)
+    const [isPending, startTransition] = useTransition()
+    const { data } = useSession()
+    const queryClient = useQueryClient()
     const [Tickets, setTickets] = useState(null)
+    const { id } = useParams()
     const { selectedProject } = useAppSelector((state) => state.manageticketreducer)
     useEffect(() => {
         if (Tickets?.data?.data?.tickets?.list?.length) {
@@ -51,8 +70,66 @@ const ProjectTickets = () => {
             setdragDropData(null)
         }
     }, [Tickets])
+    const handleUpdateTicket = async (values: ticketUpdateValuesType) => {
+        try {
+            const result = await updateTicketAction(values) as { status: string, message: string }
+            console.log(result);
+            if (result?.status === "fail") {
+                enqueSnackBar({ type: "error", message: result.message, })
+                return
+            }
+            // queryClient.invalidateQueries({ queryKey: ['tickets', `${id}${filterURLValue?.string || ""}`], })
+            enqueSnackBar({ type: "success", message: "Ticket Updated Successfully!" })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const onDragEnd = async (result: DropResult, columns: DragDropCOlumnstype | null, setColumns: React.Dispatch<React.SetStateAction<DragDropCOlumnstype | null>>) => {
+        if (!result.destination) return;
+        const { source, destination } = result;
+        if (source.droppableId !== destination.droppableId) {
+            const values: ticketUpdateValuesType = {
+                "status": destination.droppableId,
+                "updatedBy": data?.user.id,
+                "assignedTo": columns[source.droppableId].items.find(el => el._id === result.draggableId)?.assignedTo,
+                "projectId": id,
+                ticketId: result.draggableId
+            }
+            startTransition(() => handleUpdateTicket(values))
+            const sourceColumn = columns[source.droppableId];
+            const destColumn = columns[destination.droppableId];
+            const sourceItems = [...sourceColumn.items];
+            const destItems = [...destColumn.items];
+            const [removed] = sourceItems.splice(source.index, 1);
+            destItems.splice(destination.index, 0, removed);
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...sourceColumn,
+                    items: sourceItems,
+                },
+                [destination.droppableId]: {
+                    ...destColumn,
+                    items: destItems,
+                },
+            });
+        } else {
+            const column = columns[source.droppableId];
+            const copiedItems = [...column.items];
+            const [removed] = copiedItems.splice(source.index, 1);
+            copiedItems.splice(destination.index, 0, removed);
+            setColumns({
+                ...columns,
+                [source.droppableId]: {
+                    ...column,
+                    items: copiedItems,
+                },
+            });
+        }
+    }
     return (
         <div>
+
             <ProjectsTicketsFilters setTickets={setTickets} setloading={(e) => setLoading(e)} />
             <p className='mb-1 projecttitle'>{selectedProject?.title}</p>
             <div className='w-100'>
@@ -66,7 +143,7 @@ const ProjectTickets = () => {
                     )
                         :
                         (
-                            <DraggableContext dragDropdata={dragDropData} />
+                            <DraggableContext onDragEnd={onDragEnd} dragDropdata={dragDropData} />
                         )
                 }
             </div>

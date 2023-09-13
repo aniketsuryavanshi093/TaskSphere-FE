@@ -30,7 +30,7 @@ const TicketLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
                             </Button>
                         )
                     }
-                    <Link prefetch={false} href={"/dashboard/manageticket/createticket"} >
+                    <Link prefetch={false} href={`/dashboard/manageticket/createticket${id ? `?projectId=${id}` : ""}`} >
                         <Button className=' ticktcreatebtn' >
                             <div className='wrapper'>
                                 <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />

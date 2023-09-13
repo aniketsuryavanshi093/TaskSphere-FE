@@ -1,6 +1,7 @@
 import { getAllTickets } from '@/apiServices/ticket/ticketservices'
 import { useQuery } from '@tanstack/react-query'
 import { useSession } from 'next-auth/react'
+import { AiFillDingtalkSquare } from 'react-icons/ai'
 
 const useTicketsQueryhook = ({ id = "", filterURLValue, frompage }: { id?: string | string[], filterURLValue?: any, frompage?: boolean }) => {
     const { data } = useSession()
@@ -8,8 +9,8 @@ const useTicketsQueryhook = ({ id = "", filterURLValue, frompage }: { id?: strin
         queryKey: ['tickets', `${id}${filterURLValue?.string || ""}`],
         queryFn: () => getAllTickets({ id, filterURL: filterURLValue?.string, authToken: data?.user?.authToken }),
         enabled: data?.user && frompage ? true : false,
-        refetchOnMount: true,
-        refetchOnReconnect: true
+        refetchOnMount: false,
+        refetchOnReconnect: false
     })
 
 }

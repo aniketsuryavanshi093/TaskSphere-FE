@@ -33,7 +33,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
                     >
                         <div className='w-100  '>
                             <GetPriority type="label" priority={item.priority} />
-                            <p className='tasktag mb-0 my-2'>Con-123</p>
+                            <p className='tasktag mb-0 my-2'>{item.ticketTag}</p>
                             <p className='tasktitle mb-2'>{item.title}</p>
                             <div className='wrapper taskions justify-between'>
                                 <div className='wrapper justify-start'>

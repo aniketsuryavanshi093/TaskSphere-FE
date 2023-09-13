@@ -12,12 +12,15 @@ import generateURL from '@/lib/generateUrl'
 import useTicketsQueryhook from '@/hooks/UseQuery/ticketmanagementhooks/useTicketsQueryhook'
 import useGetProjectUsers from '@/hooks/UseQuery/UsersQueryHook/useGetProjectUsers'
 import "./filtertickets.scss"
+import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
+import { setFilterURLValue } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 
 const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTickets: (e: any) => void }> = ({ setloading, setTickets }) => {
     const [UsersList, setUsersList] = useState([{ value: "all", label: "all" }])
-    const [filterURLValue, setFilterURLValue] = useState<{ string: string, urlobject: { orderType: string, priority: string, userIds: string, label: "" } }>({ string: "", urlobject: { orderType: "", label: "", userIds: '', priority: "" } });
+    const { filterURLValue } = useAppSelector((state) => state.manageticketreducer)
     const { data } = useSession()
     const { id } = useParams()
+    const dispatch = useAppDispatch()
     const { data: tickets, isLoading } = useTicketsQueryhook({ id, filterURLValue, frompage: true })
     useEffect(() => {
         setloading(isLoading)
@@ -51,12 +54,12 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
         updatedDateTo: openFilter?.data?.updatedDateTo || '',
     };
     const handleReset = () => {
-        setFilterURLValue({
+        dispatch(setFilterURLValue({
             string: "", urlobject: {
                 orderType: "", priority: "",
                 userIds: "", label: ""
             }
-        })
+        }))
     }
     return (
         <div className='wrapper justify-start'>
@@ -66,7 +69,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
                     selectedvalue={filterURLValue?.urlobject.orderType}
                     icon='/images/icons/filter.png'
                     onDropdownSelect={value => {
-                        setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, orderType: value }), urlobject: { ...filterURLValue?.urlobject, orderType: value } })
+                        dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, orderType: value }), urlobject: { ...filterURLValue?.urlobject, orderType: value } }))
                     }}
                     Imptitle='Filter :'
                     options={options}
@@ -77,7 +80,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
                         selectedvalue={filterURLValue?.urlobject.priority}
                         icon='/images/icons/filter.png'
                         onDropdownSelect={value => {
-                            setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, priority: value }), urlobject: { ...filterURLValue?.urlobject, priority: value } })
+                            dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, priority: value }), urlobject: { ...filterURLValue?.urlobject, priority: value } }))
                         }}
                         Imptitle='Priority :'
                         options={priority}
@@ -89,7 +92,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
                         defaultValue=""
                         icon='/images/icons/filter.png'
                         onDropdownSelect={value =>
-                            setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, label: value }), urlobject: { ...filterURLValue?.urlobject, label: value } })
+                            dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, label: value }), urlobject: { ...filterURLValue?.urlobject, label: value } }))
                         }
                         Imptitle='Label :'
                         options={[{ value: "", label: "All" }, ...label]}
@@ -101,7 +104,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
                     icon='/images/icons/filter.png'
                     searchable
                     onDropdownSelect={value =>
-                        setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, userIds: value }), urlobject: { ...filterURLValue?.urlobject, userIds: value } })
+                        dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, userIds: value }), urlobject: { ...filterURLValue?.urlobject, userIds: value } }))
                     }
                     Imptitle='User :'
                     options={UsersList}

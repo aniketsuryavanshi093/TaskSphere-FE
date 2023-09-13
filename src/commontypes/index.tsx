@@ -44,6 +44,7 @@ export interface projectTypes {
     description: string
     tasks: any
     updatedAt: string,
+    ticketCount: number
     createdAt: string,
     logoUrl: string
     organizationId: string
@@ -57,6 +58,7 @@ export interface TaskType {
     description: string
     project: projectTypes
     createdBy: string
+    ticketTag: string
     _id: string
     assignedUser: CurrentUserObjectType,
     createdByOrg: string
