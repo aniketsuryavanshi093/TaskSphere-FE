@@ -33,7 +33,7 @@ type initialType = {
     "label": string
     ticketTag?: string,
     assignedTo: string,
-    projectId: '',
+    projectId: string | null,
     attachments?: { ext: string; name: string; url: string; }[],
 }
 
@@ -44,14 +44,13 @@ const CreateTicket: React.FC = () => {
     const [ProjectId, setProjectId] = useState(_project)
     const { data: projectusersData, } = useGetProjectUsers(data, ProjectId)
     const { data: projectDetail } = useGetProjectDetails(data, ProjectId || _project, true)
-    console.log(projectDetail);
     const queryClient = useQueryClient()
     const { data: userproject } = useGetProjectsByUserhook(data)
     const { data: orgProjects, } = useGetAllOrganizationsProjecthook(data)
     const [isPending, startTransition] = useTransition()
     const [Loading, setLoading] = useState(false)
     const editor = useRef(null);
-    const [UsersList, setUsersList] = useState([])
+    const [UsersList, setUsersList] = useState<[{ value: string, label: string, name: string, img: string }]>();
     const [projectsList, setprojectsList] = useState([])
     const [attachments, setAttachments] = useState<FileList | File | any>([]);
     const initialValues: initialType = {
@@ -59,15 +58,21 @@ const CreateTicket: React.FC = () => {
         "description": "",
         "priority": "",
         "label": "",
-        assignedTo: "", projectId: ""
+        assignedTo: "", projectId: _project || ""
     }
+    console.log(projectDetail);
     useEffect(() => {
-        if ((projectusersData)?.data?.data?.members?.length) {
-            setUsersList((projectusersData)?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
-                value: _user._id, label: _user.name, name: _user.userName, profilePic: _user.profilePic
-            })))
+        if (projectusersData?.data?.data?.members?.length) {
+            const temp: [{ value: string, img?: string, label: string, name?: string }] = projectusersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
+                value: _user._id, label: _user.userName, name: _user.userName, img: _user.profilePic || "/images/icons/userdummy.avif"
+            }))
+            temp.push({
+                value: projectusersData?.data?.data?.organizationId?._id, img: projectusersData?.data?.data?.organizationId?.profilePic || "/images/icons/userdummy.avif", label: projectusersData?.data?.data?.organizationId?.userName, name: projectusersData?.data?.data?.organizationId?.userName,
+            })
+            setUsersList(temp)
         }
-    }, [projectusersData])
+    }, [projectusersData, ProjectId])
+
     useEffect(() => {
         if ((orgProjects || userproject)?.data?.data?.projects?.length as any) {
             setprojectsList((orgProjects || userproject)?.data?.data?.projects.map((_project: projectTypes) => ({
@@ -141,7 +146,7 @@ const CreateTicket: React.FC = () => {
         switch (action.action) {
             case 'select-option': {
                 if (type === "projectId") {
-                    setUsersList([])
+                    console.log(data);
                     setFieldValue("assignedTo", "")
                     setProjectId(data.value)
                 }
@@ -201,12 +206,11 @@ const CreateTicket: React.FC = () => {
                                 </div>
                                 <div className='wrapper align-items-end justify-between'>
                                     <Row className='wrapper justify-start w-100'>
-                                        <Col lg={4} className=" mt-4">
+                                        <Col lg={5} className=" mt-4">
                                             <Label className='mb-0' htmlFor="priority">Priority</Label>
                                             <CustomDropDownButton
-                                                defaultValue="all"
-                                                icon='/images/icons/filter.png'
-                                                classname='selectticket'
+                                                onselectIcon
+                                                classname='selectticket' Imptitle="Priority"
                                                 onDropdownSelect={value =>
                                                     setFieldValue('priority', value)
                                                 }
@@ -281,6 +285,7 @@ const CreateTicket: React.FC = () => {
                                         classNamePrefix="react-select-multi"
                                         isClearable={true}
                                         options={projectsList}
+                                        value={projectsList?.find((elem) => elem.value === ProjectId)}
                                         name='projectId'
                                         onChange={(e, action) => {
                                             handleChange(e, action, setFieldValue, "projectId")
@@ -303,7 +308,7 @@ const CreateTicket: React.FC = () => {
                                             stringify: option => `${option.label}${option.name}`,
                                         })}
                                         placeholder="Select Member"
-                                        value={UsersList.find(elem => elem.value === values.assignedTo) || {}}
+                                        value={UsersList?.find(elem => elem.value === values.assignedTo) || {}}
                                         isSearchable
                                         isDisabled={!values.projectId}
                                         classNamePrefix="react-select-multi"

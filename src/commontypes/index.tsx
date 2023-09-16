@@ -57,6 +57,8 @@ export interface TaskType {
     projectId: string
     description: string
     project: projectTypes
+    updatedAt: string,
+    createdAt: string,
     createdBy: string
     ticketTag: string
     _id: string

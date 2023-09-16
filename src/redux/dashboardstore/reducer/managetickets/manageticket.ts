@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { projectTypes, } from "@/commontypes/index"
+import { TaskType, projectTypes, } from "@/commontypes/index"
 
 type initialTypes = {
   selectedProject: projectTypes | null,
@@ -11,12 +11,20 @@ type initialTypes = {
       userIds: string;
       label: "";
     };
+  },
+  ticketInfo: {
+    isopen: boolean
+    ticketdata: TaskType | null
   }
 }
 
 const initialState: initialTypes = {
   selectedProject: JSON.parse(localStorage.getItem("selectedProject")),
-  filterURLValue: { string: "", urlobject: { orderType: "", label: "", userIds: '', priority: "" } }
+  filterURLValue: { string: "", urlobject: { orderType: "", label: "", userIds: '', priority: "" } },
+  ticketInfo: {
+    isopen: false,
+    ticketdata: null
+  }
 };
 const manageticketSlice = createSlice({
   name: 'manageticket',
@@ -24,6 +32,13 @@ const manageticketSlice = createSlice({
   reducers: {
     setselectedProject: (state, action: PayloadAction<projectTypes>) => {
       state.selectedProject = action.payload;
+    },
+    setTicketInfoClosed: (state) => {
+      state.ticketInfo.isopen = false
+    },
+    setTicketInfoOpen: (state, action: PayloadAction<TaskType>) => {
+      state.ticketInfo.isopen = true
+      state.ticketInfo.ticketdata = action.payload
     },
     setFilterURLValue: (state, action: PayloadAction<{
       string: string;
@@ -40,7 +55,8 @@ const manageticketSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setselectedProject, setFilterURLValue } =
+export const { setselectedProject, setFilterURLValue, setTicketInfoClosed,
+  setTicketInfoOpen, } =
   manageticketSlice.actions;
 
 export const manageticketReducer = manageticketSlice.reducer;

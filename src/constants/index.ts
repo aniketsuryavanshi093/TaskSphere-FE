@@ -104,3 +104,21 @@ export const columnsFromBackend = {
         color: "#8BC48A"
     },
 };
+
+export const statusoptions = [
+    {
+        value: 'pending',
+        label: "To Do",
+        color: "#c1b4ff",
+    },
+    {
+        value: 'progress',
+        color: "#ffd280",
+        label: "On Progress",
+    },
+    {
+        value: 'done',
+        color: "#9fd89e",
+        label: "Done",
+    }
+]

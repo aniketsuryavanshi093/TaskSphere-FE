@@ -1,24 +1,28 @@
 "use client"
 import React, { useState } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import "./task.scss"
-import { Tooltip, } from 'reactstrap';
+import { Tooltip, } from 'reactstrap'
 import Image from 'next/image'
-import { TaskType } from '@/commontypes';
+import { TaskType } from '@/commontypes'
+import "./task.scss"
+import { useAppDispatch } from '@/redux/dashboardstore/hook'
+import { setTicketInfoOpen } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 
 type pageprops = {
     item: TaskType;
     index: number
 }
+
 const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
     const [tooltipOpen, setTooltipOpen] = useState(false);
+    const dispatch = useAppDispatch()
     const toggle = () => setTooltipOpen(!tooltipOpen);
     return (
         <Draggable key={item._id} draggableId={item._id} index={index}>
             {(provided, snapshot) => {
                 if (snapshot.isDragging) {
-                    provided.draggableProps.style.left = provided.draggableProps.style.offsetLeft;
-                    provided.draggableProps.style.top = provided.draggableProps.style.offsetTop;
+                    provided.draggableProps.style.left = provided?.draggableProps?.style?.offsetLeft;
+                    provided.draggableProps.style.top = provided?.draggableProps?.style?.offsetTop;
                 }
                 return (
                     <div
@@ -33,7 +37,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
                     >
                         <div className='w-100  '>
                             <GetPriority type="label" priority={item.priority} />
-                            <p className='tasktag mb-0 my-2'>{item.ticketTag}</p>
+                            <p className='tasktag mb-0 my-2' onClick={() => dispatch(setTicketInfoOpen(item))}>{item.ticketTag}</p>
                             <p className='tasktitle mb-2'>{item.title}</p>
                             <div className='wrapper taskions justify-between'>
                                 <div className='wrapper justify-start'>
