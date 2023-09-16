@@ -42,9 +42,13 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
     const { data: usersData, } = useGetProjectUsers(data, id)
     useEffect(() => {
         if (usersData?.data?.data?.members?.length) {
-            setUsersList(usersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
-                value: _user._id, label: _user.name, name: _user.userName, img: _user.profilePic
-            })))
+            const temp: [{ value: string, img?: string, label: string, name?: string }] = usersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
+                value: _user._id, label: _user.userName, name: _user.userName, img: _user.profilePic || "/images/icons/userdummy.avif"
+            }))
+            temp.push({
+                value: usersData?.data?.data?.organizationId?._id, img: usersData?.data?.data?.organizationId?.profilePic || "/images/icons/userdummy.avif", label: usersData?.data?.data?.organizationId?.userName, name: usersData?.data?.data?.organizationId?.userName,
+            })
+            setUsersList(temp)
         }
     }, [usersData])
 
@@ -65,25 +69,25 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
         <div className='wrapper justify-start'>
             <div className='wrapper filterwrapper'>
                 <CustomDropDownButton
-                    defaultValue="all"
+                    defaultValue=""
                     selectedvalue={filterURLValue?.urlobject.orderType}
                     icon='/images/icons/filter.png'
                     onDropdownSelect={value => {
                         dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, orderType: value }), urlobject: { ...filterURLValue?.urlobject, orderType: value } }))
                     }}
                     Imptitle='Filter :'
-                    options={options}
+                    options={[{ value: "", label: "All" }, ...options]}
                 />
                 <div className='mx-3'>
                     <CustomDropDownButton
-                        defaultValue="all"
+                        defaultValue=""
                         selectedvalue={filterURLValue?.urlobject.priority}
-                        icon='/images/icons/filter.png'
+                        icon='/images/icons/filter.png' onselectIcon
                         onDropdownSelect={value => {
                             dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, priority: value }), urlobject: { ...filterURLValue?.urlobject, priority: value } }))
                         }}
                         Imptitle='Priority :'
-                        options={priority}
+                        options={[{ value: "", label: "All" }, ...priority]}
                     />
                 </div>
                 <div className='me-3'>
@@ -106,7 +110,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
                     onDropdownSelect={value =>
                         dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, userIds: value }), urlobject: { ...filterURLValue?.urlobject, userIds: value } }))
                     }
-                    Imptitle='User :'
+                    Imptitle='User :' onselectIcon
                     options={UsersList}
                 />
 

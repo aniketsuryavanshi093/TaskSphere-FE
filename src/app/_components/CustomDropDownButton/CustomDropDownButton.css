@@ -179,9 +179,16 @@
   font-size: 16px;
   line-height: 20px;
 }
-
+.fa-chevron-down{
+  margin-right: 0;
+  margin-left: 10px;
+}
 .darkmode_icon {
   filter: var(--filter-arrow-color);
+}
+.statusselect div i{
+  margin-left: 20px!important;
+  margin-bottom: 5px!important;
 }
 
 @media only screen and (max-width: 600px) {

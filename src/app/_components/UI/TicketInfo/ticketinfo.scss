@@ -1,0 +1,47 @@
+.ticketinfowrapper{
+    width: 37% !important;
+    transition: all ease .3s;
+}
+
+.offcanvas-title{
+    width: 90%;
+}
+
+.ticketinfofull{
+    transition: all ease .3s;
+    width: 77% !important;
+}
+.tickettitle{
+    margin-bottom: 0;
+    color: #0D062D;
+    text-transform: capitalize;
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 800;
+}
+.labelticketinfo{
+    flex: 1;
+}
+.ticketinfoproperty{
+    flex: 3;
+}
+.datetext{
+    font-weight: 600;
+}
+.ticketdescomments{
+    
+    width: 100%;
+}
+.ticketinfostack{
+    border-bottom: 2px solid var(--border-color);
+}
+.descriptionsub{
+    font-size: 20px;
+    font-weight: 800;
+}
+.commentdescscrollbar {
+    overflow-y: auto;
+    height: 90vh;
+    overflow-x: hidden;
+}

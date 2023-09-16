@@ -4,14 +4,15 @@ import ProjectsTicketsFilters from './components/ProjectsTicketsFilters'
 import DraggableContext from '@/app/_components/UI/DragAndDrop/DraggAbleContext/DraggableContext'
 import { Placeholder } from 'reactstrap'
 import "./ticketmanage.scss"
-import { useAppSelector } from '@/redux/dashboardstore/hook'
+import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
 import { DragDropCOlumnstype, TaskType } from '@/commontypes'
 import { DropResult } from 'react-beautiful-dnd'
 import { updateTicketAction } from '@/actions/authactions/ticketadminactions'
 import enqueSnackBar from '@/lib/enqueSnackBar'
 import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
-import { useQueryClient } from '@tanstack/react-query'
+import TicketInfo from '@/app/_components/UI/TicketInfo/TicketInfo'
+import { setTicketInfoClosed } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 
 export type ticketUpdateValuesType = {
     status: string;
@@ -22,14 +23,14 @@ export type ticketUpdateValuesType = {
 }
 
 const ProjectTickets = () => {
-    const { filterURLValue } = useAppSelector((state) => state.manageticketreducer)
+    const { ticketInfo } = useAppSelector((state) => state.manageticketreducer)
     const [Loading, setLoading] = useState<boolean>(false)
     const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(null)
     const [isPending, startTransition] = useTransition()
     const { data } = useSession()
-    const queryClient = useQueryClient()
     const [Tickets, setTickets] = useState(null)
     const { id } = useParams()
+    const dispatch = useAppDispatch()
     const { selectedProject } = useAppSelector((state) => state.manageticketreducer)
     useEffect(() => {
         if (Tickets?.data?.data?.tickets?.list?.length) {
@@ -73,12 +74,10 @@ const ProjectTickets = () => {
     const handleUpdateTicket = async (values: ticketUpdateValuesType) => {
         try {
             const result = await updateTicketAction(values) as { status: string, message: string }
-            console.log(result);
             if (result?.status === "fail") {
                 enqueSnackBar({ type: "error", message: result.message, })
                 return
             }
-            // queryClient.invalidateQueries({ queryKey: ['tickets', `${id}${filterURLValue?.string || ""}`], })
             enqueSnackBar({ type: "success", message: "Ticket Updated Successfully!" })
         } catch (error) {
             console.log(error)
@@ -147,6 +146,11 @@ const ProjectTickets = () => {
                         )
                 }
             </div>
+            {
+                ticketInfo?.isopen && (
+                    <TicketInfo isopen={ticketInfo?.isopen} ticketData={ticketInfo?.ticketdata} onClosed={() => dispatch(setTicketInfoClosed())} />
+                )
+            }
         </div>
     )
 }
