@@ -50,24 +50,15 @@ const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
                                     <p className='commentstask mb-0 ms-1'>12 comments</p>
                                 </div>
                             </div>
-                            <div onMouseOver={() => setTooltipOpen(true)} onMouseLeave={() => setTooltipOpen(false)} className='usertask' id={`DisabledAutoHideExample${index}`}>
+                            <div data-tooltip={`${item.assignedUser.userName}:${item.assignedUser.name}`} className='usertask' id={`DisabledAutoHideExample${index}`}>
                                 <Image src="/images/icons/userdummy.avif" alt='dummy' className='rounded-pill' width={40} height={40} />
-                                <Tooltip
-                                    placement="top"
-                                    isOpen={tooltipOpen}
-                                    autohide={false}
-                                    target={`DisabledAutoHideExample${index}`}
-                                    toggle={toggle}
-                                >
-                                    {item.assignedUser.userName}:{item.assignedUser.name}
-                                </Tooltip>
                             </div>
                         </div>
                     </div>
                 );
             }}
 
-        </Draggable>
+        </Draggable >
     )
 }
 
