@@ -153,4 +153,4 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
   );
 };
 
-export default CustomDropDownButton;
+export default React.memo(CustomDropDownButton);

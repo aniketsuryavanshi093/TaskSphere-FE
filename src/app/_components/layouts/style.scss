@@ -75,7 +75,13 @@
       }
     }
   }
-  
+  .linkloader{
+    height: 20px;
+    border-radius: 10px;
+    width: 80%;
+    display: flex;
+    margin: auto;
+  }
   // // media query
   @media (max-width: 850px) {
     .responsive_sidebar_hero {

@@ -12,4 +12,4 @@ const Circularbar = ({ value, textColor, pathColor, background }: { value: numbe
     )
 }
 
-export default Circularbar
+export default React.memo(Circularbar)

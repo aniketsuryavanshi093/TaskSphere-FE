@@ -7,7 +7,7 @@ import CustomDropDownButton, { optionstype } from '@/app/_components/CustomDropD
 import FilterComponent from '@/app/_components/filtercomponents/FilterComponent'
 import { CustomDateInput } from '@/lib/customcomponents/customComponents'
 import { CurrentUserObjectType } from '@/commontypes'
-import { label, priority } from '@/constants'
+import { label, priority, ticketfilter } from '@/constants'
 import generateURL from '@/lib/generateUrl'
 import useTicketsQueryhook from '@/hooks/UseQuery/ticketmanagementhooks/useTicketsQueryhook'
 import useGetProjectUsers from '@/hooks/UseQuery/UsersQueryHook/useGetProjectUsers'
@@ -15,30 +15,18 @@ import "./filtertickets.scss"
 import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
 import { setFilterURLValue } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 
-const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTickets: (e: any) => void }> = ({ setloading, setTickets }) => {
+const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type: string, setTickets: (e: any) => void }> = ({ setloading, setTickets, type }) => {
     const [UsersList, setUsersList] = useState([{ value: "all", label: "all" }])
     const { filterURLValue } = useAppSelector((state) => state.manageticketreducer)
     const { data } = useSession()
     const { id } = useParams()
     const dispatch = useAppDispatch()
-    const { data: tickets, isLoading } = useTicketsQueryhook({ id, filterURLValue, frompage: true })
+    const { data: tickets, isLoading } = useTicketsQueryhook({ id, filterURLValue: `${filterURLValue.string}${type === "project" ? "&isforUser=true" : ""}`, frompage: true })
     useEffect(() => {
         setloading(isLoading)
         setTickets(tickets)
     }, [isLoading, setloading, tickets, setTickets])
-    const options: optionstype[] = [{
-        value: "myissue",
-        label: "Only My Issue"
-    }, {
-        value: "allissue",
-        label: "All Tasks"
-    }, {
-        value: "-1",
-        label: "Latest issued"
-    }, {
-        value: "1",
-        label: "Old issued"
-    }]
+    const options: optionstype[] = type !== "project" ? ticketfilter.filter((elem) => elem.value !== "isforUser") : ticketfilter
     const { data: usersData, } = useGetProjectUsers(data, id)
     useEffect(() => {
         if (usersData?.data?.data?.members?.length) {
@@ -61,19 +49,21 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
         dispatch(setFilterURLValue({
             string: "", urlobject: {
                 orderType: "", priority: "",
-                userIds: "", label: ""
+                userIds: "", label: "",
             }
         }))
     }
+
+
     return (
         <div className='wrapper justify-start'>
             <div className='wrapper filterwrapper'>
                 <CustomDropDownButton
-                    defaultValue=""
+                    defaultValue={type == 'project' ? 'isforUser' : ""}
                     selectedvalue={filterURLValue?.urlobject.orderType}
                     icon='/images/icons/filter.png'
                     onDropdownSelect={value => {
-                        dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, orderType: value }), urlobject: { ...filterURLValue?.urlobject, orderType: value } }))
+                        dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, orderType: type === "project" ? value === "isforUser" ? "" : value : value }), urlobject: { ...filterURLValue?.urlobject, orderType: type === "project" ? value === "isforUser" ? "" : value : value } }))
                     }}
                     Imptitle='Filter :'
                     options={[{ value: "", label: "All" }, ...options]}
@@ -102,17 +92,21 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, setTi
                         options={[{ value: "", label: "All" }, ...label]}
                     />
                 </div>
-                <CustomDropDownButton
-                    selectedvalue={filterURLValue?.urlobject.userIds}
-                    defaultValue="all"
-                    icon='/images/icons/filter.png'
-                    searchable
-                    onDropdownSelect={value =>
-                        dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, userIds: value }), urlobject: { ...filterURLValue?.urlobject, userIds: value } }))
-                    }
-                    Imptitle='User :' onselectIcon
-                    options={UsersList}
-                />
+                {
+                    type === "manageticket" && (
+                        <CustomDropDownButton
+                            selectedvalue={filterURLValue?.urlobject.userIds}
+                            defaultValue="all"
+                            icon='/images/icons/filter.png'
+                            searchable
+                            onDropdownSelect={value =>
+                                dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, userIds: value }), urlobject: { ...filterURLValue?.urlobject, userIds: value } }))
+                            }
+                            Imptitle='User :' onselectIcon
+                            options={UsersList}
+                        />
+                    )
+                }
 
                 <div className='mx-3'>
                     <FilterComponent
