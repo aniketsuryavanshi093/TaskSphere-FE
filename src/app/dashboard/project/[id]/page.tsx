@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useTransition } from 'react'
 import Image from 'next/image'
 import { Placeholder } from 'reactstrap'
 import { useSession } from 'next-auth/react'
@@ -14,12 +14,17 @@ import TicketInfo from '@/app/_components/UI/TicketInfo/TicketInfo'
 import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
 import { setTicketInfoClosed } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 import AddUserModel from '@/app/_components/Models/AddUserModel'
+import { ticketUpdateValuesType } from '../../manageticket/[id]/page'
+import DragDropLoader from '@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader'
+import useUpdateTicketHook from '@/hooks/useUpdateTicketHook'
 
 const ProjectPage = () => {
     const { id } = useParams()
     const [Loading, setLoading] = useState<boolean>(false)
     const [Tickets, setTickets] = useState(null)
     const { ticketInfo } = useAppSelector((state) => state.manageticketreducer)
+    const [pending, startTransition] = useTransition()
+    const { handleUpdateTicket } = useUpdateTicketHook()
     const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(null)
     const { data } = useSession()
     const dispatch = useAppDispatch()
@@ -68,14 +73,14 @@ const ProjectPage = () => {
         if (!result.destination) return;
         const { source, destination } = result;
         if (source.droppableId !== destination.droppableId) {
-            // const values: ticketUpdateValuesType = {
-            //     "status": destination.droppableId,
-            //     "updatedBy": data?.user.id,
-            //     "assignedTo": columns[source.droppableId].items.find(el => el._id === result.draggableId)?.assignedTo,
-            //     "projectId": id,
-            //     ticketId: result.draggableId
-            // }
-            // startTransition(() => handleUpdateTicket(values))
+            const values: ticketUpdateValuesType = {
+                "status": destination.droppableId,
+                "updatedBy": data?.user.id,
+                "assignedTo": columns[source.droppableId].items.find(el => el._id === result.draggableId)?.assignedTo,
+                "projectId": id,
+                ticketId: result.draggableId
+            }
+            startTransition(() => handleUpdateTicket(values))
             const sourceColumn = columns[source.droppableId];
             const destColumn = columns[destination.droppableId];
             const sourceItems = [...sourceColumn.items];
@@ -166,11 +171,7 @@ const ProjectPage = () => {
             <div className='w-100'>
                 {
                     Loading ? (
-                        <Placeholder animation='wave' className='dragdroparealoader' tag="div" >
-                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                        </Placeholder>
+                        <DragDropLoader />
                     )
                         :
                         (

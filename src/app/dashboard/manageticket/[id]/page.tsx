@@ -13,6 +13,8 @@ import TicketInfo from '@/app/_components/UI/TicketInfo/TicketInfo'
 import { setTicketInfoClosed } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 import ProjectsTicketsFilters from '@/app/_components/ProjectTaskFilter/ProjectsTicketsFilters'
 import "./ticketmanage.scss"
+import useUpdateTicketHook from '@/hooks/useUpdateTicketHook'
+import DragDropLoader from '@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader'
 
 export type ticketUpdateValuesType = {
     status: string;
@@ -27,6 +29,7 @@ const ProjectTickets = () => {
     const [Loading, setLoading] = useState<boolean>(false)
     const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(null)
     const [isPending, startTransition] = useTransition()
+    const { handleUpdateTicket } = useUpdateTicketHook()
     const { data } = useSession()
     const [Tickets, setTickets] = useState(null)
     const { id } = useParams()
@@ -71,18 +74,7 @@ const ProjectTickets = () => {
             setdragDropData(null)
         }
     }, [Tickets])
-    const handleUpdateTicket = async (values: ticketUpdateValuesType) => {
-        try {
-            const result = await updateTicketAction(values) as { status: string, message: string }
-            if (result?.status === "fail") {
-                enqueSnackBar({ type: "error", message: result.message, })
-                return
-            }
-            enqueSnackBar({ type: "success", message: "Ticket Updated Successfully!" })
-        } catch (error) {
-            console.log(error)
-        }
-    }
+
     const onDragEnd = async (result: DropResult, columns: DragDropCOlumnstype | null, setColumns: React.Dispatch<React.SetStateAction<DragDropCOlumnstype | null>>) => {
         if (!result.destination) return;
         const { source, destination } = result;
@@ -133,11 +125,7 @@ const ProjectTickets = () => {
             <div className='w-100'>
                 {
                     Loading ? (
-                        <Placeholder animation='wave' className='dragdroparealoader' tag="div" >
-                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                            <Placeholder tag='div' className='taskclumnwrapperloader wrapper flex-wrap gap-2 align-start'></Placeholder>
-                        </Placeholder>
+                        <DragDropLoader />
                     )
                         :
                         (
