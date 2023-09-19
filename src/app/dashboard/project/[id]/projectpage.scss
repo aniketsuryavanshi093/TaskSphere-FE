@@ -1,6 +1,6 @@
 .projecttitlep{
     color: #0D062D;
-font-size: 46px;
+font-size: 40px;
 font-style: normal;
 font-weight: 600;
 line-height: normal;
@@ -70,7 +70,14 @@ text-transform: capitalize;
     gap: 1rem;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   }
-  
+  .userimagedivplaceholder{
+    background-color: #c7c7c7!important;
+  }
+  .placeholderload{
+    height: 30px;
+    border-radius: 5px;
+    width: 200px
+  }
   // // media query
   @media (max-width: 409px) {
     .sitesmenu {

@@ -86,7 +86,19 @@ export const initialdata = [
         Due_Date: '05-Jan-2021',
     },
 ];
-
+export const ticketfilter = [{
+    value: "isforUser",
+    label: "Only My Issue"
+}, {
+    value: "allissue",
+    label: "All Tasks"
+}, {
+    value: "-1",
+    label: "Latest issued"
+}, {
+    value: "1",
+    label: "Old issued"
+}]
 export const columnsFromBackend = {
     1: {
         title: 'To Do',

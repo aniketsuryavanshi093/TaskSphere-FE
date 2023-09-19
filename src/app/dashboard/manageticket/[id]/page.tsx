@@ -1,9 +1,7 @@
 "use client"
 import React, { useEffect, useState, useTransition } from 'react'
-import ProjectsTicketsFilters from './components/ProjectsTicketsFilters'
 import DraggableContext from '@/app/_components/UI/DragAndDrop/DraggAbleContext/DraggableContext'
 import { Placeholder } from 'reactstrap'
-import "./ticketmanage.scss"
 import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
 import { DragDropCOlumnstype, TaskType } from '@/commontypes'
 import { DropResult } from 'react-beautiful-dnd'
@@ -13,6 +11,8 @@ import { useSession } from 'next-auth/react'
 import { useParams } from 'next/navigation'
 import TicketInfo from '@/app/_components/UI/TicketInfo/TicketInfo'
 import { setTicketInfoClosed } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
+import ProjectsTicketsFilters from '@/app/_components/ProjectTaskFilter/ProjectsTicketsFilters'
+import "./ticketmanage.scss"
 
 export type ticketUpdateValuesType = {
     status: string;
@@ -128,8 +128,7 @@ const ProjectTickets = () => {
     }
     return (
         <div>
-
-            <ProjectsTicketsFilters setTickets={setTickets} setloading={(e) => setLoading(e)} />
+            <ProjectsTicketsFilters type='manageticket' setTickets={setTickets} setloading={(e) => setLoading(e)} />
             <p className='mb-1 projecttitle'>{selectedProject?.title}</p>
             <div className='w-100'>
                 {

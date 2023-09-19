@@ -6,8 +6,8 @@ import { AiFillDingtalkSquare } from 'react-icons/ai'
 const useTicketsQueryhook = ({ id = "", filterURLValue, frompage }: { id?: string | string[], filterURLValue?: any, frompage?: boolean }) => {
     const { data } = useSession()
     return useQuery({
-        queryKey: ['tickets', `${id}${filterURLValue?.string || ""}`],
-        queryFn: () => getAllTickets({ id, filterURL: filterURLValue?.string, authToken: data?.user?.authToken }),
+        queryKey: ['tickets', `${id}${filterURLValue || ""}`],
+        queryFn: () => getAllTickets({ id, filterURL: filterURLValue, authToken: data?.user?.authToken }),
         enabled: data?.user && frompage ? true : false,
         refetchOnMount: false,
         refetchOnReconnect: false,

@@ -10,6 +10,7 @@ type initialTypes = {
       priority: string;
       userIds: string;
       label: "";
+      isforUser: boolean
     };
   },
   ticketInfo: {
@@ -20,7 +21,7 @@ type initialTypes = {
 
 const initialState: initialTypes = {
   selectedProject: JSON.parse(localStorage.getItem("selectedProject")),
-  filterURLValue: { string: "", urlobject: { orderType: "", label: "", userIds: '', priority: "" } },
+  filterURLValue: { string: "", urlobject: { orderType: "", label: "", userIds: '', priority: "", isforUser: false } },
   ticketInfo: {
     isopen: false,
     ticketdata: null
@@ -34,7 +35,8 @@ const manageticketSlice = createSlice({
       state.selectedProject = action.payload;
     },
     setTicketInfoClosed: (state) => {
-      state.ticketInfo.isopen = false
+      state.ticketInfo.isopen = false;
+      state.ticketInfo.ticketdata = null;
     },
     setTicketInfoOpen: (state, action: PayloadAction<TaskType>) => {
       state.ticketInfo.isopen = true
@@ -45,6 +47,7 @@ const manageticketSlice = createSlice({
       urlobject: {
         orderType: string;
         priority: string;
+        isforUser: boolean;
         userIds: string;
         label: "";
       };

@@ -44,4 +44,4 @@ const FilterComponent: React.FC<pageprops> = ({
   );
 }
 
-export default FilterComponent;
+export default React.memo(FilterComponent);

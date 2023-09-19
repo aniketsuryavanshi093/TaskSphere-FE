@@ -1,7 +1,9 @@
 .filterwrapper{
   margin: 10px 0px;
 }
-  
+  .filter_laebl {
+    font-size: 13px;
+  }
 .filtertogglebtn {
     border: 1px solid var(--borderbottom-light);
     &:hover {

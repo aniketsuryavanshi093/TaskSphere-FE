@@ -70,4 +70,4 @@ const CustomModal: React.FC<PageProps> = ({
   );
 };
 
-export default CustomModal;
+export default React.memo(CustomModal);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { Offcanvas, OffcanvasBody, OffcanvasHeader } from 'reactstrap'
 import "./ticketinfo.scss"
 import { CurrentUserObjectType, TaskType } from '@/commontypes'
@@ -13,7 +13,7 @@ import moment from 'moment'
 
 type pageprops = {
     isopen: boolean
-    ticketData: TaskType
+    ticketData: TaskType | null
     onClosed: () => void
 }
 
@@ -31,11 +31,12 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
     const { data: usersData, } = useGetProjectUsers(data, id)
     useEffect(() => {
         if (usersData?.data?.data?.members?.length) {
-            const temp: [{ value: string, img?: string, label: string, name?: string }] = usersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
+            const { members, organizationId } = usersData?.data?.data
+            const temp: [{ value: string, img?: string, label: string, name?: string }] = members?.map((_user: CurrentUserObjectType) => ({
                 value: _user._id, label: _user.userName, name: _user.userName, img: _user.profilePic || "/images/icons/userdummy.avif"
             }))
             temp.push({
-                value: usersData?.data?.data?.organizationId?._id, img: usersData?.data?.data?.organizationId?.profilePic || "/images/icons/userdummy.avif", label: usersData?.data?.data?.organizationId?.userName, name: usersData?.data?.data?.organizationId?.userName,
+                value: organizationId?._id, img: organizationId?.profilePic || "/images/icons/userdummy.avif", label: organizationId?.userName, name: organizationId?.userName,
             })
             setUsersList(temp)
         }
@@ -158,4 +159,4 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
     )
 }
 
-export default TicketInfo
+export default memo(TicketInfo)

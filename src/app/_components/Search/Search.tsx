@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useCallback, useState } from "react";
+import React, { memo, useCallback, useState } from "react";
 import "./search.scss";
 import Image from "next/image";
 
@@ -43,4 +43,4 @@ const Search: React.FC<PageProps> = ({ setValue, placeholder, waitTime, minSearc
   );
 };
 
-export default Search;
+export default memo(Search);

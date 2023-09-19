@@ -3,11 +3,13 @@ import React, { useState } from "react";
 
 import "./dashboardlayout.scss";
 import Link from "next/link";
-import { Administratortype, dataItems } from "@/constants";
-import { dataItemsTypes } from "@/commontypes";
-import { useParams, } from 'next/navigation'
+import { dataItems } from "@/constants";
+import { dataItemsTypes, projectTypes } from "@/commontypes";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
+import useGetProjectsByUserhook from "@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectsByUserhook";
+import useGetAllOrganizationsProjecthook from "@/hooks/UseQuery/ProjectsQueryHooks/usegetAllOrganizationsProjecthook";
+import { Placeholder } from "reactstrap";
 
 type pageProps = {
   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -15,13 +17,11 @@ type pageProps = {
   MobileSidebar?: boolean,
   setMobileSidebar: React.Dispatch<React.SetStateAction<boolean>>, params?: any
 }
-type tempproject = {
-  name: string,
-  color: string,
-}
-const muyprojects: tempproject[] = [{ name: ' Mobile App', color: '#7AC555' }, { name: 'Website Redesign', color: '#FFA500' }, { name: 'Design System', color: '#E4CCFD' }, { name: 'Wireframes', color: "#76A5EA" }]
+
 const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params }) => {
   const { data } = useSession()
+  const { data: userproject, isLoading: userprojectload } = useGetProjectsByUserhook(data)
+  const { data: orgProjects, isLoading: orgprojload } = useGetAllOrganizationsProjecthook(data)
   const [SelectedTab, setSelectedTab] = useState<string>("#7AC555")
   return (
     <div
@@ -92,30 +92,36 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
             </p>
           </div>
           <ul className="list_wrapper">
-            {muyprojects.map((item: tempproject) => (
-              <li
-                className={` ${item.color === SelectedTab && "tabactive"} sidebar-nav-item px-2 nonActive justify-start wrapper position-relative`}
-                key={item.name}
-                onClick={
-                  () => {
-
-                    setSelectedTab(item.color)
-                  }
-                }
-              >
-                <Link prefetch={false} className="wrapper" href={"/dashboard/project"}>
-                  <div className="myprojectcolor" style={{ background: item.color }} />
-                  <span className={`${item.color === SelectedTab && "text_primary"} projecttitle ms-2`}>
-                    {item.name}
-                  </span>
+            {
+              (data?.user.role === "member" ? userprojectload : orgprojload) && (
+                Array(4).fill(0).map((_, elem) => (
+                  <Placeholder key={elem} animation="glow" className="w-100 d-flex my-4">
+                    <Placeholder as="p" className=" linkloader projecttitle py-1" ></Placeholder>
+                  </Placeholder>
+                ))
+              )
+            }
+            {
+              (orgProjects || userproject)?.data?.data?.projects?.map((item: projectTypes) => (
+                <Link onClick={() => setSelectedTab(item._id)} key={item.title} prefetch={false} href={`/dashboard/project/${item._id}`}>
+                  <li
+                    className={` ${item._id === SelectedTab && "tabactive"} sidebar-nav-item px-2 nonActive justify-start wrapper position-relative`}
+                  >
+                    <div className="wrapper" >
+                      <div className="myprojectcolor" />
+                      <span className={`${item._id === SelectedTab && "text_primary"} projecttitle ms-2`}>
+                        {item.title}
+                      </span>
+                    </div>
+                  </li>
                 </Link>
-              </li>
-            ))}
+              ))
+            }
           </ul>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
-export default Sidebar;
+export default React.memo(Sidebar);
