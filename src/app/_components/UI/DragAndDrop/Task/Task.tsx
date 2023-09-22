@@ -1,7 +1,6 @@
 "use client"
-import React, { useState } from 'react'
+import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import { Tooltip, } from 'reactstrap'
 import Image from 'next/image'
 import { TaskType } from '@/commontypes'
 import "./task.scss"
@@ -14,9 +13,7 @@ type pageprops = {
 }
 
 const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
-    const [tooltipOpen, setTooltipOpen] = useState(false);
     const dispatch = useAppDispatch()
-    const toggle = () => setTooltipOpen(!tooltipOpen);
     return (
         <Draggable key={item._id} draggableId={item._id} index={index}>
             {(provided, snapshot) => {
@@ -57,8 +54,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
                     </div>
                 );
             }}
-
-        </Draggable >
+        </Draggable>
     )
 }
 
