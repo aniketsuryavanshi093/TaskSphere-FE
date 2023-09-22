@@ -49,6 +49,14 @@ export interface projectTypes {
     logoUrl: string
     organizationId: string
 }
+export type comment = {
+  text: string
+  _id: string,
+  author: CurrentUserObjectType
+  createdAt: string
+  replies: comment[]
+  orgMember: CurrentUserObjectType
+}
 export interface TaskType {
     title: string
     label: 'BE' | 'FE' | 'QA'
@@ -59,8 +67,10 @@ export interface TaskType {
     project: projectTypes
     updatedAt: string,
     createdAt: string,
+    commentsCount: number,
     createdBy: string
     ticketTag: string
+    comments: comment[]
     _id: string
     assignedUser: CurrentUserObjectType,
     createdByOrg: string

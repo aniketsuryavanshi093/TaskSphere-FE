@@ -15,3 +15,11 @@ export const getProjectDetail = async (payload: { authToken: string, projectId: 
         `project/getprojects/${projectId}${count ? `?count=true` : ''}`, createHeader(authToken)
     );
 };
+
+
+export const getComments = async (payload: { authToken: string, ticketId: string }) => {
+    const { authToken, ticketId, } = payload;
+    return axiosInterceptorInstance.get(
+        `ticket/comments/${ticketId}`, createHeader(authToken)
+    );
+};

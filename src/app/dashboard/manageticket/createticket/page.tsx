@@ -42,7 +42,7 @@ const CreateTicket: React.FC = () => {
     const searchParams = useSearchParams();
     const _project = searchParams.get('projectId')
     const [ProjectId, setProjectId] = useState(_project)
-    const { data: projectusersData, } = useGetProjectUsers(data, ProjectId)
+    const { data: projectusersData, } = useGetProjectUsers(data, ProjectId, true)
     const { data: projectDetail } = useGetProjectDetails(data, ProjectId || _project, true)
     const queryClient = useQueryClient()
     const { data: userproject } = useGetProjectsByUserhook(data)
@@ -60,7 +60,6 @@ const CreateTicket: React.FC = () => {
         "label": "",
         assignedTo: "", projectId: _project || ""
     }
-    console.log(projectDetail);
     useEffect(() => {
         if (projectusersData?.data?.data?.members?.length) {
             const temp: [{ value: string, img?: string, label: string, name?: string }] = projectusersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
@@ -139,14 +138,13 @@ const CreateTicket: React.FC = () => {
                 "attachments": attachmenturl?.length ? attachmenturl : undefined,
             }, resetForm))
         } catch (error) {
-
+            
         }
     }
     const handleChange = (data: { value: string }, action: ActionMeta<undefined>, setFieldValue: any, type: string) => {
         switch (action.action) {
             case 'select-option': {
                 if (type === "projectId") {
-                    console.log(data);
                     setFieldValue("assignedTo", "")
                     setProjectId(data.value)
                 }

@@ -1,17 +1,18 @@
-.ticketinfowrapper{
+.ticketinfowrapper {
     width: 37% !important;
     transition: all ease .3s;
 }
 
-.offcanvas-title{
+.offcanvas-title {
     width: 90%;
 }
 
-.ticketinfofull{
+.ticketinfofull {
     transition: all ease .3s;
     width: 77% !important;
 }
-.tickettitle{
+
+.tickettitle {
     margin-bottom: 0;
     color: #0D062D;
     text-transform: capitalize;
@@ -20,28 +21,128 @@
     font-style: normal;
     font-weight: 800;
 }
-.labelticketinfo{
+
+.labelticketinfo {
     flex: 1;
 }
-.ticketinfoproperty{
+
+.ticketinfoproperty {
     flex: 3;
 }
-.datetext{
+
+.datetext {
     font-weight: 600;
 }
-.ticketdescomments{
-    
+
+.ticketdescomments {
+
     width: 100%;
 }
-.ticketinfostack{
+
+.ticketinfostack {
     border-bottom: 2px solid var(--border-color);
 }
-.descriptionsub{
+
+.descriptionsub {
     font-size: 20px;
     font-weight: 800;
 }
+
 .commentdescscrollbar {
     overflow-y: auto;
     height: 90vh;
     overflow-x: hidden;
+}
+
+
+// comment
+.commentform {
+    display: flex;
+    background-color: #f3f3f3;
+    padding: 11px;
+    border-radius: 8px;
+    margin: 10px 0px;
+}
+
+.commnetinput {
+    width: 100%;
+    border: none;
+    border-radius: 3px;
+    border-bottom: 1px solid #181818;
+    padding: 5px 10px;
+    background: #d1d1d18f;
+}
+
+.postbutton {
+    border: 2px solid #00c3ff;
+    border-radius: 8px;
+    background-color: #00c3ff;
+    color: #fff;
+    font-weight: bolder;
+    /* margin-left: 15px; */
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px 20px;
+}
+
+.replybtn {
+    background-color: transparent;
+    border: none;
+    color: grey;
+    outline: none;
+    font-weight: 600;
+    font-size: 14px;
+    margin: 2px 5px 0 0 !important;
+    width: 70px;
+    padding: 5px;
+    border-radius: 4px;
+    transition: all 0.3s;
+
+    &:hover {
+        background-color: hsla(0, 0%, 62.7%, .315);
+    }
+}
+
+.commentwrapper {
+    &:hover .commentsetting {
+        /* Transition and display style for addhoverbtb */
+        opacity: 1;
+        /* Change opacity to make it appear */
+        transition: opacity 0.4s;
+        width: 25px;
+        height: 25px;
+        /* Apply transition to opacity */
+    }
+}
+
+.commentsetting {
+    opacity: 0;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: #d9d3d3;
+}
+
+.commnetname {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.commenttimestamp {
+    white-space: nowrap;
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size: 13px;
+    line-height: 1.8rem;
+    font-weight: 600;
+    color: #585858;
+    margin-left: 13px;
+}
+
+.commentpara {
+    color: black;
+    font-family: "Roboto", "Arial", sans-serif;
+    font-size: 15px;
+    line-height: 2rem;
+    font-weight: 400;
+    line-height: 1.5rem;
+    overflow-wrap: anywhere;
 }
