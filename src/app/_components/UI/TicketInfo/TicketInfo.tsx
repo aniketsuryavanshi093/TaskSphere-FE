@@ -78,9 +78,8 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
       </OffcanvasHeader>
       <OffcanvasBody>
         <div
-          className={`wrapper  ${
-            isFull ? "flex-row-reverse" : "flex-column"
-          }  align-start w-100 `}
+          className={`wrapper  ${isFull ? "flex-row-reverse" : "flex-column"
+            }  align-start w-100 `}
         >
           <div className={`ticketinfodiv ${isFull && "ps-4"} w-100 `}>
             <p className="tickettitle">{ticketData?.title}</p>
@@ -141,7 +140,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
                     {UsersList?.map(
                       ({ value, img, name }) =>
                         value ===
-                          (ticketData?.createdBy || ticketData?.createdByOrg) && (
+                        (ticketData?.createdBy || ticketData?.createdByOrg) && (
                           <>
                             <Image width={30} height={30} src={img} alt={""} />
                             <p className="mb-0 ms-3"> {name} </p>
@@ -169,9 +168,8 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
           </div>
           <div
             style={isFull ? {} : { borderTop: "2px solid var(--border-color)" }}
-            className={`ticketdescomments ${
-              isFull && "commentdescscrollbar"
-            } pe-2 mt-2`}
+            className={`ticketdescomments ${isFull && "commentdescscrollbar"
+              }  mt-2`}
           >
             <div className="w-100 mt-2">
               <p className="descriptionsub">Description</p>
@@ -183,7 +181,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
               <p className="descriptionsub">Comments</p>
             </div>
             <div className="w-100">
-              <Commentsection ticketId = {ticketData?._id}/>
+              <Commentsection ticketId={ticketData?._id} />
             </div>
           </div>
         </div>

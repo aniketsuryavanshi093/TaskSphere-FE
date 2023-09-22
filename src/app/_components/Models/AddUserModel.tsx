@@ -76,8 +76,8 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void, isMulti: bo
             }
             enqueSnackBar({ type: "success", message: "User Added Successfully!" })
             queryClient.invalidateQueries({ queryKey: ["projectusers", id] })
+            queryClient.invalidateQueries({ queryKey: ["projectdetail"] })
             onClose()
-
         } catch (error) {
             console.log(error)
         }
