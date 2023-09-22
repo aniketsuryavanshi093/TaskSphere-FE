@@ -21,13 +21,13 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
     const { data } = useSession()
     const { id } = useParams()
     const dispatch = useAppDispatch()
-    const { data: tickets, isLoading } = useTicketsQueryhook({ id, filterURLValue: `${filterURLValue.string}${type === "project" ? "&isforUser=true" : ""}`, frompage: true })
+    const { data: tickets, isLoading } = useTicketsQueryhook({ id, filterURLValue: `${filterURLValue.string}${type === "project" && data?.user.role !== "organization" ? "&isforUser=true" : ""}`, frompage: true })
     useEffect(() => {
         setloading(isLoading)
         setTickets(tickets)
     }, [isLoading, setloading, tickets, setTickets])
     const options: optionstype[] = type !== "project" ? ticketfilter.filter((elem) => elem.value !== "isforUser") : ticketfilter
-    const { data: usersData, } = useGetProjectUsers(data, id)
+    const { data: usersData, } = useGetProjectUsers(data, id, type !== "project")
     useEffect(() => {
         if (usersData?.data?.data?.members?.length) {
             const temp: [{ value: string, img?: string, label: string, name?: string }] = usersData?.data?.data?.members.map((_user: CurrentUserObjectType) => ({
@@ -53,7 +53,22 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
             }
         }))
     }
-
+  const handleFilter = (value: any) => {
+    dispatch(
+      setFilterURLValue({
+        string: generateURL({
+          ...filterURLValue?.urlobject,
+          orderType:
+            type === "project" ? (value === "isforUser" ? "" : value) : value,
+        }),
+        urlobject: {
+          ...filterURLValue?.urlobject,
+          orderType:
+            type === "project" ? (value === "isforUser" ? "" : value) : value,
+        },
+      })
+    );
+  };
 
     return (
         <div className='wrapper justify-start'>
@@ -62,9 +77,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
                     defaultValue={type == 'project' ? 'isforUser' : ""}
                     selectedvalue={filterURLValue?.urlobject.orderType}
                     icon='/images/icons/filter.png'
-                    onDropdownSelect={value => {
-                        dispatch(setFilterURLValue({ string: generateURL({ ...filterURLValue?.urlobject, orderType: type === "project" ? value === "isforUser" ? "" : value : value }), urlobject: { ...filterURLValue?.urlobject, orderType: type === "project" ? value === "isforUser" ? "" : value : value } }))
-                    }}
+                    onDropdownSelect={handleFilter}
                     Imptitle='Filter :'
                     options={[{ value: "", label: "All" }, ...options]}
                 />

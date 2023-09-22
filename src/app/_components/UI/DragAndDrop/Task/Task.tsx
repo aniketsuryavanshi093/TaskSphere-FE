@@ -44,7 +44,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
                                 <div className='wrapper justify-start'>
                                     <Image alt='comments' src="/images/icons/commnets.svg" width={16}
                                         height={16} />
-                                    <p className='commentstask mb-0 ms-1'>12 comments</p>
+                                    <p className='commentstask mb-0 ms-1'>{item.commentsCount} comments</p>
                                 </div>
                             </div>
                             <div data-tooltip={`${item.assignedUser.userName}:${item.assignedUser.name}`} className='usertask' id={`DisabledAutoHideExample${index}`}>
