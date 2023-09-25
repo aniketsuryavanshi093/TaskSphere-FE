@@ -50,12 +50,13 @@ export interface projectTypes {
     organizationId: string
 }
 export type comment = {
-  text: string
-  _id: string,
-  author: CurrentUserObjectType
-  createdAt: string
-  replies: comment[]
-  orgMember: CurrentUserObjectType
+    repliesData: comment[]
+    text: string
+    _id: string,
+    author: CurrentUserObjectType
+    createdAt: string
+    replies: comment[]
+    orgMember: CurrentUserObjectType
 }
 export interface TaskType {
     title: string

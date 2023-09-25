@@ -1,28 +1,62 @@
+import React, { useEffect, useState, useTransition, } from "react";
 import { createCommentaction, replytoCommentaction } from "@/actions/authactions/ticketadminactions";
 import { comment } from "@/commontypes";
 import useGetComments from "@/hooks/UseQuery/ticketmanagementhooks/useGetComments";
 import enqueSnackBar from "@/lib/enqueSnackBar";
+import { useAppDispatch, useAppSelector } from "@/redux/dashboardstore/hook";
 import { useQueryClient } from "@tanstack/react-query";
-import { Form, Formik, FormikState, replace } from "formik";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Form, Formik, FormikState } from "formik";
 import moment from "moment";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import React, { useState, useTransition } from "react";
+import { addComment, addCommentreply, setCommentsInfo, setPagination } from "@/redux/dashboardstore/reducer/comments/comments";
 
 const Commentsection: React.FC<{ ticketId: string }> = ({ ticketId }) => {
-    const { data: commentsData, isLoading } = useGetComments({ id: ticketId })
+    const { pagination, CommentsInfo } = useAppSelector(state => state.commentreducer)
+    const { data: commentsData, isLoading } = useGetComments({
+        id: ticketId, pagination
+    })
+
+    const dispatch = useAppDispatch()
+    useEffect(() => {
+        if (commentsData?.data?.data?.comments.length) {
+            dispatch(setCommentsInfo({ comments: [...CommentsInfo, ...commentsData?.data?.data?.comments] }))
+        }
+    }, [commentsData?.data?.data?.comments, isLoading])
+
+    const fetchMoreData = () => {
+        if (pagination.pageNumber < commentsData?.data?.data?.totalPages) {
+            dispatch(setPagination({
+                pageNumber: pagination.pageNumber + 1, pageSize: 10
+            }))
+        }
+    };
+
+
+    const { data } = useSession()
     return (
         <div>
-            <FormInput type="comment" ticketId={ticketId} />
-            <div className="commentslayout scrollbar">
-                {isLoading ? null : !!commentsData?.data?.data?.comments.length ? (
-                    commentsData?.data?.data?.comments?.map((comment: comment) => (
-                        <Comment key={comment._id} comment={comment} ticketId={ticketId} />
-                    ))
-                ) : (
-                    <p className="text_muted text-center my-5 ">No comments here be the first one to comment!</p>
-                )}
+            <FormInput type="comment" ticketId={ticketId} isCommentEmpty={!!commentsData?.data?.data?.comments?.length} />
+            <div id="scrollableDiv" className="commentslayout scrollableDiv scrollbar" >
+                {
+                    !!CommentsInfo?.length ? (
+                        <InfiniteScroll
+                            dataLength={commentsData?.data?.data?.totalCommentCount}
+                            next={fetchMoreData}
+                            scrollableTarget="scrollableDiv"
+                            hasMore={pagination.pageNumber <= commentsData?.data?.data?.totalPages}
+                        >
+                            {CommentsInfo?.map((comment: comment) => (
+                                <Comment user={data?.user} key={comment._id} comment={comment} ticketId={ticketId} />
+                            ))}
+                        </InfiniteScroll>
+                    ) : (
+                        <p className="text_muted text-center my-5 ">No comments here be the first one to comment!</p>
+                    )
+                }
+
             </div>
         </div>
     );
@@ -30,14 +64,16 @@ const Commentsection: React.FC<{ ticketId: string }> = ({ ticketId }) => {
 
 export default Commentsection;
 
-const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isreply?: boolean }> = ({
+const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isreply?: boolean, user: any }> = ({
     comment,
+    user,
     key,
     isreply,
     ticketId
 }) => {
     const [ReplyMode, setReplyMode] = useState<boolean>(false)
     const [showReplyMode, setshowReplyMode] = useState<boolean>(false)
+
     return (
         <>
             <div
@@ -50,7 +86,7 @@ const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isrep
                         width={40}
                         height={40}
                         src={
-                            (comment.author || comment.orgMember).profilePic ||
+                            (comment.author || comment.orgMember)?.profilePic ||
                             "/images/icons/userdummy.avif"
                         }
                         alt="commentuser"
@@ -58,7 +94,7 @@ const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isrep
                     <div className="wrapper flex-column align-start ms-3 ">
                         <div className="wrapper justify-start">
                             <p className="mb-0 commnetname">
-                                {(comment.author || comment.orgMember).name}
+                                {comment.author._id === user.id ? "You" : (comment.author || comment.orgMember).name}
                             </p>
                             <p className="text_muted mb-0 commenttimestamp">
                                 {moment(new Date(comment?.createdAt).toLocaleString()).fromNow()}
@@ -77,11 +113,11 @@ const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isrep
                                 )
                             }
                             {
-                                !!comment?.replies?.length && (
+                                !!comment?.repliesData?.length && (
                                     <button className="replybtn ms-3">
                                         <div className="wrapper" onClick={() => setshowReplyMode(!showReplyMode)}>
                                             <i className="fa-regular fa-eye me-2"></i>
-                                            <p className="mb-0 no-wrap" >View  {comment?.replies?.length} Replies</p>
+                                            <p className="mb-0 no-wrap" >View  {comment?.repliesData?.length} Replies</p>
                                         </div>
                                     </button>
                                 )
@@ -89,9 +125,14 @@ const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isrep
                         </div>
                     </div>
                 </div>
-                <div className="wrapper commentsetting mt-2">
-                    <i className="fa-solid fa-ellipsis-vertical "></i>
-                </div>
+                {
+                    (comment.author || comment.orgMember)._id === user?.id && (
+                        <div className="wrapper commentsetting mt-2">
+                            <i className="fa-solid fa-ellipsis-vertical "></i>
+                        </div>
+                    )
+                }
+
             </div>
             {
                 ReplyMode && (
@@ -103,9 +144,9 @@ const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isrep
             {
                 showReplyMode && (
                     <div className="replycontainer">
-                        {comment?.replies?.map((reply) => (
+                        {comment?.repliesData?.map((reply) => (
                             <div key={reply._id} className="my-2">
-                                <Comment key={reply._id} comment={reply} ticketId={ticketId} isreply />
+                                <Comment key={reply._id} comment={reply} ticketId={ticketId} isreply user={user} />
                             </div>
                         ))}
                     </div>
@@ -115,14 +156,17 @@ const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isrep
     );
 };
 
-const FormInput: React.FC<{ ticketId: string, cancelreply?: () => void | undefined, commentId?: string, userdata?: Session | null, type: string }> = ({
+const FormInput: React.FC<{ ticketId: string, isCommentEmpty?: boolean, cancelreply?: () => void | undefined, commentId?: string, userdata?: Session | null, type: string }> = ({
     ticketId,
+    isCommentEmpty,
     type,
     cancelreply,
     commentId
 }) => {
     const [pending, setTransition] = useTransition();
+    const { pageNumber, pageSize } = useAppSelector(state => state.commentreducer.pagination)
     const { data } = useSession()
+    const dispatch = useAppDispatch()
     const initialstate: initialType = {
         commenttext: "",
     };
@@ -130,20 +174,32 @@ const FormInput: React.FC<{ ticketId: string, cancelreply?: () => void | undefin
         commenttext: "";
     };
     const queryClient = useQueryClient();
-    const handlCreatecomment = async (data: { text: string }, resetForm: any) => {
+    const handlCreatecomment = async (commentvalue: { text: string }, resetForm: any) => {
         try {
             let result;
             if (type === "comment") {
                 result = (await createCommentaction({
-                    ...data,
+                    ...commentvalue,
                     ticketId,
                 })) as { status: string; message: string }
             } else {
                 result = (await replytoCommentaction({
-                    ...data,
+                    ...commentvalue,
                     ticketId,
                 }, commentId)) as { status: string; message: string }
             }
+
+            if (type === "comment") {
+                dispatch(addComment({
+                    ...result.data, author: { ...data?.user, _id: data?.user.id }
+                }));
+            } else {
+                dispatch(addCommentreply({
+                    ...result.data, author: { ...data?.user, _id: data?.user.id }
+                }));
+            }
+
+            console.log(result);
             if (result?.status === "fail") {
                 enqueSnackBar({ type: "error", message: result.message });
                 return;
@@ -152,7 +208,9 @@ const FormInput: React.FC<{ ticketId: string, cancelreply?: () => void | undefin
                 type: "success",
                 message: type === "comment" ? "Comment created Successfully!" : 'reply added successfully!',
             });
-            queryClient.invalidateQueries({ queryKey: ["comments", ticketId] });
+            if (!isCommentEmpty) {
+                queryClient.invalidateQueries({ queryKey: ["comments", `${ticketId}?pageNumber=${pageNumber}&pageSize=${pageSize}`] });
+            }
             resetForm();
             if (cancelreply) {
                 cancelreply()

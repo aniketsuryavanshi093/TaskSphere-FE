@@ -75,13 +75,15 @@ export async function createCommentaction(values: { text: string, author?: strin
 export async function replytoCommentaction(values: { text: string, author?: string, ticketId: string }, commentId: string | undefined) {
     return new Promise(async (resolve, reject) => {
         try {
+            console.log(`ticket/reply/${values.ticketId}/${commentId}`, "🦮🦮🦮🦮");
+
             const user = await getCurrentUser()
             const result = await Fetch({
                 method: "POST",
                 url: `ticket/reply/${values.ticketId}/${commentId}`,
                 token: user?.authToken,
                 data: {
-                    text: values.text, author: user?.role !== "organization" ? values.author : undefined, orgMember: user?.role === "organization" ? user.id : undefined
+                    text: values.text, author: user?.role !== "organization" ? user.id : undefined, orgMember: user?.role === "organization" ? user.id : undefined
                 }
             })
             resolve(result)
