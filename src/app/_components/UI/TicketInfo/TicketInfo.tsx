@@ -11,6 +11,8 @@ import Image from "next/image";
 import HtmlConverter from "@/app/_components/HTMLparser/HtmlConverter";
 import moment from "moment";
 import Commentsection from "./CommentSection";
+import { setCommentsInfo } from "@/redux/dashboardstore/reducer/comments/comments";
+import { useAppDispatch } from "@/redux/dashboardstore/hook";
 
 type pageprops = {
   isopen: boolean;
@@ -20,6 +22,7 @@ type pageprops = {
 
 const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
   const [isFull, setisFull] = useState(false);
+  const dispatch = useAppDispatch()
   const ticketInfoWrapperStyle: React.CSSProperties = {
     width: isFull ? "77%" : "37%",
     transition: "width ease 0.3s",
@@ -51,7 +54,11 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
       setUsersList(temp);
     }
   }, [usersData]);
-
+  useEffect(() => {
+    return () => {
+      dispatch(setCommentsInfo({ comments: [], isClear: true }))
+    }
+  }, [])
   return (
     <Offcanvas
       direction="end"

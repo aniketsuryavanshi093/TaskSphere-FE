@@ -117,7 +117,6 @@ export const authOptions: NextAuthOptions = {
             return params.token
         },
         async session({ token, session }) {
-            console.log(token, session, "from server");
             // here we can add the role of the user this function will be called when the session is created 
             if (token) {
                 session.user.id = token._id

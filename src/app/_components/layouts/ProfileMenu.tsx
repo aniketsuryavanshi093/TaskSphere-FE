@@ -4,8 +4,7 @@ import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
 import React, { useState } from 'react'
 
 const ProfileMenu: React.FC = () => {
-    const { data, status } = useSession()
-    console.log(useSession());
+    const { data, } = useSession()
     const [Menu, setMenu] = useState<boolean>(false);
     const handleLogout = async () => {
         signOut()

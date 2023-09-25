@@ -17,9 +17,11 @@ export const getProjectDetail = async (payload: { authToken: string, projectId: 
 };
 
 
-export const getComments = async (payload: { authToken: string, ticketId: string }) => {
+export const getComments = async (payload: { authToken: string, ticketId: string }, pagination: {
+    pageNumber: number, pageSize: number
+}) => {
     const { authToken, ticketId, } = payload;
     return axiosInterceptorInstance.get(
-        `ticket/comments/${ticketId}`, createHeader(authToken)
+        `ticket/comments/${ticketId}?pageNumber=${pagination.pageNumber}&pageSize=${pagination.pageSize}`, createHeader(authToken)
     );
 };
