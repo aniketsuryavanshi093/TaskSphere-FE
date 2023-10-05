@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable no-underscore-dangle */
 import React, { ReactNode, useState } from 'react';
-import { Label, Form } from 'reactstrap';
+import { Label, Input } from 'reactstrap';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import './index.css';
 
@@ -61,7 +61,9 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
                 <Label htmlFor="rowperpage" className="nowrap mx-3 mb-0">
                   Rows per Page
                 </Label>
-                <Form.Select
+                <Input
+                  name="select"
+                  type="select"
                   className='border-0 text_primary'
                   id="rowperpage "
                   onChange={onperpageItemCountchange}
@@ -70,7 +72,7 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
                   {perpagearr.map(el => (
                     <option value={el}>{el}</option>
                   ))}
-                </Form.Select>
+                </Input>
               </div>
             }
 

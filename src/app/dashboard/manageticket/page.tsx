@@ -37,7 +37,7 @@ const ManageTicket = () => {
                                 <div className='wrapper justify-start mx-2'>
                                     <div className='wrapper flex-column'>
                                         <p className='mb-0 projecttask'>Tasks</p>
-                                        <NumberAnimation start={0} end={12} duration={300} />
+                                        <NumberAnimation start={0} end={elem.ticketsCount} duration={300} />
                                     </div>
                                     <div className='wrapper mx-3 flex-column'>
                                         <p className='mb-0 projecttask'>Members</p>
@@ -51,15 +51,15 @@ const ManageTicket = () => {
                                 <div className='projectgraph'>
                                     <div className='wrapper justify-around'>
                                         <div className='wrapper datacard flex-column'>
-                                            <p className='mb-0'>Done</p>
+                                            <p className='mb-0 text-small'>Done</p>
                                             <Circularbar value={30} textColor='green' background="white" pathColor='green' />
                                         </div>
                                         <div className='wrapper datacard flex-column'>
-                                            <p className='mb-0'>To Do</p>
+                                            <p className='mb-0 text-small'>To Do</p>
                                             <Circularbar value={20} textColor='blue' background="white" pathColor='blue' />
                                         </div>
                                         <div className='wrapper datacard flex-column'>
-                                            <p className='mb-0'>progress</p>
+                                            <p className='mb-0 text-small'>progress</p>
                                             <Circularbar value={50} textColor='orange' background="white" pathColor='orange' />
                                         </div>
                                     </div>

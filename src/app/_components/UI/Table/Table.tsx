@@ -1,9 +1,11 @@
+"use client"
 /* eslint-disable import/no-unresolved */
 import React, { useEffect, useState } from "react";
 import { MDBDataTable, MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 import { Row, Col, Progress } from "reactstrap";
 import "./datatables.scss";
-import Pagination, { PaginationConfigType } from "../Pagination/Pagination";
+import Pagination from "../Pagination/Pagination";
+import { PaginationConfigType } from "@/commontypes";
 
 const DatatableTables: React.FC<any> = ({
   column,

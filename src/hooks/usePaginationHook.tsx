@@ -13,7 +13,7 @@ const usePaginationHook = () => {
     setPerpageItemCount(e.target.value);
     setCurrentPage(1);
   };
-  const setpaginationConfig = (itemCount: number, pagecount: number, currentpage: number, perpageitemcount = 5) => {
+  const setpaginationConfig = ({ itemCount, pagecount, currentpage, perpageitemcount }: { itemCount: number, pagecount: number, currentpage: number, perpageitemcount: number }) => {
     setsetPaginationCOnfig({
       currentPage: currentpage,
       pageCount: pagecount,

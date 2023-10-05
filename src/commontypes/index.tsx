@@ -44,7 +44,7 @@ export interface projectTypes {
     description: string
     tasks: any
     updatedAt: string,
-    ticketCount: number
+    ticketsCount: number
     createdAt: string,
     logoUrl: string
     organizationId: string
@@ -86,4 +86,16 @@ export interface DragDropCOlumnstype {
         color: string;
         items: TaskType[]
     }
+}
+
+
+export type PaginationConfigType = {
+    pageCount: number
+    itemCount: number,
+    currentPage: number,
+    onPageChange: (number: number) => void,
+    showLabel?: boolean,
+    perpageItemCount: number,
+    onperpageItemCountchange: (number: number) => void,
+    showStartEndPage?: boolean,
 }
