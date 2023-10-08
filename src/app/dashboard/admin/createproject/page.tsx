@@ -78,7 +78,6 @@ const AdminCreateProject = () => {
                     const imageref = ref(storage, `user/${i.name}`);
                     const uploadded = await uploadBytes(imageref, i, 'data_url');
                     const imaeurl = await getDownloadURL(uploadded?.ref);
-                    console.log(imaeurl);
                     attachmenturl.push({ url: imaeurl });
                 }
             }

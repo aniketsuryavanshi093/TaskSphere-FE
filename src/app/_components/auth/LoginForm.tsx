@@ -57,10 +57,8 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
             if (formtype === "register") {
                 if (type === "google" || type === "github") {
                     // const usersession = await signIn(type, { redirect: false, username: values?.userName, password: values?.password })
-                    console.log(values, type, formtype);
                 } else {
                     const data = await handleSubmit(values, type, formtype)
-                    console.log(data)
                     signIn(type, { redirect: true, username: values?.email, password: values?.password }).then((data: any) => {
                         if (data?.error) {
                             setError(data.error)

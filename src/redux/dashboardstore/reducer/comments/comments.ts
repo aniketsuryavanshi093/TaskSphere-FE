@@ -38,7 +38,6 @@ const commentsSlice = createSlice({
         },
         addCommentreply: (state, action: PayloadAction<{ comment: comment }>) => {
             let temp = [...state.CommentsInfo];
-            console.log(action.payload);
             temp.forEach((el) => {
                 if (el._id === action.payload.comment) {
                     el.repliesData = [...el.repliesData, action.payload]

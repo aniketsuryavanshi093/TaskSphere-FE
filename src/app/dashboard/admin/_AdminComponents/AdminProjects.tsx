@@ -25,7 +25,6 @@ const AdminProjects = () => {
         { PerpageItemCount, currentPage },
         true
     );
-    console.log(orgProjects);
 
     useEffect(() => {
         if (orgProjects?.data?.data?.paginatedResults?.length as any) {
