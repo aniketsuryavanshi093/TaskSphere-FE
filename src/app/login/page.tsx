@@ -8,7 +8,6 @@ import LoginForm from "../_components/auth/LoginForm";
 
 export default async function Login() {
   const user = await getCurrentUser();
-  console.log(user);
 
   return (
     <UnAuthorizeLayout>

@@ -1,5 +1,5 @@
 'use client'
-import React, { useState, Suspense } from 'react'
+import React, { useState, Suspense, ReactNode, useEffect } from 'react'
 import { Providers } from '@/providers/providers'
 import { SnackbarProvider } from 'notistack'
 import Sidebar from '../_components/layouts/SideBar'
@@ -8,6 +8,9 @@ import AuthProviders from '@/providers/AuthProviders'
 import Search from '../_components/Search/Search'
 import ProfileMenu from '../_components/layouts/ProfileMenu'
 import "./dashboardpage.scss"
+import { useSession } from 'next-auth/react'
+import { cookies } from 'next/dist/client/components/headers'
+import { clearCookies } from '@/lib'
 
 type PageProps = {
     children: React.JSX.Element
@@ -17,11 +20,27 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
     const [openMobileSidebar, setOpenMobileSidebar] = useState<boolean>(false);
     const [MobileSidebar, setMobileSidebar] = useState<boolean>(false);
     const [SearchValue, setSearchValue] = useState<string>("")
+    const AuthenticateUserSession: React.JSX.Element = () => {
+        const { data } = useSession()
+        useEffect(() => {
+            if (data?.expires) {
+                const expirationDate = new Date(data.expires);
+                const currentDate = new Date();
+                if (currentDate.getTime() >= expirationDate.getTime()) {
+                    clearCookies()
+                    window.location.reload()
+                }
+            }
+        }, [data?.expires])
+
+        return <></>
+    }
     return (
         // <Suspense fallback={
         //     <div className={`loader `} />
         // }>
         <AuthProviders>
+            <AuthenticateUserSession />
             <SnackbarProvider
                 anchorOrigin={{
                     vertical: 'bottom',

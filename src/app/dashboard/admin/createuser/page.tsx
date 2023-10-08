@@ -36,7 +36,6 @@ const AdminUserProject = () => {
         try {
             const result = await createUseraction(val) as { status: string, message: string }
             if (result?.status === "fail") {
-                console.log("Error occured", result);
                 enqueSnackBar({ type: "error", message: result.message, })
                 return
             }

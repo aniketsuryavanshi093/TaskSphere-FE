@@ -7,6 +7,7 @@ import axiosInterceptorInstance from "@/http";
 export const authOptions: NextAuthOptions = {
     session: {
         strategy: "jwt",
+        maxAge: 24 * 60 * 60
     },
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
@@ -45,7 +46,6 @@ export const authOptions: NextAuthOptions = {
                     )
                     // If no error and we have user data, return it
                     const data = res.data
-                    console.log(data, "fail")
                     if (data.status === "fail") {
                         return
                     }
@@ -61,10 +61,8 @@ export const authOptions: NextAuthOptions = {
                         "updatedAt": data?.data?.updatedAt,
                         "authToken": data?.data?.authToken
                     }
-                    console.log(user, "user");
                     return user
                 } catch (error: any) {
-                    console.log(error?.response?.data, "error");
                     throw Error(error?.response?.data?.message)
                 }
             }
@@ -76,7 +74,6 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async jwt(params) {
-            console.log(params)
             if (params.account?.provider === "google" || params.account?.provider === "github") {
                 const res = await fetch('http://localhost:4000/api/v1/auth/login', {
                     method: "POST", body: JSON.stringify({

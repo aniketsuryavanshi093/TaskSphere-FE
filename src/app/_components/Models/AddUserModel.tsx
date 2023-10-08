@@ -94,7 +94,6 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void, isMulti: bo
             }))
         }
     }
-    console.log(SelectedSingle);
 
     return (
         <CustomModal isOpen={isOpen} title="Add Users" onClose={onClose}>
