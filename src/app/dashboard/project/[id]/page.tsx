@@ -98,6 +98,8 @@ const ProjectPage = () => {
         projectId: id,
         ticketId: result.draggableId,
       };
+      console.log(values);
+
       startTransition(() => handleUpdateTicket(values));
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];

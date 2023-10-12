@@ -10,6 +10,8 @@ const useUpdateTicketHook = () => {
                 enqueSnackBar({ type: "error", message: result.message, })
                 return
             }
+            console.log(result);
+
             enqueSnackBar({ type: "success", message: "Ticket Updated Successfully!" })
         } catch (error) {
             console.log(error)

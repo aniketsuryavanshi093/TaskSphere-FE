@@ -2,6 +2,7 @@
 import { ticketUpdateValuesType } from "@/app/dashboard/manageticket/[id]/page";
 import { Fetch } from "@/lib/apiservice";
 import { getCurrentUser } from "@/lib/session";
+import { log } from "console";
 
 
 export async function createTicketAction(values: any) {
@@ -46,6 +47,8 @@ export async function updateTicketAction(values: ticketUpdateValuesType) {
                 token: user?.authToken,
                 data: values
             })
+            console.log(result, "😀😀😀😀");
+
             resolve(result)
         } catch (error: any) {
             reject(error)

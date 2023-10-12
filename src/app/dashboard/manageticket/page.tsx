@@ -17,7 +17,7 @@ const ManageTicket = () => {
     const { data } = useSession()
     const dispatch = useAppDispatch()
     const { data: userproject, isLoading: userisLoading } = useGetProjectsByUserhook(data)
-    const { data: orgproject, isLoading: orgisLoading } = useGetAllOrganizationsProjecthook(data)
+    const { data: orgproject, isLoading: orgisLoading } = useGetAllOrganizationsProjecthook(data, null, false, true)
 
     return (
         <div className='w-100'>

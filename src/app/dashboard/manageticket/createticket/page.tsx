@@ -138,7 +138,7 @@ const CreateTicket: React.FC = () => {
                 "attachments": attachmenturl?.length ? attachmenturl : undefined,
             }, resetForm))
         } catch (error) {
-            
+
         }
     }
     const handleChange = (data: { value: string }, action: ActionMeta<undefined>, setFieldValue: any, type: string) => {
@@ -272,7 +272,7 @@ const CreateTicket: React.FC = () => {
                                 <div className='w-100 p-2'>
                                     <Label className='mb-2' >Project</Label>
                                     <Select
-                                        closeMenuOnSelect={false}
+                                        closeMenuOnSelect={true}
                                         filterOption={createFilter({
                                             matchFrom: 'any',
                                             ignoreCase: true,
@@ -299,7 +299,7 @@ const CreateTicket: React.FC = () => {
                                     {values.assignedTo ? null : <p className='infotext mb-0'>Please select project first to assign user!</p>}
                                     <Label className='mb-2' >Assign To</Label>
                                     <Select
-                                        closeMenuOnSelect={false}
+                                        closeMenuOnSelect={true}
                                         filterOption={createFilter({
                                             matchFrom: 'any',
                                             ignoreCase: true,
