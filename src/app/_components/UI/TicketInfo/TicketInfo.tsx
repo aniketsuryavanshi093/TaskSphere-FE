@@ -18,9 +18,10 @@ type pageprops = {
   isopen: boolean;
   ticketData: TaskType | null;
   onClosed: () => void;
+  projectId: string
 };
 
-const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
+const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, projectId }) => {
   const [isFull, setisFull] = useState(false);
   const dispatch = useAppDispatch()
   const ticketInfoWrapperStyle: React.CSSProperties = {
@@ -33,7 +34,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData }) => {
   const { data } = useSession();
   const { id } = useParams();
 
-  const { data: usersData } = useGetProjectUsers(data, id, true);
+  const { data: usersData } = useGetProjectUsers(data, id || projectId, true);
   useEffect(() => {
     if (usersData?.data?.data?.members?.length) {
       const { members, organizationId } = usersData?.data?.data;

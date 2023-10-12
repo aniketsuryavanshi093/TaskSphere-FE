@@ -43,7 +43,7 @@ const Commentsection: React.FC<{ ticketId: string }> = ({ ticketId }) => {
                 {
                     !!CommentsInfo?.length ? (
                         <InfiniteScroll
-                            dataLength={commentsData?.data?.data?.totalCommentCount}
+                            dataLength={commentsData?.data?.data?.totalCommentCount || 10}
                             next={fetchMoreData}
                             scrollableTarget="scrollableDiv"
                             hasMore={pagination.pageNumber <= commentsData?.data?.data?.totalPages}

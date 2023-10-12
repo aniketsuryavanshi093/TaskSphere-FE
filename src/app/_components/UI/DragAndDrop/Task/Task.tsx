@@ -48,7 +48,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
                                 </div>
                             </div>
                             <div data-tooltip={`${item.assignedUser.userName}:${item.assignedUser.name}`} className='usertask' id={`DisabledAutoHideExample${index}`}>
-                                <Image src="/images/icons/userdummy.avif" alt='dummy' className='rounded-pill' width={40} height={40} />
+                                <Image src={item.assignedUser.profilePic || "/images/icons/userdummy.avif"} alt='dummy' className='rounded-pill' width={40} height={40} />
                             </div>
                         </div>
                     </div>
@@ -60,7 +60,7 @@ const TaskCard: React.FC<pageprops> = ({ item, index, }) => {
 
 export default TaskCard
 
-const GetPriority: React.FC<{ priority: string, type: string }> = ({ priority, type }) => {
+export const GetPriority: React.FC<{ priority: string, type: string }> = ({ priority, type }) => {
     if (type === "label") {
         switch (priority) {
             case "low":
