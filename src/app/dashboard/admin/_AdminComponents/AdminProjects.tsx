@@ -70,6 +70,7 @@ const AdminProjects = () => {
             <DatatableTables
                 column={adminprojectscolumn}
                 paginationConfig={PaginationCOnfig}
+                norecordslabel= {!Rows.length ? "No Projects Found" : ""}
                 row={isLoading ? "loading" : Rows || []}
             />
         </div>

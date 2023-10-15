@@ -14,6 +14,7 @@ const DatatableTables: React.FC<any> = ({
   handelSort,
   commingSoon,
   // paging = true,
+  norecordslabel,
   paginationConfig,
   customise,
 }) => {
@@ -238,7 +239,7 @@ const DatatableTables: React.FC<any> = ({
                   paging={false}
                   data={data}
                   onSort={handelSort}
-                  noRecordsFoundLabel="No record found"
+                  noRecordsFoundLabel={ norecordslabel||"No record found"}
                   searching
                 />
               </>

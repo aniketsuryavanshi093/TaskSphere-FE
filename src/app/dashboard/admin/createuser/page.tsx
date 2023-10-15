@@ -1,6 +1,6 @@
 "use client"
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState, useTransition } from 'react'
+import React, { useRef, useState, useTransition } from 'react'
 import { Field, Form, Formik, FormikState, } from 'formik';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -9,9 +9,11 @@ import { Button, Col, Label, Row, Spinner } from 'reactstrap';
 import { GrFormPreviousLink, } from 'react-icons/gr';
 import { createuservalidation } from '@/lib/validations/AuthValidationsForm';
 import { CustomInput, CustomPswInput, } from '@/lib/customcomponents/customComponents';
-import { createUseraction } from '@/actions/authactions/authactions';
 import "./createuser.scss"
 import enqueSnackBar from '@/lib/enqueSnackBar';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage } from '@/lib/firebase';
+import { createUseraction } from '@/actions/authactions/adminaction';
 
 type initialType = {
     name: string,
@@ -24,6 +26,7 @@ type initialType = {
 const AdminUserProject = () => {
     const [isPending, startTransition] = useTransition()
     const router = useRouter()
+    const [PreviewUrl, setPreviewUrl] = useState<{ name: string, preview: string, imgURI: File | null }>({ name: "", preview: "", imgURI: null });
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const initialValues: initialType = {
         "name": "",
@@ -34,7 +37,15 @@ const AdminUserProject = () => {
     }
     const handlCreateUser = async (val: any, resetForm: (nextState?: Partial<FormikState<initialType>> | undefined) => void) => {
         try {
-            const result = await createUseraction(val) as { status: string, message: string }
+            let profilePic = ""
+            if (PreviewUrl?.imgURI) {
+                const imageref = ref(storage, `user/${PreviewUrl.name}`);
+                const uploadded = await uploadBytes(imageref, PreviewUrl.imgURI, 'data_url');
+                profilePic = await getDownloadURL(uploadded?.ref);
+            }
+            console.log({ ...val, profilePic });
+
+            const result = await createUseraction({ ...val, profilePic }) as { status: string, message: string }
             if (result?.status === "fail") {
                 enqueSnackBar({ type: "error", message: result.message, })
                 return
@@ -48,13 +59,24 @@ const AdminUserProject = () => {
     const handleSubmit = async (value: initialType, resetForm: (nextState?: Partial<FormikState<initialType>> | undefined) => void) => {
         try {
             startTransition(() => handlCreateUser(value, resetForm))
-            // console.log(value);
-
         } catch (error) {
             console.log(error);
         }
     };
-
+    const onChangepofileImgUpload = (e) => {
+        const fileHash: File = e.target.files[0];
+        try {
+            if (fileHash) {
+                const preview = URL.createObjectURL(fileHash);
+                setPreviewUrl({ preview, name: fileHash.name, imgURI: fileHash });
+            } else {
+                enqueSnackBar({ message: 'Please input image of type png , jpeg . ', type: "warning" });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    const inputref = useRef<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>>(null)
     return (
         <div>
             <div className='previous wrapper  justify-start w-100'>
@@ -73,30 +95,58 @@ const AdminUserProject = () => {
                         <Row className='w-100'>
                             <Col lg={7}>
                                 <div className="wrapper mx-3 flex-column">
-                                    <div className="w-100 ">
-                                        <Label className='mb-0 cp' htmlFor="name">Name</Label>
-                                        <Field
-                                            type="text"
-                                            component={CustomInput}
-                                            styleData="createprojectinp"
-                                            inputClassName={`my-2  `}
-                                            id="name"
-                                            name="name"
-                                            placeholder="Name"
-                                        />
+                                    <div className='wrapper justify-between w-100 align-start'>
+                                        <div className='w-100 me-3'>
+                                            <div className="w-100 ">
+                                                <Label className='mb-0 cp' htmlFor="name">Name</Label>
+                                                <Field
+                                                    type="text"
+                                                    component={CustomInput}
+                                                    styleData="createprojectinp"
+                                                    inputClassName={`my-2  `}
+                                                    id="name"
+                                                    name="name"
+                                                    placeholder="Name"
+                                                />
+                                            </div>
+                                            <div className="w-100 ">
+                                                <Label className='mb-0 cp' htmlFor="title">Email</Label>
+                                                <Field
+                                                    type="text"
+                                                    component={CustomInput}
+                                                    styleData="createprojectinp"
+                                                    inputClassName={`my-2`}
+                                                    id="email"
+                                                    name="email"
+                                                    placeholder="Email"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="position-relative ">
+                                                <Image className='userimage' width={100} height={100} src={PreviewUrl?.preview || "/images/icons/userdummy.avif"} alt="dummy" />
+                                                <Image
+                                                    src={"/images/icons/upload_img.svg"}
+                                                    alt='edit'
+                                                    width={25}
+                                                    onClick={() => inputref?.current?.click()}
+                                                    height={25}
+                                                    className="edit_icon_profile cp"
+                                                />
+                                                <input
+                                                    ref={inputref}
+                                                    type="file"
+                                                    name="image"
+                                                    id="upload-button"
+                                                    style={{ display: 'none' }}
+                                                    onChange={onChangepofileImgUpload}
+                                                />
+                                            </div>
+                                            <p className='my-2 useruploadtext' >Upload Profile</p>
+                                        </div>
+
                                     </div>
-                                    <div className="w-100 ">
-                                        <Label className='mb-0 cp' htmlFor="title">Email</Label>
-                                        <Field
-                                            type="text"
-                                            component={CustomInput}
-                                            styleData="createprojectinp"
-                                            inputClassName={`my-2`}
-                                            id="email"
-                                            name="email"
-                                            placeholder="Email"
-                                        />
-                                    </div>
+
                                     <div className="w-100 ">
                                         <Label className='mb-0 cp' htmlFor="userName">User name</Label>
                                         <Field

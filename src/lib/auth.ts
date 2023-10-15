@@ -45,6 +45,7 @@ export const authOptions: NextAuthOptions = {
                     if (data.status === "fail") {
                         return
                     }
+                    console.log(res.data);
 
                     const user = {
                         "_id": data?.data?._id,
