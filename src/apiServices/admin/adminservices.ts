@@ -7,7 +7,7 @@ export const getAllOrganizationsUser = async ({ authToken, id, role, organizatio
 }
 
 export const getAllOrganizationsProject = async ({ authToken, id, role, istaskstats, organizationId, isanalytic, currentPage, PerpageItemCount }: CurrentUserObjectType) => {
-    console.log("istaskstats", istaskstats);
+    console.log({ istaskstats });
 
     return axiosInterceptorInstance.get(`/organization/getAllProject/${role === "organization" ? isanalytic ? `${id}?isOrganization=true&orderBy=title&orderType=ASC&page=${currentPage}&perPage=${PerpageItemCount}` : istaskstats ? `${id}?isAnalytics=true` : id : istaskstats ? `${organizationId}?isAnalytics=true` : organizationId}`, createHeader(authToken))
 }

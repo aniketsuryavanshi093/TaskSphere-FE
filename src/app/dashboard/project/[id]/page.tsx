@@ -201,6 +201,7 @@ const ProjectPage = () => {
                     <Image
                       src={user.profilePic || "/images/icons/userdummy.avif"}
                       height={38}
+                      className="rounded-pill"
                       width={38}
                       alt="users"
                     />

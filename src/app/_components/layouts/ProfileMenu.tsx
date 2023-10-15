@@ -1,7 +1,8 @@
 import { signOut, useSession } from 'next-auth/react'
 import Image from 'next/image';
-import { Dropdown, DropdownMenu, DropdownToggle } from 'reactstrap';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import React, { useState } from 'react'
+import Link from 'next/link';
 
 const ProfileMenu: React.FC = () => {
     const { data, } = useSession()
@@ -36,12 +37,13 @@ const ProfileMenu: React.FC = () => {
                 className="dropdown-menu-end second_primary_background"
                 id="profile_dropdown_menu"
             >
-                {/* <Link to="/profile">
+                <Link href="/dashboard/profile">
                     <DropdownItem tag="span" className="text_primary profile_dropdown_menu_item">
                         <i className="uil uil-user-circle font-size-18 align-middle me-2" />
                         Profile
                     </DropdownItem>
                 </Link>
+                {/* 
                 <Link to="/support">
                     <DropdownItem tag="span" className="cp text_primary profile_dropdown_menu_item">
                         <i className="uil uil-comment-alt-question font-size-18 align-middle me-2" />
