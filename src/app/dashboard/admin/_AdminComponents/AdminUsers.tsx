@@ -10,6 +10,7 @@ type ProjectsType = {
     srNo: number,
     userName: string,
     name: string,
+    profilePic: string,
     active: number,
     fullname: ReactNode,
     totaltask: number,
@@ -36,7 +37,7 @@ const AdminUsers = () => {
                 userName: elem.userName,
                 fullname: (
                     <div className='wrapper justify-start'>
-                        <Image src="/images/icons/userdummy.avif" alt="projectlogo" width={20} height={20} />
+                        <Image src={elem.profilePic || "/images/icons/userdummy.avif"} alt="projectlogo" className='rounded-pill' width={25} height={25} />
                         <span className='ms-2'>{elem.name}</span>
                     </div>
                 ),
@@ -50,6 +51,7 @@ const AdminUsers = () => {
     return (
         <div>
             <DatatableTables
+                norecordslabel={!Rows.length ? "No Users Found" : ""}
                 column={adminusercolumn}
                 row={isLoading ? 'loading' : Rows || []}
             />

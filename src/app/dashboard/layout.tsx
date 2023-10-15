@@ -9,7 +9,6 @@ import Search from '../_components/Search/Search'
 import ProfileMenu from '../_components/layouts/ProfileMenu'
 import "./dashboardpage.scss"
 import { useSession } from 'next-auth/react'
-import { cookies } from 'next/dist/client/components/headers'
 import { clearCookies } from '@/lib'
 
 type PageProps = {

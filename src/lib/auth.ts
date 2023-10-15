@@ -16,9 +16,8 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.GITHUB_SECRET!,
         }),
         GoogleProvider({
-            name: "google",
             clientId: process.env.AUTH_GOOGLE_CLIENTID!,
-            clientSecret: process.env.NEXT_AUTH_GOOGLE_SECRET!
+            clientSecret: process.env.NEXT_AUTH_GOOGLE_SECRET!,
         }),
         CredentialsProvider({
             name: 'Credentials',
@@ -29,18 +28,15 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials, _req) {
                 try {
-                    // You need to provide your own logic here that takes the credentials
-                    // submitted and returns either a object representing a user or value
-                    // that is false/null if the credentials are invalid.
-                    // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
-                    // You can also use the `req` object to obtain additional parameters
-                    // (i.e., the request IP address)
-                    const res = await axiosInterceptorInstance.post('http://localhost:4000/api/v1/auth/login', {
+                    const res = await axiosInterceptorInstance.post('http://localhost:4000/api/v1/auth/login', credentials?.password ? {
                         "loginCredential": credentials?.username,
-                        "password": credentials?.password
+                        "password": credentials?.password || "",
+                    } : {
+                        "loginCredential": credentials?.username,
+                        isGoogleLogin: true,
                     }, {
                         headers: {
-                            'Content-Type': 'application/json', // this needs to be defined
+                            'Content-Type': 'application/json',
                         }
                     }
                     )
@@ -49,10 +45,13 @@ export const authOptions: NextAuthOptions = {
                     if (data.status === "fail") {
                         return
                     }
+                    console.log(res.data);
+
                     const user = {
                         "_id": data?.data?._id,
                         "name": data?.data?.name,
                         "userName": data?.data?.userName,
+                        "profilePic": data?.data?.profilePic,
                         "email": data?.data?.email,
                         "role": data?.data?.role,
                         "organizationId": data?.data?.organizationId,
@@ -88,16 +87,17 @@ export const authOptions: NextAuthOptions = {
                 if (datares.status === "fail") {
                     return Promise.reject(datares)
                 }
-                params.token._id = datares?.data?._id,
-                    params.token.organizationName = datares?.data?.name,
-                    params.token.email = datares?.data?.email,
-                    params.token.organizationId = datares?.data?.organizationId,
-                    params.token.role = datares?.data?.role,
-                    params.token.userName = datares?.data?.userName
-                params.token.createdAt = datares?.data?.createdAt,
-                    params.token.ticketAdministrator = datares?.data?.ticketAdministrator
-                params.token.updatedAt = datares?.data?.updatedAt,
-                    params.token.authToken = datares?.data?.authToken
+                params.token._id = datares?.data?._id
+                params.token.organizationName = datares?.data?.name
+                params.token.email = datares?.data?.email
+                params.token.organizationId = datares?.data?.organizationId
+                params.token.profilePic = datares?.data?.profilePic
+                params.token.role = datares?.data?.role
+                params.token.userName = datares?.data?.userName
+                params.token.createdAt = datares?.data?.createdAt
+                params.token.ticketAdministrator = datares?.data?.ticketAdministrator
+                params.token.updatedAt = datares?.data?.updatedAt
+                params.token.authToken = datares?.data?.authToken
                 return params.token
             }
             if (params.user) {
@@ -106,8 +106,9 @@ export const authOptions: NextAuthOptions = {
                 params.token.userName = params.user.userName
                 params.token.ticketAdministrator = params?.user?.ticketAdministrator
                 params.token.organizationName = params.user.name
-                params.token.organizationId = params?.user?.organizationId,
-                    params.token.role = params.user.role
+                params.token.organizationId = params?.user?.organizationId
+                params.token.profilePic = params?.user?.profilePic
+                params.token.role = params.user.role
                 params.token.createdAt = params.user.createdAt
                 params.token.updatedAt = params.user.updatedAt
             }
@@ -120,10 +121,12 @@ export const authOptions: NextAuthOptions = {
                 session.user.name = token.name
                 session.user.email = token.email
                 session.user.image = token.picture
+                session.user.profilePic = token.profilePic
+                session.user.userName = token.userName
                 session.user.ticketAdministrator = token.ticketAdministrator
                 session.user.role = token.role
-                session.user.organizationId = token?.organizationId,
-                    session.user.createdAt = token.createdAt
+                session.user.organizationId = token?.organizationId
+                session.user.createdAt = token.createdAt
                 session.user.updatedAt = token.updatedAt
                 session.user.organizationName = token.organizationName
                 session.user.authToken = token.authToken

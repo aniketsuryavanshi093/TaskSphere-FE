@@ -24,10 +24,10 @@ const ProfileMenu: React.FC = () => {
             >
                 <div className='wrapper '>
                     <div className='wrapper'>
-                        <p className='mb-0 topnavusername text_primary' >{data?.user?.name}</p>
+                        <p className='mb-0 topnavusername text_primary' >{data?.user?.userName}</p>
                     </div>
                     <div className='wrapper'>
-                        <Image src={data?.user?.image || "/images/icons/userdummy.avif"} alt='userprofile' height={47} width={47} className='mx-2 rounded-pill' />
+                        <Image src={data?.user?.profilePic || "/images/icons/userdummy.avif"} alt='userprofile' height={47} width={47} className='mx-2 rounded-pill' />
                         <Image src={"/images/icons/arrow-down.png"} alt='arrow-=down' height={15} width={15} />
                     </div>
                 </div>
