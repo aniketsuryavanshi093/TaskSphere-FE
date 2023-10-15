@@ -38,6 +38,7 @@ export interface memberInput {
 }
 
 export interface projectTypes {
+    membersCount: number
     title: string
     _id: string,
     members: memberInput[]

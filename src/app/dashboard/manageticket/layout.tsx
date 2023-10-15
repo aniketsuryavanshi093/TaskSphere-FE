@@ -1,7 +1,7 @@
 "use client"
 import PageHeaderTitle from '@/app/_components/UI/PageHeaderTitle'
 import Image from 'next/image'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { Button } from 'reactstrap'
 import Link from 'next/link'
 import { useParams, usePathname } from 'next/navigation'
@@ -9,17 +9,13 @@ import { AiOutlineUserAdd } from 'react-icons/ai'
 import "./manageticket.scss"
 import AddUserModel from '@/app/_components/Models/AddUserModel'
 import { useSession } from 'next-auth/react'
-import useGetFetchQuery from '@/hooks/useGetdataFromquery'
+import { useQueryClient } from '@tanstack/react-query'
 
 const TicketLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     const { data } = useSession()
     const path = usePathname()
     const { id } = useParams()
     const [AdduserModal, setAddUserModal] = useState<{ open: boolean }>({ open: false })
-    const userproject = useGetFetchQuery(['userprojects', data?.user?.id]);
-    const orgproj = useGetFetchQuery(['orgainzationprojects', data?.user?.id]);
-    console.log("😒😒😒😒😒", userproject, orgproj);
-
     return (
         <div>
             <div className='wrapper justify-between w-100'>
@@ -36,18 +32,15 @@ const TicketLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
                         )
                     }
                     {
-                        !!(userproject || orgproj)?.data?.data?.projects?.length && (
-                            <Link prefetch={false} href={`/dashboard/manageticket/createticket${id ? `?projectId=${id}` : ""}`} >
-                                <Button className=' ticktcreatebtn' >
-                                    <div className='wrapper'>
-                                        <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
-                                        <span className='btntext'>Create Ticket</span>
-                                    </div>
-                                </Button>
-                            </Link>
-                        )
+                        <Link prefetch={false} href={`/dashboard/manageticket/createticket${id ? `?projectId=${id}` : ""}`} >
+                            <Button className=' ticktcreatebtn' >
+                                <div className='wrapper'>
+                                    <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
+                                    <span className='btntext'>Create Ticket</span>
+                                </div>
+                            </Button>
+                        </Link>
                     }
-
                 </div>
             </div>
             {
