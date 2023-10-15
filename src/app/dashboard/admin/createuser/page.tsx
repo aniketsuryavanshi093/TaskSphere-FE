@@ -14,6 +14,7 @@ import enqueSnackBar from '@/lib/enqueSnackBar';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { storage } from '@/lib/firebase';
 import { createUseraction } from '@/actions/authactions/adminaction';
+import { useQueryClient } from '@tanstack/react-query';
 
 type initialType = {
     name: string,
@@ -28,6 +29,7 @@ const AdminUserProject = () => {
     const router = useRouter()
     const [PreviewUrl, setPreviewUrl] = useState<{ name: string, preview: string, imgURI: File | null }>({ name: "", preview: "", imgURI: null });
     const [showPassword, setShowPassword] = useState<boolean>(false);
+    const queryClient = useQueryClient()
     const initialValues: initialType = {
         "name": "",
         "userName": "",
@@ -43,10 +45,9 @@ const AdminUserProject = () => {
                 const uploadded = await uploadBytes(imageref, PreviewUrl.imgURI, 'data_url');
                 profilePic = await getDownloadURL(uploadded?.ref);
             }
-            console.log({ ...val, profilePic });
-
             const result = await createUseraction({ ...val, profilePic }) as { status: string, message: string }
             if (result?.status === "fail") {
+                queryClient.invalidateQueries({ queryKey: ["orgainzationprojects"] })
                 enqueSnackBar({ type: "error", message: result.message, })
                 return
             }

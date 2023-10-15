@@ -25,8 +25,7 @@ const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params })
   const [SelectedTab, setSelectedTab] = useState<string>("#7AC555")
   return (
     <div
-      className={`d-none d-lg-block scrollbar sidebarNav ${openSidebar && "hide_sidebar"
-        }`}
+      className={`d-none d-lg-block scrollbar sidebarNav ${openSidebar && "hide_sidebar"}`}
     >
       <div className="sidebar_wrapper">
         <div className={`${openSidebar ? "ml-3 mr-2" : "ml-3"} mb-1 sidebartopdiv wrapper`}>

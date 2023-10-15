@@ -1,88 +1,111 @@
-.ticktcreatebtn{
+.ticktcreatebtn {
     background-color: transparent !important;
     border: 1px solid #5030E5 !important;
     padding: 10px 20px;
-    &:hover{
+
+    &:hover {
         transition: all .5s;
         background-color: #5030e53b !important;
     }
 }
-.infotext{
+
+.infotext {
     font-size: 12px;
     color: blue;
 }
-.btntext{
+
+.btntext {
     color: #5030E5;
 }
-.dropCOntainer{
+
+.dropCOntainer {
     width: 94%;
     border: 2px dotted blue;
     padding: 21px 14px !important;
     cursor: pointer;
     border-radius: 15px;
 }
-.dragtext{
+
+.createprojectredirtext {
+    text-decoration: underline !important;
+    color: blue !important;
+    cursor: pointer;
+}
+
+.dragtext {
 
     font-size: 15px;
 }
-.draging{
+
+.draging {
     border: 2px dotted green;
 }
-.closemarkx{
+
+.closemarkx {
     color: red;
 }
-.selectticket{
-    width: 100%!important;
+
+.selectticket {
+    width: 100% !important;
     border: 2px solid #5030E5 !important;
 }
-.selecttabtciket{
+
+.selecttabtciket {
     width: 100% !important;
 }
-.optionlable{
-    
-}
+
+.optionlable {}
 
 // home mticket
-.projectsgrid::-webkit-scrollbar{
+.projectsgrid::-webkit-scrollbar {
     display: none !important;
 
 }
-.projectsgrid{
+
+.projectsgrid {
     height: calc(100vh - 20vh);
-   
+
     display: grid;
     grid-gap: 2rem;
     gap: 2rem;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
 }
-.projectcard{
-    min-height: 390px;    border: 1px solid gray;
+
+.projectcard {
+    min-height: 390px;
+    border: 1px solid gray;
     border-radius: 10px;
     transition: all .3s;
-    &:hover{
+
+    &:hover {
         box-shadow: 1px 5px 11px 0px #888888;
         cursor: pointer;
     }
+
     background-color: #F5F5F5;
 }
-.project_subdate{
+
+.project_subdate {
     font-size: 12px;
 }
-.projecttask{
+
+.projecttask {
     color: #5530ff;
-font-family: Inter;
-font-size: 15px;
-font-style: normal;
-font-weight: 600;
+    font-family: Inter;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
 }
-.projectdate{
+
+.projectdate {
     color: #0D062D;
     font-family: Inter;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
 }
-.projectTitle{
+
+.projectTitle {
     color: #0D062D;
     font-family: Inter;
     font-size: 18px;
@@ -90,31 +113,38 @@ font-weight: 600;
     font-weight: 600;
     line-height: normal;
 }
-.projectgraph{
+
+.projectgraph {
     width: 100%;
     height: 21%;
-    bottom:0;
+    bottom: 0;
     position: absolute;
 }
+
 .animated-number {
     font-size: 24px;
-    transition: 0.5s ease-in-out; /* Adjust the duration and easing as needed */
-  }
-.circularbar{
+    transition: 0.5s ease-in-out;
+    /* Adjust the duration and easing as needed */
+}
+
+.circularbar {
     height: 50px;
 }
-.projectlogo{
+
+.projectlogo {
     width: 100%;
     height: 165px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-color: #dddbdb;
-    img{
+
+    img {
         object-fit: cover;
         width: 100%;
         height: 100%;
     }
 }
-.datacard{
+
+.datacard {
     width: 27%;
 }

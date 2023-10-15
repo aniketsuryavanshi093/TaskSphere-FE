@@ -9,12 +9,17 @@ import { AiOutlineUserAdd } from 'react-icons/ai'
 import "./manageticket.scss"
 import AddUserModel from '@/app/_components/Models/AddUserModel'
 import { useSession } from 'next-auth/react'
+import useGetFetchQuery from '@/hooks/useGetdataFromquery'
 
 const TicketLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     const { data } = useSession()
     const path = usePathname()
     const { id } = useParams()
     const [AdduserModal, setAddUserModal] = useState<{ open: boolean }>({ open: false })
+    const userproject = useGetFetchQuery(['userprojects', data?.user?.id]);
+    const orgproj = useGetFetchQuery(['orgainzationprojects', data?.user?.id]);
+    console.log("😒😒😒😒😒", userproject, orgproj);
+
     return (
         <div>
             <div className='wrapper justify-between w-100'>
@@ -30,14 +35,19 @@ const TicketLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
                             </Button>
                         )
                     }
-                    <Link prefetch={false} href={`/dashboard/manageticket/createticket${id ? `?projectId=${id}` : ""}`} >
-                        <Button className=' ticktcreatebtn' >
-                            <div className='wrapper'>
-                                <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
-                                <span className='btntext'>Create Ticket</span>
-                            </div>
-                        </Button>
-                    </Link>
+                    {
+                        !!(userproject || orgproj)?.data?.data?.projects?.length && (
+                            <Link prefetch={false} href={`/dashboard/manageticket/createticket${id ? `?projectId=${id}` : ""}`} >
+                                <Button className=' ticktcreatebtn' >
+                                    <div className='wrapper'>
+                                        <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
+                                        <span className='btntext'>Create Ticket</span>
+                                    </div>
+                                </Button>
+                            </Link>
+                        )
+                    }
+
                 </div>
             </div>
             {

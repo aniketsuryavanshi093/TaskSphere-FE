@@ -8,8 +8,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
 const AdminPage: React.FC = () => {
-    const [SelectedTab, setSelectedTab] = useState("project");
-    // const [createProjectModal, setcreateProjectModal] = useState<{ open: boolean, data: {} | null }>({ open: false, data: null })
+    const [SelectedTab, setSelectedTab] = useState(useSearchParams().get('tab') || "project");
     const tabtype = useSearchParams().get('tab')
     const { data } = useSession()
     const router = useRouter()

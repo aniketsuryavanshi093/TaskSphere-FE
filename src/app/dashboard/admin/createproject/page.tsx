@@ -19,6 +19,7 @@ import { useSession } from 'next-auth/react';
 import enqueSnackBar from '@/lib/enqueSnackBar';
 import GoBack from '@/app/_components/UI/GoBack';
 import { createProjectaction } from '@/actions/authactions/adminaction';
+import { useQueryClient } from '@tanstack/react-query';
 
 type initialType = { title: string, description: string }
 
@@ -26,6 +27,7 @@ const AdminCreateProject = () => {
     const [isPending, startTransition] = useTransition()
     const [Loading, setLoading] = useState(false)
     const [AdduserModal, setAddUserModal] = useState<{ open: boolean }>({ open: false })
+    const queryClient = useQueryClient()
     const [PreviewUrl, setPreviewUrl] = useState<string>("")
     const { addedUsers } = useAppSelector((state) => state.userreducer)
     const [attachments, setAttachments] = useState<FileList | File | any>([]);
@@ -61,6 +63,7 @@ const AdminCreateProject = () => {
             const result = await createProjectaction(val) as { status: string, message: string }
             if (result?.status === "fail") {
                 enqueSnackBar({ type: "error", message: result.message, })
+                queryClient.invalidateQueries({ queryKey: ["orgainzationprojects"] })
                 return
             }
             enqueSnackBar({ type: "success", message: "Project created Successfully!" })

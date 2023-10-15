@@ -109,7 +109,7 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
               <span className="filter_label align-middle">{title}</span>
             ) : (
               <div className='wrapper justify-start'>
-                {onselectIcon && options.find((el) => el.value === selectedValue)?.img && <Image src={options.find((el) => el.value === selectedValue)?.img} alt="xyz" className='me-2' height={20} width={20} />}
+                {onselectIcon && options.find((el) => el.value === selectedValue)?.img && <Image src={options.find((el) => el.value === selectedValue)?.img} alt="xyz" className='me-2 rounded-pill' height={20} width={20} />}
                 <span className="filter_laebl align-middle textcapitilize">
                   {ShowImpLable || title}</span>
               </div>
@@ -135,14 +135,14 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
               {value === selectedValue && !reset_value ? (
                 <>
                   <div className='wrapper justify-start'>
-                    {img && <Image src={img || "/images/icons/userdummy.avif"} alt={label} height={25} width={25} />}
+                    {img && <Image src={img || "/images/icons/userdummy.avif"} className='rounded-pill' alt={label} height={25} width={25} />}
                     <p className="check-selected mx-2">{label}</p>
                   </div>
                   <i className="fa-solid check-selected fa-check ms-2" />
                 </>
               ) : (
                 < div className='wrapper justify-start'>
-                  {img && <Image src={img || "/images/icons/userdummy.avif"} alt={label} height={25} width={25} />}
+                  {img && <Image src={img || "/images/icons/userdummy.avif"} className='rounded-pill' alt={label} height={25} width={25} />}
                   <p className="check-selected mx-2">{label}</p></div>
               )}
             </div>
