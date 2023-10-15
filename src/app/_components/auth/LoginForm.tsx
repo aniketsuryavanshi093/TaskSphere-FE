@@ -14,6 +14,8 @@ import {
 import CustomModal from "../Models/CustomModal";
 import { handleSubmit } from "@/actions/authactions/authactions";
 import { signIn } from "next-auth/react";
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from "@/lib/firebase";
 
 export type FormSignupvalueType = {
     userName?: string;
@@ -56,7 +58,24 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
         try {
             if (formtype === "register") {
                 if (type === "google" || type === "github") {
-                    // const usersession = await signIn(type, { redirect: false, username: values?.userName, password: values?.password })
+                    const provider = new GoogleAuthProvider();
+                    const googleresponse = await signInWithPopup(auth, provider);
+                    console.log(googleresponse);
+                    const data = await handleSubmit({
+                        "name": values?.name,
+                        "userName": `${googleresponse?._tokenResponse?.firstName} ${googleresponse?._tokenResponse?.lastName}`,
+                        "email": googleresponse?._tokenResponse?.email,
+                        "profilePic": googleresponse?._tokenResponse?.photoUrl,
+                        "isGoogleLogin": true
+                    }, "credentials", formtype)
+                    console.log("datadatadatadata", data);
+                    signIn("credentials", { redirect: true, username: googleresponse?._tokenResponse?.email, password: "" }).then((data: any) => {
+                        if (data?.error) {
+                            setError(data.error)
+                        } else {
+                            window.location.replace("/dashboard")
+                        }
+                    }).catch(er => console.log(er))
                 } else {
                     const data = await handleSubmit(values, type, formtype)
                     signIn(type, { redirect: true, username: values?.email, password: values?.password }).then((data: any) => {
@@ -69,15 +88,31 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                 }
             }
             else {
-                signIn(type, { redirect: false, username: values?.email, password: values?.password })
-                    .then((data: any) => {
-                        if (data?.error) {
-                            setError(data.error)
-                        }
-                        else {
-                            window.location.replace("/dashboard")
-                        }
-                    }).catch(er => console.log(er))
+                console.log(values);
+                if (type === "google" || type === "github") {
+                    console.log("🤣🤣🤣")
+                    signIn("google", { redirect: false })
+                        .then((data: any) => {
+                            if (data?.error) {
+                                setError(data.error)
+                            }
+                            else {
+                                // window.location.replace("/dashboard")
+                                console.log(data)
+                            }
+                        }).catch(er => console.log(er))
+                } else {
+                    signIn(type, { redirect: false, username: values?.email, password: values?.password })
+                        .then((data: any) => {
+                            if (data?.error) {
+                                setError(data.error)
+                            }
+                            else {
+                                window.location.replace("/dashboard")
+                            }
+                        }).catch(er => console.log(er))
+                }
+
             }
         } catch (error: any) {
             console.log("💕💕", "server Error", error)
@@ -227,7 +262,6 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                                 </div>
                             )
                         }
-
                         <button className="loginbtn  my-2  " type="submit">
                             {formtype === "login" ? "Login" : "Register"}
                         </button>
@@ -244,11 +278,10 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                                     width={30}
                                 />
                                 <p className="mb-0 ms-2">
-                                    {" "}
-                                    {formtype === "login" ? "Login" : "Register"} with{" "}
+                                    {formtype === "login" ? "Login" : "Register"} with
                                     <span className="text-bold">Google</span>
                                 </p>
-                            </div>{" "}
+                            </div>
                         </button>
                         <button
                             type="button"
@@ -263,8 +296,7 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                                     width={30}
                                 />
                                 <p className="mb-0 ms-2">
-                                    {" "}
-                                    {formtype === "login" ? "Login" : "Register"} with{" "}
+                                    {formtype === "login" ? "Login" : "Register"} with
                                     <span className="text-bold">Github</span>
                                 </p>
                             </div>
@@ -284,7 +316,7 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                                 }}
                             >
                                 {({ values }) => (
-                                    <Form className="wrapper m-3 w-100 flex-column">
+                                    <Form className="wrapper m-3 orgnamemodalwrapper flex-column">
                                         <Field
                                             type="text"
                                             component={CustomInput}
