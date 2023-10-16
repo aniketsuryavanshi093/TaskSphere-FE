@@ -1,0 +1,15 @@
+.profiletabs {
+    justify-content: flex-start;
+    list-style: none;
+    padding: 0px;
+    border-bottom: 1px solid #8080806e;
+
+    li {
+        margin-right: 15px;
+        cursor: pointer;
+    }
+
+    .selected {
+        border-bottom: 2px solid blue;
+    }
+}

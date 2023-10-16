@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatatableTables from "@/app/_components/UI/Table/Table";
 import { adminprojectscolumn } from "@/constants/tableColumns";
 import { useSession } from "next-auth/react";
@@ -26,7 +26,6 @@ const AdminProjects = () => {
         true,
         false
     );
-
     useEffect(() => {
         if (orgProjects?.data?.data?.paginatedResults?.length as any) {
             const temp = orgProjects?.data?.data?.paginatedResults.map((elem: ProjectsType, i) => ({

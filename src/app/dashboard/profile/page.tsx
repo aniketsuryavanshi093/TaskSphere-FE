@@ -1,8 +1,8 @@
-import React from 'react'
-
+'use server'
+import "./profile.scss"
 const MyProfile = () => {
     return (
-        <div>MyProfile</div>
+        <h1>Profile and Visibility</h1>
     )
 }
 
