@@ -37,7 +37,7 @@ const ProfileMenu: React.FC = () => {
                 className="dropdown-menu-end second_primary_background"
                 id="profile_dropdown_menu"
             >
-                <Link href="/dashboard/profile">
+                <Link prefetch={false} href="/dashboard/profile">
                     <DropdownItem tag="span" className="text_primary profile_dropdown_menu_item">
                         <i className="uil uil-user-circle font-size-18 align-middle me-2" />
                         Profile

@@ -257,6 +257,23 @@ body{
   margin-left: 0;
   margin-bottom: -16px;
 }
+.edit_icon_profile {
+  position: absolute;
+  bottom: 0;
+  right: 7px;
+  border: 2px solid;
+  height: 28px !important;
+  width: 28px !important;
+}
+.userimage {
+  object-fit: cover;
+  border-radius: 50%;
+}
+.useruploadtext {
+  white-space: nowrap;
+  font-size: smaller;
+  text-align: center;
+}
 .spinner-container{
   position: absolute;
   left: 45%;

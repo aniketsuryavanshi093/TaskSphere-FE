@@ -5,6 +5,11 @@ export const loginvalidations = Yup.object({
     email: Yup.string().required('please enter username or email !'),
     password: Yup.string().required('password is required!')
 })
+export const userformvalidations = Yup.object({
+    userName: Yup.string(),
+    profilePic: Yup.string(),
+    Bio: Yup.string()
+})
 
 export const createProjectvalidation = Yup.object({
     title: Yup.string().required('Project Title is required!'),

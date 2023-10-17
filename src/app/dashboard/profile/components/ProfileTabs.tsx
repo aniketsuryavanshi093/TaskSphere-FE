@@ -13,12 +13,12 @@ const ProfileTabs = () => {
                 </Link>
             </li>
             <li id="activity" className={`py-2 ${router?.includes("activity") && "selected"}`}>
-                <Link href="/dashboard/profile/activity">
+                <Link prefetch={false} href="/dashboard/profile/activity">
                     Activity
                 </Link>
             </li>
             <li id="cards" className={`py-2 ${router?.includes("cards") && "selected"}`}>
-                <Link href="/dashboard/profile/cards">
+                <Link prefetch={false} href="/dashboard/profile/cards">
                     Cards
                 </Link>
             </li>

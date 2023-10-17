@@ -9,6 +9,7 @@ const nextConfig = {
     domains: [
       "firebasestorage.googleapis.com",
       "jira.solulab.com",
+      "trello.com",
       "lh3.googleusercontent.com",
     ],
   },
