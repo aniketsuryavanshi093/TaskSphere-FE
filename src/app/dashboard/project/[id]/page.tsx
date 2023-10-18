@@ -139,7 +139,6 @@ const ProjectPage = () => {
       dispatch(setTicketInfoClosed());
     };
   }, [dispatch]);
-  console.log(data?.user?.role === "organization" || data?.user.ticketAdministrator);
 
   return (
     <div>

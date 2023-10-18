@@ -21,7 +21,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
     const { data } = useSession()
     const { id } = useParams()
     const dispatch = useAppDispatch()
-    const { data: tickets, isLoading } = useTicketsQueryhook({ id, filterURLValue: `${filterURLValue.string}${type === "project" && data?.user.role !== "organization" ? "&isforUser=true" : ""}`, frompage: true })
+    const { data: tickets, isLoading } = useTicketsQueryhook({ id, filterURLValue: `${filterURLValue.string}`, frompage: true })
     useEffect(() => {
         setloading(isLoading)
         setTickets(tickets)
@@ -45,6 +45,17 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
         updatedDateFrom: openFilter?.data?.updatedDateFrom || '',
         updatedDateTo: openFilter?.data?.updatedDateTo || '',
     };
+    useEffect(() => {
+        if (type === "project") {
+            dispatch(setFilterURLValue({
+                string: generateURL({ isforUser: "true" }), urlobject: {
+                    orderType: "", priority: "", isforUser: true,
+                    userIds: "", label: "",
+                }
+            }))
+        }
+    }, [type])
+
     const handleReset = () => {
         dispatch(setFilterURLValue({
             string: "", urlobject: {
@@ -53,22 +64,43 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
             }
         }))
     }
-  const handleFilter = (value: any) => {
-    dispatch(
-      setFilterURLValue({
-        string: generateURL({
-          ...filterURLValue?.urlobject,
-          orderType:
-            type === "project" ? (value === "isforUser" ? "" : value) : value,
-        }),
-        urlobject: {
-          ...filterURLValue?.urlobject,
-          orderType:
-            type === "project" ? (value === "isforUser" ? "" : value) : value,
-        },
-      })
-    );
-  };
+    const handleFilter = (value: any) => {
+        if (value === "") {
+            dispatch(
+                setFilterURLValue({
+                    string: generateURL({
+                        ...filterURLValue?.urlobject,
+                        isforUser: undefined,
+                        orderType:
+                            ""
+                    }),
+                    urlobject: {
+                        ...filterURLValue?.urlobject,
+                        orderType:
+                            ""
+                    },
+                })
+            );
+        } else {
+            dispatch(
+                setFilterURLValue({
+                    string: generateURL({
+                        ...filterURLValue?.urlobject,
+                        isforUser: (type === "project" && value === "isforUser") ? "true" : undefined,
+                        orderType:
+                            type === "project" ? (value === "isforUser" ? "" : value) : value,
+                    }),
+                    urlobject: {
+                        ...filterURLValue?.urlobject,
+                        isforUser: (type === "project" && value === "isforUser") ? true : undefined,
+                        orderType:
+                            type === "project" ? (value === "isforUser" ? "" : value) : value,
+                    },
+                })
+            );
+        }
+
+    };
 
     return (
         <div className='wrapper justify-start'>
@@ -79,7 +111,7 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
                     icon='/images/icons/filter.png'
                     onDropdownSelect={handleFilter}
                     Imptitle='Filter :'
-                    options={[{ value: "", label: "All" }, ...options]}
+                    options={[...options]}
                 />
                 <div className='mx-3'>
                     <CustomDropDownButton
