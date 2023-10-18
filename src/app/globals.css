@@ -257,6 +257,19 @@ body{
   margin-left: 0;
   margin-bottom: -16px;
 }
+.ticktcreatebtn {
+  background-color: transparent !important;
+  border: 1px solid #5030E5 !important;
+  padding: 10px 20px;
+
+  &:hover {
+      transition: all .5s;
+      background-color: #5030e53b !important;
+  }
+}
+.btntext{
+  color: #5030E5;
+}
 .edit_icon_profile {
   position: absolute;
   bottom: 0;
