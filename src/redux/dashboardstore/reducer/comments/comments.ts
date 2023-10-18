@@ -1,17 +1,20 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { comment, } from "@/commontypes/index"
+import { access } from 'fs';
 
 type initialTypes = {
     pagination: {
         pageNumber: number, pageSize: number
     }
-    CommentsInfo: comment[]
+    CommentsInfo: comment[],
+    isUpdated: string
 }
 
 const initialState: initialTypes = {
     pagination: {
         pageNumber: 1, pageSize: 10
     },
+    isUpdated: "",
     CommentsInfo: []
 };
 const commentsSlice = createSlice({
@@ -36,6 +39,9 @@ const commentsSlice = createSlice({
         addComment: (state, action: PayloadAction<comment>) => {
             state.CommentsInfo = [action.payload, ...state.CommentsInfo,]
         },
+        setIsUpdated: (state, action: PayloadAction<{ upodatedstring: string }>) => {
+            state.isUpdated = action.payload.upodatedstring
+        },
         addCommentreply: (state, action: PayloadAction<{ comment: comment }>) => {
             let temp = [...state.CommentsInfo];
             temp.forEach((el) => {
@@ -49,7 +55,7 @@ const commentsSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setPagination, setCommentsInfo, addComment, addCommentreply } =
+export const { setPagination, setCommentsInfo, setIsUpdated, addComment, addCommentreply } =
     commentsSlice.actions;
 
 export const commentsReducer = commentsSlice.reducer;

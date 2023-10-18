@@ -1,6 +1,6 @@
 "use client"
 import Link from 'next/link'
-import { useParams, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import React from 'react'
 
 const ProfileTabs = () => {

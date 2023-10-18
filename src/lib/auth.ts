@@ -46,7 +46,6 @@ export const authOptions: NextAuthOptions = {
                         return
                     }
                     console.log(res.data);
-
                     const user = {
                         "_id": data?.data?._id,
                         "name": data?.data?.name,
@@ -63,7 +62,6 @@ export const authOptions: NextAuthOptions = {
                     return user
                 } catch (error: any) {
                     console.log(error);
-
                     throw Error(error?.response?.data?.message)
                 }
             }
@@ -85,7 +83,7 @@ export const authOptions: NextAuthOptions = {
                         Bio: params.session?.Bio, userName: params.session?.userName, profilePic: params.session?.profilePic,
                     }),
                     headers: {
-
+                        Authorization: `Bearer ${params.token.authToken}`,
                         'Content-Type': 'application/json', // this needs to be defined
                     },
                 })
