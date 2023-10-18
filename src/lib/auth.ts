@@ -46,7 +46,6 @@ export const authOptions: NextAuthOptions = {
                         return
                     }
                     console.log(res.data);
-
                     const user = {
                         "_id": data?.data?._id,
                         "name": data?.data?.name,
@@ -62,6 +61,7 @@ export const authOptions: NextAuthOptions = {
                     }
                     return user
                 } catch (error: any) {
+                    console.log(error);
                     throw Error(error?.response?.data?.message)
                 }
             }
@@ -73,6 +73,22 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async jwt(params) {
+            if (params.trigger === "update" && params.session?.profilePic) {
+                // Note, that `session` can be any arbitrary object, remember to validate it!
+                params.token.profilePic = params.session?.profilePic
+                params.token.userName = params.session?.userName
+                const res = await fetch('http://localhost:4000/api/v1/auth/update', {
+                    method: "POST", body: JSON.stringify({
+                        "email": params.token.email,
+                        Bio: params.session?.Bio, userName: params.session?.userName, profilePic: params.session?.profilePic,
+                    }),
+                    headers: {
+                        Authorization: `Bearer ${params.token.authToken}`,
+                        'Content-Type': 'application/json', // this needs to be defined
+                    },
+                })
+                console.log("😎😎😎😎", await res.json())
+            }
             if (params.account?.provider === "google" || params.account?.provider === "github") {
                 const res = await fetch('http://localhost:4000/api/v1/auth/login', {
                     method: "POST", body: JSON.stringify({

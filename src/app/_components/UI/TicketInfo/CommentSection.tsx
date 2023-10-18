@@ -4,27 +4,34 @@ import { comment } from "@/commontypes";
 import useGetComments from "@/hooks/UseQuery/ticketmanagementhooks/useGetComments";
 import enqueSnackBar from "@/lib/enqueSnackBar";
 import { useAppDispatch, useAppSelector } from "@/redux/dashboardstore/hook";
-import { useQueryClient } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Form, Formik, FormikState } from "formik";
 import moment from "moment";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { addComment, addCommentreply, setCommentsInfo, setPagination } from "@/redux/dashboardstore/reducer/comments/comments";
+import { addComment, addCommentreply, setCommentsInfo, setIsUpdated, setPagination } from "@/redux/dashboardstore/reducer/comments/comments";
+import { Spinner } from "reactstrap";
 
 const Commentsection: React.FC<{ ticketId: string }> = ({ ticketId }) => {
     const { pagination, CommentsInfo } = useAppSelector(state => state.commentreducer)
-    const { data: commentsData, isLoading } = useGetComments({
+    const { data: commentsData, isLoading, isFetched } = useGetComments({
         id: ticketId, pagination
     })
-
     const dispatch = useAppDispatch()
+    const [initialFetchedCOmments, setinitialFetchedCOmments] = useState([])
     useEffect(() => {
-        if (commentsData?.data?.data?.comments.length) {
+        if (commentsData?.data?.data?.comments?.length) {
+            console.log("he is dispatching ");
+            setinitialFetchedCOmments(commentsData?.data?.data?.comments)
+        }
+    }, [commentsData?.data?.data.comments])
+    useEffect(() => {
+        if (initialFetchedCOmments.length) {
             dispatch(setCommentsInfo({ comments: [...CommentsInfo, ...commentsData?.data?.data?.comments] }))
         }
-    }, [commentsData?.data?.data?.comments, isLoading])
+    }, [initialFetchedCOmments])
+
 
     const fetchMoreData = () => {
         if (pagination.pageNumber < commentsData?.data?.data?.totalPages) {
@@ -33,8 +40,6 @@ const Commentsection: React.FC<{ ticketId: string }> = ({ ticketId }) => {
             }))
         }
     };
-
-
     const { data } = useSession()
     return (
         <div>
@@ -43,10 +48,11 @@ const Commentsection: React.FC<{ ticketId: string }> = ({ ticketId }) => {
                 {
                     !!CommentsInfo?.length ? (
                         <InfiniteScroll
+                            loader={<Spinner size="sm"></Spinner>}
                             dataLength={commentsData?.data?.data?.totalCommentCount || 10}
                             next={fetchMoreData}
                             scrollableTarget="scrollableDiv"
-                            hasMore={pagination.pageNumber <= commentsData?.data?.data?.totalPages}
+                            hasMore={pagination.pageNumber < commentsData?.data?.data?.totalPages}
                         >
                             {CommentsInfo?.map((comment: comment) => (
                                 <Comment user={data?.user} key={comment._id} comment={comment} ticketId={ticketId} />
@@ -144,7 +150,7 @@ const Comment: React.FC<{ comment: comment, key: string, ticketId: string, isrep
             {
                 showReplyMode && (
                     <div className="replycontainer">
-                        {comment?.repliesData?.map((reply) => (
+                        {[...comment?.repliesData]?.reverse()?.map((reply) => (
                             <div key={reply._id} className="my-2">
                                 <Comment key={reply._id} comment={reply} ticketId={ticketId} isreply user={user} />
                             </div>
@@ -173,7 +179,6 @@ const FormInput: React.FC<{ ticketId: string, isCommentEmpty?: boolean, cancelre
     type initialType = {
         commenttext: "";
     };
-    const queryClient = useQueryClient();
     const handlCreatecomment = async (commentvalue: { text: string }, resetForm: any) => {
         try {
             let result;
@@ -188,7 +193,6 @@ const FormInput: React.FC<{ ticketId: string, isCommentEmpty?: boolean, cancelre
                     ticketId,
                 }, commentId)) as { status: string; message: string }
             }
-
             if (type === "comment") {
                 dispatch(addComment({
                     ...result.data, author: { ...data?.user, _id: data?.user.id }
@@ -198,8 +202,6 @@ const FormInput: React.FC<{ ticketId: string, isCommentEmpty?: boolean, cancelre
                     ...result.data, author: { ...data?.user, _id: data?.user.id }
                 }));
             }
-
-            console.log(result);
             if (result?.status === "fail") {
                 enqueSnackBar({ type: "error", message: result.message });
                 return;
@@ -208,9 +210,7 @@ const FormInput: React.FC<{ ticketId: string, isCommentEmpty?: boolean, cancelre
                 type: "success",
                 message: type === "comment" ? "Comment created Successfully!" : 'reply added successfully!',
             });
-            if (!isCommentEmpty) {
-                queryClient.invalidateQueries({ queryKey: ["comments", `${ticketId}?pageNumber=${pageNumber}&pageSize=${pageSize}`] });
-            }
+            dispatch(setIsUpdated({ upodatedstring: `${ticketId}?pageNumber=${pageNumber}&pageSize=${pageSize}` }))
             resetForm();
             if (cancelreply) {
                 cancelreply()

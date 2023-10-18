@@ -88,9 +88,8 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                 if (type === "google" || type === "github") {
                     const provider = new GoogleAuthProvider();
                     const googleresponse = await signInWithPopup(auth, provider);
-                    console.log(googleresponse);
-                    signIn("credentials", { redirect: false, username: googleresponse?._tokenResponse?.email, password: "" }).then((data: any) => {
-                        if (data?.error !== null) {
+                    signIn("credentials", { redirect: false, username: googleresponse.user.email, password: "" }).then((data: any) => {
+                        if (data?.error !== null || data?.error) {
                             setError({ msg: data.error, type: "google" })
                         } else {
                             window.location.replace("/dashboard")
