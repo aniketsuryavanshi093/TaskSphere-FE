@@ -1,4 +1,6 @@
 'use client'
+import axiosInterceptorInstance from '@/http'
+import { createHeader } from '@/lib/apiservice'
 import enqueSnackBar from '@/lib/enqueSnackBar'
 import { storage } from '@/lib/firebase'
 import { userformvalidations } from '@/lib/validations/AuthValidationsForm'
@@ -7,7 +9,7 @@ import { Form, Formik } from 'formik'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import React, { useRef, useState } from 'react'
-import { FormGroup, Input, Label } from 'reactstrap'
+import { FormGroup, Input, Label, Spinner } from 'reactstrap'
 
 type FormUservalueType = {
     userName: string,
@@ -20,7 +22,16 @@ const ProfileForm = () => {
         Bio: "",
     }
     const { data, update } = useSession()
-    console.log(data);
+    const [Loading, setLoading] = useState(false)
+    const checkisExists = async (userName: string) => {
+        try {
+            const isexists = await axiosInterceptorInstance.post("/auth/isExists", { userName }, createHeader(data?.user?.authToken))
+            console.log(isexists.data);
+            return isexists.data.isUserExists
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const [PreviewUrl, setPreviewUrl] = useState<{ name: string, preview: string, imgURI: File | null }>({ name: "", preview: data?.user?.profilePic || "", imgURI: null });
     const onChangepofileImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,16 +49,32 @@ const ProfileForm = () => {
     };
     const inputref = useRef<React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>>(null)
     const handleSubmit = async (values: FormUservalueType) => {
-        let profilePic = ""
-        if (PreviewUrl?.imgURI) {
-            const imageref = ref(storage, `user/${PreviewUrl.name}`);
-            const uploadded = await uploadBytes(imageref, PreviewUrl.imgURI, 'data_url');
-            profilePic = await getDownloadURL(uploadded?.ref);
+        try {
+            setLoading(true)
+            let profilePic = ""
+            if (PreviewUrl?.imgURI) {
+                const imageref = ref(storage, `user/${PreviewUrl.name}`);
+                const uploadded = await uploadBytes(imageref, PreviewUrl.imgURI, 'data_url');
+                profilePic = await getDownloadURL(uploadded?.ref);
+            }
+            let isexists = false
+            if (values.userName !== data?.user.userName) {
+                isexists = await checkisExists(values.userName);
+            }
+            if (isexists) {
+                enqueSnackBar({ message: 'Username already taken!', type: "warning" })
+            } else {
+                update({
+                    profilePic,
+                    userName: values.userName
+                })
+            }
+            setLoading(false)
+            enqueSnackBar({ message: 'Profile Updated!', type: "success" })
+
+        } catch (error) {
+            console.log(error);
         }
-        update({
-            profilePic,
-            userName: values.userName
-        })
     }
     return (
         <div className='w-100'>
@@ -85,7 +112,7 @@ const ProfileForm = () => {
                                     type="textarea"
                                 />
                             </FormGroup>
-                            <button className='w-100 usersavebtn'>Save</button>
+                            <button className='w-100 usersavebtn'>{Loading ? <Spinner size="sm" /> : "Save"}</button>
                         </div>
                         <div>
                             <div className="position-relative ">

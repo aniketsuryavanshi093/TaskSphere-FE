@@ -1,10 +1,10 @@
 import { GetProjectByUser } from '@/apiServices/admin/adminservices'
 import { useQuery } from '@tanstack/react-query'
 
-const useGetProjectsByUserhook = (data) => {
+const useGetProjectsByUserhook = (data, istaskstats) => {
     return useQuery({
-        queryFn: () => GetProjectByUser(data?.user),
-        queryKey: ['userprojects', data?.user?.id],
+        queryFn: () => GetProjectByUser({ ...data?.user, istaskstats },),
+        queryKey: ['userprojects', istaskstats ? `${data?.user?.id}isAnalytics` : `${data?.user?.id}`],
         enabled: data?.user?.id && data?.user?.role === "member" ? true : false,
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,

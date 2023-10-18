@@ -17,13 +17,13 @@ import { Spinner } from 'reactstrap'
 const ManageTicket = () => {
     const { data } = useSession()
     const dispatch = useAppDispatch()
-    const { data: userproject, isFetching: userisLoading } = useGetProjectsByUserhook(data)
+    const { data: userproject, isFetching: userisLoading } = useGetProjectsByUserhook(data, true)
     const { data: orgproject, isFetching: orgisLoading } = useGetAllOrganizationsProjecthook(data, null, false, true)
-    console.log((orgproject || userproject)?.data?.data?.data, orgproject, userproject);
+    console.log((orgproject)?.data?.data?.data, orgproject, userproject);
     return (
         <div className='w-100'>
             {
-                (userisLoading || orgisLoading) ? (
+                (orgisLoading || userisLoading) ? (
                     <div className='my-5 wrapper w-100'>
                         <Spinner size={"lg"} />
                     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useRef } from "react";
 import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 import "./ticketinfo.scss";
 import { CurrentUserObjectType, TaskType } from "@/commontypes";
@@ -12,7 +12,8 @@ import HtmlConverter from "@/app/_components/HTMLparser/HtmlConverter";
 import moment from "moment";
 import Commentsection from "./CommentSection";
 import { setCommentsInfo } from "@/redux/dashboardstore/reducer/comments/comments";
-import { useAppDispatch } from "@/redux/dashboardstore/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/dashboardstore/hook";
+import { useQueryClient } from "@tanstack/react-query";
 
 type pageprops = {
   isopen: boolean;
@@ -22,7 +23,9 @@ type pageprops = {
 };
 
 const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, projectId }) => {
+  const { isUpdated } = useAppSelector(state => state.commentreducer)
   const [isFull, setisFull] = useState(false);
+  const queryClient = useQueryClient()
   const dispatch = useAppDispatch()
   const ticketInfoWrapperStyle: React.CSSProperties = {
     width: isFull ? "77%" : "37%",
@@ -57,6 +60,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
   }, [usersData]);
   useEffect(() => {
     return () => {
+      queryClient.removeQueries({ queryKey: ["comments"] })
       dispatch(setCommentsInfo({ comments: [], isClear: true }))
     }
   }, [])
