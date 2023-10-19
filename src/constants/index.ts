@@ -90,7 +90,7 @@ export const ticketfilter = [{
     value: "isforUser",
     label: "Only My Issue"
 }, {
-    value: "allissue",
+    value: "",
     label: "All Tasks"
 }, {
     value: "-1",

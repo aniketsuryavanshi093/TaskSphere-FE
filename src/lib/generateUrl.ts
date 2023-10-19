@@ -18,7 +18,7 @@ const generateURL = payload => {
     // remove null values if removeNull is true
     if (payload) {
         for (const [key, value] of Object.entries(payload)) {
-            if (value === null || value == 'undefined' || value == '') delete payload[key];
+            if (value === null || value == undefined || value == '') delete payload[key];
         }
     }
 

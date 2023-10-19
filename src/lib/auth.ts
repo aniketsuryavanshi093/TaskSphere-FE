@@ -73,10 +73,13 @@ export const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async jwt(params) {
-            if (params.trigger === "update" && params.session?.profilePic) {
+            if (params.trigger === "update") {
                 // Note, that `session` can be any arbitrary object, remember to validate it!
-                params.token.profilePic = params.session?.profilePic
-                params.token.userName = params.session?.userName
+                let pic = params.token.profilePic
+                let usname = params.token.userName
+                console.log(params.session?.profilePic || pic, params.session?.userName || usname)
+                params.token.profilePic = params.session?.profilePic || pic
+                params.token.userName = params.session?.userName || usname
                 const res = await fetch('http://localhost:4000/api/v1/auth/update', {
                     method: "POST", body: JSON.stringify({
                         "email": params.token.email,

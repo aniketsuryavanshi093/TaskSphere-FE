@@ -8,7 +8,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 import { Form, Formik } from 'formik'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FormGroup, Input, Label, Spinner } from 'reactstrap'
 
 type FormUservalueType = {
@@ -34,6 +34,11 @@ const ProfileForm = () => {
     }
 
     const [PreviewUrl, setPreviewUrl] = useState<{ name: string, preview: string, imgURI: File | null }>({ name: "", preview: data?.user?.profilePic || "", imgURI: null });
+    useEffect(() => {
+        if (data?.user.profilePic) {
+            setPreviewUrl({ name: "", preview: data?.user.profilePic, imgURI: null })
+        }
+    }, [data?.user.profilePic])
     const onChangepofileImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const fileHash: File = e?.target?.files[0];
         try {
@@ -57,6 +62,7 @@ const ProfileForm = () => {
                 const uploadded = await uploadBytes(imageref, PreviewUrl.imgURI, 'data_url');
                 profilePic = await getDownloadURL(uploadded?.ref);
             }
+
             let isexists = false
             if (values.userName !== data?.user.userName) {
                 isexists = await checkisExists(values.userName);
@@ -64,6 +70,7 @@ const ProfileForm = () => {
             if (isexists) {
                 enqueSnackBar({ message: 'Username already taken!', type: "warning" })
             } else {
+                console.log(values.userName !== data?.user.userName, values.userName, data?.user.userName);
                 update({
                     profilePic,
                     userName: values.userName

@@ -19,7 +19,7 @@ const ProfileTabs = () => {
             </li>
             <li id="cards" className={`py-2 ${router?.includes("cards") && "selected"}`}>
                 <Link prefetch={false} href="/dashboard/profile/cards">
-                    Cards
+                    Tickets
                 </Link>
             </li>
         </ul>

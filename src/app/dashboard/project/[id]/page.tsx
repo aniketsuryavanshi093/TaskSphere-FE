@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useTransition } from "react";
 import Image from "next/image";
-import { Placeholder } from "reactstrap";
+import { Button, Placeholder } from "reactstrap";
 import { useSession } from "next-auth/react";
 import useGetProjectDetails from "@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectDetails";
 import { useParams } from "next/navigation";
@@ -21,6 +21,7 @@ import AddUserModel from "@/app/_components/Models/AddUserModel";
 import { ticketUpdateValuesType } from "../../manageticket/[id]/page";
 import DragDropLoader from "@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader";
 import useUpdateTicketHook from "@/hooks/useUpdateTicketHook";
+import Link from "next/link";
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -151,6 +152,18 @@ const ProjectPage = () => {
           {projectDetails?.data?.data?.project?.title}
         </h4>
         <div className="wrapper">
+          {
+            (data?.user?.role === "organization" || data?.user.ticketAdministrator) && (
+              <Link prefetch={false} href={`/dashboard/manageticket/createticket${id ? `?projectId=${id}` : ""}`} >
+                <Button className=' ticktcreatebtn me-3' >
+                  <div className='wrapper'>
+                    <Image className='me-2' height={16} width={16} src="/images/icons/user.svg" alt='user' />
+                    <span className='btntext'>Create Ticket</span>
+                  </div>
+                </Button>
+              </Link>
+            )
+          }
           {data?.user?.role === "organization" && (
             <div
               className="invitebtn me-3 cp"
@@ -166,6 +179,7 @@ const ProjectPage = () => {
               <span>Invite</span>
             </div>
           )}
+
           <div className="wrapper position-relative">
             {isLoading && (
               <Placeholder animation="wave">
