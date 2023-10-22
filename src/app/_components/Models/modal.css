@@ -13,6 +13,22 @@ input[type='number']::-webkit-inner-spin-button {
   border: none;
 }
 
+.inpicon {
+  position: absolute;
+  bottom: 28%;
+  left: 10px;
+}
+.emailinpopup {
+  padding-left: 40px !important;
+  padding-top: 17px !important;
+  padding-bottom: 17px !important;
+}
+
+.guestloginbtn {
+  border-radius: 16px;
+  border: 1px solid #F0EDFF;
+  width: 100%;
+}
 .modal-header .close {
   color: var(--text-primary);
 }

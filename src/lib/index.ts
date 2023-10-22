@@ -10,3 +10,12 @@ export function clearCookies() {
         document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
 }
+
+export function formatDate(input: string | number): string {
+    const date = new Date(input)
+    return date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+    })
+}
