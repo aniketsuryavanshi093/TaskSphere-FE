@@ -19,3 +19,25 @@ export function formatDate(input: string | number): string {
         year: "numeric",
     })
 }
+export function generateInitials(input: string): string {
+    let str = ""
+    if (input.split(" ").length > 0) {
+        input.split(" ").forEach(element => {
+            str += element[0]
+        });
+    }
+    return str
+}
+
+export const concatString = (characters, string) => {
+    if (string?.length >= characters) {
+        return `${string.substring(0, characters)}...`;
+    }
+    return string
+}
+
+export function generateslugs(input: string): string {
+    let str = input.split(" ").join("-")
+    return str
+}
+

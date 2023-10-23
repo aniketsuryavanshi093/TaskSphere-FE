@@ -20,8 +20,8 @@ input[type='number']::-webkit-inner-spin-button {
 }
 .emailinpopup {
   padding-left: 40px !important;
-  padding-top: 17px !important;
-  padding-bottom: 17px !important;
+  padding-top: 11px !important;
+  padding-bottom: 11px !important;
 }
 
 .guestloginbtn {

@@ -7,7 +7,7 @@ import './modal.css';
 type PageProps = {
   isOpen: boolean
   onClose: () => void;
-  title: string
+  title?: string
   children: React.JSX.Element
   handleCLick?: () => void
   btntext?: string

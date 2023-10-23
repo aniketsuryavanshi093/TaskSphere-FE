@@ -18,3 +18,8 @@ export const GetProjectByUser = async ({ authToken, id, istaskstats }: CurrentUs
 export const GetProjectUsers = async ({ authToken, projectId }: CurrentUserObjectType) => {
     return axiosInterceptorInstance.get(`/members/getprojectusers/${projectId}`, createHeader(authToken))
 }
+
+
+export async function getUserActivity({ authToken }) {
+    return axiosInterceptorInstance.get(`activity/all`, createHeader(authToken))
+}

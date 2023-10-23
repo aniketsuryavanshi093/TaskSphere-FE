@@ -44,3 +44,9 @@ export const createticketvalidation = Yup.object({
     assignedTo: Yup.string().required('please select user to assign ticket!'),
     projectId: Yup.string().required('please select project to assign ticket!'),
 })
+
+
+export const createblogvalidation = Yup.object({
+    title: Yup.string().required('ticket title is required!'),
+    previewImage: Yup.string().required('ticket description is required!'),
+})

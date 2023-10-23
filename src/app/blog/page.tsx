@@ -17,8 +17,8 @@ export default async function BlogPage() {
   return (
     <>
       <Header />
-      <BlogButton />
-      <div className="container max-w-4xl py-6 lg:py-10">
+      <div className="container max-w-4xl py-3 px-0">
+        <BlogButton />
         {posts?.length ? (
           <div className="grid gap-10 sm:grid-cols-2">
             {posts.map((post, index) => (

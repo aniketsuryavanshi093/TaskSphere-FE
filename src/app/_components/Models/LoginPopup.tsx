@@ -48,7 +48,7 @@ const LoginPopup: React.FC<{ isOpen: boolean, onClose: () => void, }> = ({ isOpe
         }
     }
     return (
-        <CustomModal isOpen={isOpen} title="Add Users" onClose={onClose}>
+        <CustomModal isOpen={isOpen} onClose={onClose}>
             <div className='w-100 p-2'>
                 <Formik
                     initialValues={initialValue}
@@ -111,7 +111,7 @@ const LoginPopup: React.FC<{ isOpen: boolean, onClose: () => void, }> = ({ isOpe
                                     onClick={() => {
                                         startTransition(() => handleServerAction(null, "google",))
                                     }}
-                                    className=" guestloginbtn my-2 py-3"
+                                    className=" guestloginbtn my-2 py-2 px-2"
                                 >
                                     <div className="wrapper ">
                                         <Image
@@ -128,7 +128,6 @@ const LoginPopup: React.FC<{ isOpen: boolean, onClose: () => void, }> = ({ isOpe
                                 </button>
                             </div>
                         </Form>
-
                     )
                     }
                 </Formik>

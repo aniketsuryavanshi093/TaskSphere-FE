@@ -40,16 +40,15 @@
   }
   
   .custom_nav-container .navbar-nav {
-    margin: auto;
   }
   
   .custom_nav-container .navbar-nav .nav-item .nav-link {
     padding: 5px 25px;
     color: #ffffff !important;
     text-align: center;
-    text-transform: uppercase;
+    background: #4117f2;
+    /* text-transform: uppercase; */
     border-radius: 5px;
-    -webkit-transition: all 0.3s;
     transition: all 0.3s;
   }
   
@@ -180,3 +179,8 @@
             transform: translateY(-3px);
   }
   
+  .username{
+    color: white;
+    font-size: 13px;
+    margin-left: 12px;
+  }
