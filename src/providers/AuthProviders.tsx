@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react'
 
 const AuthProviders: React.FC<{ children: ReactNode }> = ({ children }) => {
     return (
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider refetchOnWindowFocus={false} >{children}</SessionProvider>
     )
 }
 

@@ -64,6 +64,8 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
       dispatch(setCommentsInfo({ comments: [], isClear: true }))
     }
   }, [])
+  console.log(UsersList, ticketData);
+
   return (
     <Offcanvas
       direction="end"

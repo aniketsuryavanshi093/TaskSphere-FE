@@ -100,3 +100,38 @@ export type PaginationConfigType = {
     onperpageItemCountchange: (number: number) => void,
     showStartEndPage?: boolean,
 }
+
+export type ActivityType = {
+    action: any
+    activity: 'create' | 'update' | 'delete' | 'assign' | 'added' | 'close'
+    type: 'Ticket' | 'Member' | 'Project'
+    projectId?: string
+    _id: string
+    ticketUpdatetext: string
+    createdBy?: string
+    createdByOrg?: string
+    createdByData: {
+        _id: string
+        email: string
+        name: string
+        userName: string
+        profilePic: string
+    }
+    assignedTo?: {
+        _id: string
+        email: string
+        name: string
+        userName: string
+        profilePic: string
+    }
+    projectData: {
+        description: string
+        title: string
+        _id: string
+    }
+    createdAt: string
+    ticketData: {
+        title: string
+        _id: string
+    }
+}
