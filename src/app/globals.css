@@ -1,3 +1,4 @@
+
 body{
   font-family: 'Inter', sans-serif;
 }
@@ -152,7 +153,12 @@ body{
 .tooltip-top:after {
   margin-left: -80px;
 }
-
+.erorindicatior {
+  color: red;
+  margin-bottom: 0;
+  font-size: 13px;
+  text-align: center;
+}
 [data-tooltip]:hover:before,
 [data-tooltip]:hover:after,
 [data-tooltip]:focus:before,

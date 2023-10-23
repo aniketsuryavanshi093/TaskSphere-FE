@@ -10,6 +10,8 @@ const ProfileMenu: React.FC = () => {
     const handleLogout = async () => {
         signOut()
     };
+    console.log(data);
+
     return (
         <Dropdown
             isOpen={Menu}

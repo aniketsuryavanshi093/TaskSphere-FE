@@ -6,6 +6,7 @@ import type { Metadata } from 'next'
 import { Html } from 'next/document'
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
+import Script from 'next/script'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +27,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous"
           referrerPolicy="no-referrer" />
+        <Script
+          src='/js/custom.js'
+          strategy="lazyOnload"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossOrigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossOrigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200&display=swap" rel="stylesheet"></link>
         <link
           rel="stylesheet"

@@ -10,3 +10,34 @@ export function clearCookies() {
         document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
 }
+
+export function formatDate(input: string | number): string {
+    const date = new Date(input)
+    return date.toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+    })
+}
+export function generateInitials(input: string): string {
+    let str = ""
+    if (input.split(" ").length > 0) {
+        input.split(" ").forEach(element => {
+            str += element[0]
+        });
+    }
+    return str
+}
+
+export const concatString = (characters, string) => {
+    if (string?.length >= characters) {
+        return `${string.substring(0, characters)}...`;
+    }
+    return string
+}
+
+export function generateslugs(input: string): string {
+    let str = input.split(" ").join("-")
+    return str
+}
+
