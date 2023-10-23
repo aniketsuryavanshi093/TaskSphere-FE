@@ -26,7 +26,7 @@ export function generateInitials(input: string): string {
             str += element[0]
         });
     }
-    return str
+    return str.toUpperCase()
 }
 
 export const concatString = (characters, string) => {

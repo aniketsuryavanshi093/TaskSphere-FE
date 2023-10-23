@@ -19,6 +19,7 @@ import DragDropLoader from '@/app/_components/UI/DragAndDrop/DragDropLoader/Drag
 export type ticketUpdateValuesType = {
     status: string;
     updatedBy: string | undefined;
+    currentstatus: string | undefined;
     assignedTo: string | undefined;
     projectId: string | string[];
     ticketId: string;
