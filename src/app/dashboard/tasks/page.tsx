@@ -78,9 +78,10 @@ const Task = () => {
                         <Input
                             id="exampleCheck"
                             onChange={(e) => {
-                                setshowDone(!e.target.checked)
+                                setshowDone(!showDone)
                             }}
                             name="check"
+                            checked={showDone}
                             style={{ border: "1px solid " }}
                             type="checkbox"
                         />

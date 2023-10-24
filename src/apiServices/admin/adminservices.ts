@@ -20,6 +20,6 @@ export const GetProjectUsers = async ({ authToken, projectId }: CurrentUserObjec
 }
 
 
-export async function getUserActivity({ authToken }) {
-    return axiosInterceptorInstance.get(`activity/all`, createHeader(authToken))
+export async function getUserActivity({ authToken }, isForme: boolean, pagination) {
+    return axiosInterceptorInstance.get(`activity/all?offset=${pagination.offset}&limit=${pagination.limit}${isForme ? '&isForme=true' : ""}`, createHeader(authToken))
 }

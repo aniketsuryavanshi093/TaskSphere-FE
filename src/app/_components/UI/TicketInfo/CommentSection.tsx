@@ -22,7 +22,6 @@ const Commentsection: React.FC<{ ticketId: string }> = ({ ticketId }) => {
     const [initialFetchedCOmments, setinitialFetchedCOmments] = useState([])
     useEffect(() => {
         if (commentsData?.data?.data?.comments?.length) {
-            console.log("he is dispatching ");
             setinitialFetchedCOmments(commentsData?.data?.data?.comments)
         }
     }, [commentsData?.data?.data.comments])

@@ -24,6 +24,7 @@ type activityprops = {
 }
 
 const Activity: React.FC<{ activityInfo: ActivityType, key: string }> = ({ activityInfo, key }) => {
+
     const [ActivityDetail, setActivityDetail] = useState<activityprops>({
         assignedetail: undefined, actionperformedtext: "", tickettitle: "", creatordetail: undefined, secondrytext: ""
     })
@@ -33,7 +34,7 @@ const Activity: React.FC<{ activityInfo: ActivityType, key: string }> = ({ activ
                 switch (activityInfo.action) {
                     case "assign":
                         setActivityDetail({
-                            creatordetail: activityInfo?.createdByData,
+                            creatordetail: activityInfo?.createdByData || activityInfo?.createdByOrgData,
                             assignedetail: activityInfo?.assignedTo,
                             actionperformedtext: "assigned",
                             secondrytext: "to",
@@ -42,7 +43,7 @@ const Activity: React.FC<{ activityInfo: ActivityType, key: string }> = ({ activ
                         break;
                     case "update":
                         setActivityDetail({
-                            creatordetail: activityInfo?.createdByData,
+                            creatordetail: activityInfo?.createdByData || activityInfo?.createdByOrgData,
                             actionperformedtext: "updated",
                             secondrytext: activityInfo.ticketUpdatetext,
                             tickettitle: activityInfo?.ticketData?.title
@@ -50,7 +51,7 @@ const Activity: React.FC<{ activityInfo: ActivityType, key: string }> = ({ activ
                         break;
                     case "create":
                         setActivityDetail({
-                            creatordetail: activityInfo?.createdByData,
+                            creatordetail: activityInfo?.createdByData || activityInfo?.createdByOrgData,
                             actionperformedtext: "created",
                             tickettitle: activityInfo?.ticketData?.title
                         })
@@ -79,6 +80,7 @@ const Activity: React.FC<{ activityInfo: ActivityType, key: string }> = ({ activ
                 break;
         }
     }, [activityInfo])
+    console.log(ActivityDetail);
     return (
         ActivityDetail.creatordetail && (
             <div key={key} className='wrapper mb-3 justify-start'>
