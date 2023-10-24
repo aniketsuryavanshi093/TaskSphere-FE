@@ -108,7 +108,32 @@ body{
   background: transparent;
   content: "";
 }
-
+.togglebtn {
+  border: none;
+  background: transparent;
+}
+.header-item {
+    height: 70px;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    color: #555b6d;
+    border: 0;
+    border-radius: 0px;
+  }
+  .header-item:hover {
+    color: #555b6d;
+  }
+  .waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
 /* Base styles for the tooltip's content area */
 .tooltip:after,
 [data-tooltip]:after {

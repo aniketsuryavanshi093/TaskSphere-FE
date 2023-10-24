@@ -19,7 +19,7 @@ type pageprops = {
   isopen: boolean;
   ticketData: TaskType | null;
   onClosed: () => void;
-  projectId: string
+  projectId?: string | undefined
 };
 
 const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, projectId }) => {

@@ -117,6 +117,13 @@ export type ActivityType = {
         userName: string
         profilePic: string
     }
+    createdByOrgData: {
+        _id: string
+        email: string
+        name: string
+        userName: string
+        profilePic: string
+    }
     assignedTo?: {
         _id: string
         email: string

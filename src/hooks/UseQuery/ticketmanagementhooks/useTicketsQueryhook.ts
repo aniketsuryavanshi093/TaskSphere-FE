@@ -8,8 +8,6 @@ const useTicketsQueryhook = ({ id = "", filterURLValue, frompage }: { id?: strin
         queryKey: ['tickets', `${id}${filterURLValue || ""}`],
         queryFn: () => getAllTickets({ id, filterURL: filterURLValue, authToken: data?.user?.authToken }),
         enabled: data?.user && frompage ? true : false,
-        refetchOnMount: false,
-        staleTime: 2 * 60 * 60,
         refetchOnReconnect: false,
         refetchOnWindowFocus: false
     })
