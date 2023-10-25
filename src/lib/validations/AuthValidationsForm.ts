@@ -48,5 +48,7 @@ export const createticketvalidation = Yup.object({
 
 export const createblogvalidation = Yup.object({
     title: Yup.string().required('ticket title is required!'),
+    description: Yup.string().required('ticket description is required!'),
     previewImage: Yup.string().required('ticket description is required!'),
+
 })

@@ -36,6 +36,22 @@ export interface memberInput {
     ticketAdministrator: boolean
     organizationId: string
 }
+export type bloginterface = {
+    description: any
+    title: string
+    content: string
+
+    createdAt: string
+    previewImage: string
+    slug: string
+    author: {
+        _id: string
+        profilePic: string
+        userName: string
+        name: string
+    }
+    _id: string
+}
 
 export interface projectTypes {
     membersCount: number
@@ -111,6 +127,13 @@ export type ActivityType = {
     createdBy?: string
     createdByOrg?: string
     createdByData: {
+        _id: string
+        email: string
+        name: string
+        userName: string
+        profilePic: string
+    }
+    createdByOrgData: {
         _id: string
         email: string
         name: string

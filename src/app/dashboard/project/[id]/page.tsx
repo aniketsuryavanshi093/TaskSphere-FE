@@ -22,6 +22,7 @@ import { ticketUpdateValuesType } from "../../manageticket/[id]/page";
 import DragDropLoader from "@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader";
 import useUpdateTicketHook from "@/hooks/useUpdateTicketHook";
 import Link from "next/link";
+import useDragEndHook from "@/app/_components/UI/DragAndDrop/useDragEndHook";
 
 const ProjectPage = () => {
   const { id } = useParams();
@@ -82,63 +83,13 @@ const ProjectPage = () => {
       setdragDropData(null);
     }
   }, [Tickets]);
-  const onDragEnd = async (
-    result: DropResult,
-    columns: DragDropCOlumnstype | null,
-    setColumns: React.Dispatch<React.SetStateAction<DragDropCOlumnstype | null>>
-  ) => {
-    if (!result.destination) return;
-    const { source, destination } = result;
-    if (source.droppableId !== destination.droppableId) {
-      const values: ticketUpdateValuesType = {
-        status: destination.droppableId,
-        updatedBy: data?.user.id,
-        assignedTo: columns[source.droppableId].items.find(
-          (el) => el._id === result.draggableId
-        )?.assignedTo,
-        projectId: id,
-        ticketId: result.draggableId,
-      };
-      console.log(values);
-
-      startTransition(() => handleUpdateTicket(values));
-      const sourceColumn = columns[source.droppableId];
-      const destColumn = columns[destination.droppableId];
-      const sourceItems = [...sourceColumn.items];
-      const destItems = [...destColumn.items];
-      const [removed] = sourceItems.splice(source.index, 1);
-      destItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...sourceColumn,
-          items: sourceItems,
-        },
-        [destination.droppableId]: {
-          ...destColumn,
-          items: destItems,
-        },
-      });
-    } else {
-      const column = columns[source.droppableId];
-      const copiedItems = [...column.items];
-      const [removed] = copiedItems.splice(source.index, 1);
-      copiedItems.splice(destination.index, 0, removed);
-      setColumns({
-        ...columns,
-        [source.droppableId]: {
-          ...column,
-          items: copiedItems,
-        },
-      });
-    }
-  };
 
   useEffect(() => {
     return () => {
       dispatch(setTicketInfoClosed());
     };
   }, [dispatch]);
+  const { onDragEnd } = useDragEndHook(id as string)
 
   return (
     <div>

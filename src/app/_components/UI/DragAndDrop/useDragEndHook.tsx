@@ -6,7 +6,7 @@ import React, { useTransition } from 'react'
 import { DropResult } from 'react-beautiful-dnd';
 
 const useDragEndHook = (projectId: string) => {
-    const { handleUpdateTicket } = useUpdateTicketHook();
+    const { handleUpdateTicket } = useUpdateTicketHook(projectId);
     const { data } = useSession()
     const [pending, startTransition] = useTransition();
     const onDragEnd = async (

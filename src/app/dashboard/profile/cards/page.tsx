@@ -1,39 +1,34 @@
 "use client"
+import { FormGroup, Input, Label } from 'reactstrap'
+import React, { useEffect, useState, } from 'react'
+import { useSession } from 'next-auth/react'
 import useGetProjectsByUserhook from '@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectsByUserhook'
 import useGetAllOrganizationsProjecthook from '@/hooks/UseQuery/ProjectsQueryHooks/usegetAllOrganizationsProjecthook'
 import useTicketsQueryhook from '@/hooks/UseQuery/ticketmanagementhooks/useTicketsQueryhook'
-import { useSession } from 'next-auth/react'
-import React, { useEffect, useState, useTransition } from 'react'
 import { DragDropCOlumnstype, TaskType } from '@/commontypes'
-import { DropResult } from 'react-beautiful-dnd'
 import DragDropLoader from '@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader'
 import DraggableContext from '@/app/_components/UI/DragAndDrop/DraggAbleContext/DraggableContext'
-import useUpdateTicketHook from '@/hooks/useUpdateTicketHook'
-import "../../tasks/tasks.scss"
 import TicketInfo from '@/app/_components/UI/TicketInfo/TicketInfo'
 import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
+import useDragEndHook from '@/app/_components/UI/DragAndDrop/useDragEndHook'
 import { setTicketInfoClosed } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
-import { FormGroup, Input, Label } from 'reactstrap'
-import { ticketUpdateValuesType } from '../../manageticket/[id]/page'
 import TaskFilter from '../../tasks/_taskcomponent/TaskFilter'
 import AllTaskList from '../../tasks/_taskcomponent/AllTaskList'
+import "../../tasks/tasks.scss"
 
 const Task = () => {
     const { data } = useSession()
     const { data: userproject, isLoading: userprojectload } = useGetProjectsByUserhook(data)
-    const [pending, startTransition] = useTransition();
     const dispatch = useAppDispatch()
     const [showDone, setshowDone] = useState<boolean>(false)
     const { ticketInfo } = useAppSelector((state) => state.manageticketreducer);
-    const { handleUpdateTicket } = useUpdateTicketHook();
     const { data: orgProjects, } = useGetAllOrganizationsProjecthook(data)
     const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(
         null
     );
     const [ProjectId, setProjectId] = useState<{ id: string, label: string }>({ id: "", label: "" })
-    console.log(userproject);
     const { data: tickets, isLoading } = useTicketsQueryhook({ id: ProjectId.id, filterURLValue: `&isforUser=true${showDone ? '&notshowDone=true' : ""}`, frompage: true })
-    console.log(tickets);
+    const { onDragEnd } = useDragEndHook(ProjectId.id)
     useEffect(() => {
         if (tickets?.data?.data?.tickets?.list?.length && ProjectId) {
             let res: DragDropCOlumnstype = {
@@ -73,55 +68,6 @@ const Task = () => {
             setdragDropData(null);
         }
     }, [tickets, ProjectId]);
-    const onDragEnd = async (
-        result: DropResult,
-        columns: DragDropCOlumnstype | null,
-        setColumns: React.Dispatch<React.SetStateAction<DragDropCOlumnstype | null>>
-    ) => {
-        if (!result.destination) return;
-        const { source, destination } = result;
-        if (source.droppableId !== destination.droppableId) {
-            const values: ticketUpdateValuesType = {
-                status: destination.droppableId,
-                updatedBy: data?.user.id,
-                assignedTo: columns[source.droppableId].items.find(
-                    (el) => el._id === result.draggableId
-                )?.assignedTo,
-                projectId: ProjectId.id,
-                ticketId: result.draggableId,
-            };
-            startTransition(() => handleUpdateTicket(values));
-            const sourceColumn = columns[source.droppableId];
-            const destColumn = columns[destination.droppableId];
-            const sourceItems = [...sourceColumn.items];
-            const destItems = [...destColumn.items];
-            const [removed] = sourceItems.splice(source.index, 1);
-            destItems.splice(destination.index, 0, removed);
-            setColumns({
-                ...columns,
-                [source.droppableId]: {
-                    ...sourceColumn,
-                    items: sourceItems,
-                },
-                [destination.droppableId]: {
-                    ...destColumn,
-                    items: destItems,
-                },
-            });
-        } else {
-            const column = columns[source.droppableId];
-            const copiedItems = [...column.items];
-            const [removed] = copiedItems.splice(source.index, 1);
-            copiedItems.splice(destination.index, 0, removed);
-            setColumns({
-                ...columns,
-                [source.droppableId]: {
-                    ...column,
-                    items: copiedItems,
-                },
-            });
-        }
-    };
     return (
         <div>
             <div className='wrapper justify-between'>

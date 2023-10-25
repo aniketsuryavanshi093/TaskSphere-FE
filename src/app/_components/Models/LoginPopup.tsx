@@ -30,6 +30,7 @@ const LoginPopup: React.FC<{ isOpen: boolean, onClose: () => void, }> = ({ isOpe
                         setError(data.error)
                     } else {
                         onClose()
+                        window.location.reload()
                     }
                 }).catch(er => console.log(er))
             } else {
@@ -40,6 +41,8 @@ const LoginPopup: React.FC<{ isOpen: boolean, onClose: () => void, }> = ({ isOpe
                         }
                         else {
                             onClose()
+                            window.location.reload()
+
                         }
                     }).catch(er => console.log(er))
             }

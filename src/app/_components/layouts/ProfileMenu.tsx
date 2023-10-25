@@ -3,15 +3,12 @@ import Image from 'next/image';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import React, { useState } from 'react'
 import Link from 'next/link';
-
 const ProfileMenu: React.FC = () => {
     const { data, } = useSession()
     const [Menu, setMenu] = useState<boolean>(false);
     const handleLogout = async () => {
         signOut()
     };
-    console.log(data);
-
     return (
         <Dropdown
             isOpen={Menu}
@@ -45,19 +42,6 @@ const ProfileMenu: React.FC = () => {
                         Profile
                     </DropdownItem>
                 </Link>
-                {/* 
-                <Link to="/support">
-                    <DropdownItem tag="span" className="cp text_primary profile_dropdown_menu_item">
-                        <i className="uil uil-comment-alt-question font-size-18 align-middle me-2" />
-                        Support
-                    </DropdownItem>
-                </Link>
-                <Link to="/notification" className="d-none">
-                    <DropdownItem tag="span" className="cp text_primary profile_dropdown_menu_item">
-                        <i className="uil uil-bell font-size-18 align-middle me-2" />
-                        Notification
-                    </DropdownItem>
-                </Link> */}
                 <button
                     type="button"
                     onClick={handleLogout}
@@ -68,8 +52,6 @@ const ProfileMenu: React.FC = () => {
                 </button>
             </DropdownMenu>
         </Dropdown>
-
     )
 }
-
 export default ProfileMenu

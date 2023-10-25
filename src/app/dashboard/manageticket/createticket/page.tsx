@@ -23,8 +23,8 @@ import CustomDropDownButton from '@/app/_components/CustomDropDownButton/CustomD
 import useGetProjectsByUserhook from '@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectsByUserhook'
 import useGetProjectUsers from '@/hooks/UseQuery/UsersQueryHook/useGetProjectUsers'
 import useGetProjectDetails from "@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectDetails"
-import { useParams, useSearchParams } from 'next/navigation'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useSearchParams } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 
 type initialType = {
     "title": string,
@@ -108,7 +108,8 @@ const CreateTicket: React.FC = () => {
                 return
             }
             enqueSnackBar({ type: "success", message: "Ticket created Successfully!" })
-            queryClient.invalidateQueries({ queryKey: ["projectdetail", ProjectId] })
+            queryClient.invalidateQueries({ queryKey: ["tickets", ProjectId] })
+            // queryClient.invalidateQueries({ queryKey: ["projectdetail", ProjectId] })
             resetForm()
         } catch (error) {
             console.log(error)

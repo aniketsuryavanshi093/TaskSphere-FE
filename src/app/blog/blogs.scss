@@ -1,0 +1,23 @@
+.blogpostgrid{
+    display: grid;
+    grid-gap: 2rem;
+    height: auto;
+
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(306px, 1fr));
+}
+.posttitle{
+    font-weight: 800;
+    font-size: 1.5rem;
+}
+.postimage{
+    background: #f0f0f0;
+    width: 100%;
+    border-radius: 8px;
+    height: 240px;
+}
+.viewarticle{
+    padding: 0px 5px;
+    border: 1px solid;
+    border-radius: 4px; 
+}
