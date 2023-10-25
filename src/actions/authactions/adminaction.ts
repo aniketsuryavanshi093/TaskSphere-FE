@@ -36,12 +36,12 @@ export async function createUseraction(values: any) {
     });
 }
 
-export async function createBlogAction({ title, content, previewImage, slug }: { title: string, content: string, previewImage: string, slug: string }) {
+export async function createBlogAction({ title, content, previewImage, slug, description }: { title: string, description: string, content: string, previewImage: string, slug: string }) {
     return new Promise(async (resolve, reject) => {
         try {
             const user = await getCurrentUser()
             const result = await Fetch({
-                method: "POST", data: ({ title, content, previewImage, slug }),
+                method: "POST", data: ({ title, content, previewImage, slug, description }),
                 url: "blog/createBlog",
                 token: user?.authToken,
             })

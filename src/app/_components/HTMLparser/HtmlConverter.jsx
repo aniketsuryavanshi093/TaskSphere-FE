@@ -6,4 +6,4 @@ const HtmlConverter = ({ htmlString }) => {
   const reactElement = parser.parse(htmlString);
   return <div>{reactElement}</div>;
 };
-export default React.memo(HtmlConverter);
+export default HtmlConverter;

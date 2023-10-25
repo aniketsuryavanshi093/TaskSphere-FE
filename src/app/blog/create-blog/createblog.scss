@@ -19,3 +19,15 @@
     background: #ededed;
     border-radius: 5px;
 }
+.uploadimagecontainer{
+    width: 100%;
+}
+@media only screen and (max-width: 1024px) {
+    .blogcreatewrapper {
+        flex-direction: column-reverse;
+    }
+    .uploadimagecontainer{
+        width: 60%;
+        margin:auto;
+    }
+}

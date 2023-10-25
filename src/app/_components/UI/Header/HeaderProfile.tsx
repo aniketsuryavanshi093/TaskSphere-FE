@@ -21,6 +21,8 @@ const Component = () => {
     const handleLogout = async () => {
         signOut()
     };
+    console.log(data, status);
+
     return (
         status !== "authenticated" ?
             <div className="quote_btn-container">
@@ -39,6 +41,7 @@ const Component = () => {
                 >
                     <DropdownToggle
                         className="togglebtn header-item pe-0 waves-effect"
+                        style={{ height: "auto" }}
                         id="page-header-user-dropdown"
                         tag="button"
                     >

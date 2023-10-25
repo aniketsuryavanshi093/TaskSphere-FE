@@ -2,7 +2,7 @@ import { stringify } from "querystring"
 
 export const Fetch = async ({
     token, method, data, url
-}: { token: string, method: string, data?: any, url: string }) => {
+}: { token?: string, method: string, data?: any, url: string }) => {
     let res = await fetch(`http://localhost:4000/api/v1/${url}`, {
         method, headers: {
             Authorization: `Bearer ${token}`,

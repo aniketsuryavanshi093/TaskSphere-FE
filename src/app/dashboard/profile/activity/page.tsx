@@ -58,7 +58,6 @@ const ProfileActivity = () => {
             }))
         }
     };
-    console.log(activitystateInfo);
 
     return (
         <div className="activitywrapper px-3 py-2">

@@ -23,7 +23,7 @@ const Component = () => {
     return (<div className="wrapper justify-end">
         {
             status === "authenticated" ? (
-                <Link className='create-blog btn' href="/create-blog"> Create Blog </Link>
+                <Link prefetch={false} className='create-blog btn' href="/blog/create-blog"> Create Blog </Link>
             )
                 :
                 (

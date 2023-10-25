@@ -1,0 +1,22 @@
+.blogpostwrapper{
+    width: 70%;
+    margin: auto;
+    margin-top: 50px;
+}
+.pposttitle{
+    font-size: 3rem;
+    line-height: 1;
+    color: black;
+}
+.postdata{
+    font-size: .875rem;
+    line-height: 1.25rem;
+
+}
+.posttimage{
+    border-radius: 10px;
+    object-fit: contain;
+    background: aliceblue;
+    width: 100%;
+
+}
