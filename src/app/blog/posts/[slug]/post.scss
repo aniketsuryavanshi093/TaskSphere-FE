@@ -1,26 +1,40 @@
-.blogpostwrapper{
+.blogpostwrapper {
     width: 70%;
     margin: auto;
     margin-top: 50px;
+
+    .fa {
+        font-family: inherit !important;
+        font-weight: inherit !important;
+
+    }
+
+    a {
+        color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1)) !important;
+    }
 }
-.pposttitle{
+
+.pposttitle {
     font-size: 3rem;
     line-height: 1;
     color: black;
 }
-.postdata{
+
+.postdata {
     font-size: .875rem;
     line-height: 1.25rem;
 
 }
-.posttimage{
+
+.posttimage {
     border-radius: 10px;
     object-fit: contain;
     background: aliceblue;
     width: 100%;
 
 }
-.seeallbtn{
+
+.seeallbtn {
     top: 22%;
     left: 5%;
 }

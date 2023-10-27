@@ -131,11 +131,13 @@ const Page = () => {
                                                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen', "codesample",
                                                 'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
                                             ],
-                                            toolbar: 'undo redo | blocks | codesample ' +
-                                                'bold italic forecolor | alignleft aligncenter ' +
+                                            toolbar: 'undo redo blocks image codesample preview ' +
+                                                'bold italic forecolor fontsize lineheight | alignleft aligncenter  ' +
                                                 'alignright alignjustify | bullist numlist outdent indent | ' +
-                                                'removeformat | help',
+                                                'help',
+                                            font_size_formats: '8pt 10pt 12pt 14pt 16pt 18pt 24pt 36pt 48pt',
                                             images_upload_handler: handleImageUpload,
+                                            line_height_formats: '1 1.2 1.4 1.6 2',
                                             content_style: 'body {font - family:Helvetica,Arial,sans-serif; font-size:14px }'
                                         }}
                                     />

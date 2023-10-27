@@ -26,6 +26,16 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
   onperpageItemCountchange,
   showStartEndPage = true
 } }) => {
+  console.log({
+    pageCount,
+    itemCount,
+    currentPage,
+    onPageChange,
+    showLabel,
+    perpageItemCount,
+    onperpageItemCountchange,
+    showStartEndPage
+  });
 
   const [_currentPage, setCurrentPage] = useState(currentPage || 1);
   const perpagearr = [2, 5, 10, 15, 25, 50];

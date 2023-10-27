@@ -1,29 +1,33 @@
-.projecttitle{
+.projecttitletask {
     color: #0D062D;
     font-family: Inter;
     font-size: 18px;
     font-style: normal;
     font-weight: 600;
 }
-.tasklistwrapper{
+
+.tasklistwrapper {
     grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
     gap: 2rem;
     display: grid;
 }
-.draggablewrapper{
+
+.draggablewrapper {
     border: 1px solid lightgrey;
     border-radius: 2px;
     padding: 8px;
     margin-bottom: 8px;
 }
-.taskinfolist{
+
+.taskinfolist {
     padding: 20px;
     min-height: 159px;
     border-radius: 5px;
     width: 100%;
     background: #e6e6e6 !important;
     margin-top: 15px;
-    .secondary-details{
+
+    .secondary-details {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -33,7 +37,8 @@
         color: #7d7d7d;
     }
 }
-.priorityindicator{
+
+.priorityindicator {
     width: fit-content;
     height: 23px;
     padding: 4px;
@@ -43,25 +48,30 @@
     margin-bottom: 0;
     border-radius: 4px;
 }
-.tasktag{
+
+.tasktag {
     color: #0D062D;
     cursor: pointer;
-    font-family: Inter;width: fit-content;
+    font-family: Inter;
+    width: fit-content;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    &:hover{
+
+    &:hover {
         text-decoration: underline;
     }
 }
-.tasktitle{
+
+.tasktitle {
     color: #000000;
     font-family: Inter;
     font-size: 12px;
     font-style: normal;
     font-weight: 600;
 }
-.tasklabel{
+
+.tasklabel {
     width: fit-content;
     height: 23px;
     padding: 5px;
@@ -72,18 +82,22 @@
     margin-bottom: 0;
     border-radius: 4px;
 }
-.taskions{
+
+.taskions {
     bottom: 11%;
-    position: absolute;width: 86%;
+    position: absolute;
+    width: 86%;
 }
-.commentstasklist{
+
+.commentstasklist {
     color: black;
     font-family: Inter;
     font-size: 13px;
     font-style: normal;
     font-weight: 900;
 }
-.usertask{
+
+.usertask {
     width: 40px;
     cursor: pointer;
     height: 40px;

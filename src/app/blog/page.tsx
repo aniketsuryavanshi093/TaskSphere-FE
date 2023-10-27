@@ -1,24 +1,23 @@
 import Image from "next/image"
 import Link from "next/link"
-import Header from "../_components/UI/Header/Header"
 import BlogButton from "./blogcomponent/BlogComponents"
 import { formatDate } from "@/lib"
 import { getAllposts } from "@/actions/blogsactions/blogservice"
 import { Suspense } from "react"
 import { bloginterface } from "@/commontypes"
+import BlogPagination from "./blogcomponent/BlogPagination"
 
 export const metadata = {
   title: "Blog",
 }
-export const revalidate = 10;
+export const revalidate = 20;
 
 export default async function BlogPage() {
   const allposts: { blogs: bloginterface[], total: number, totalPages: number } = await getAllposts()
-  console.log("🤩🤩🤩", allposts);
   return (
     <>
       <BlogButton />
-      <Suspense fallback="loading">
+      <Suspense >
         {allposts?.blogs?.length ? (
           <div className="blogpostgrid cp">
             {allposts?.blogs?.map((post: bloginterface, index) => (
@@ -57,6 +56,7 @@ export default async function BlogPage() {
         ) : (
           <p>No posts published.</p>
         )}
+        <BlogPagination total={allposts.total} totalPages={allposts.totalPages} />
       </Suspense>
     </>
   )
