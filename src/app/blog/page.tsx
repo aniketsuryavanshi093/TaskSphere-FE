@@ -10,18 +10,18 @@ import { bloginterface } from "@/commontypes"
 export const metadata = {
   title: "Blog",
 }
-// export const revalidate = 300;
+export const revalidate = 10;
 
 export default async function BlogPage() {
-  const allposts: bloginterface[] = await getAllposts()
+  const allposts: { blogs: bloginterface[], total: number, totalPages: number } = await getAllposts()
   console.log("🤩🤩🤩", allposts);
   return (
     <>
       <BlogButton />
       <Suspense fallback="loading">
-        {allposts?.length ? (
+        {allposts?.blogs?.length ? (
           <div className="blogpostgrid cp">
-            {allposts.map((post: bloginterface, index) => (
+            {allposts?.blogs?.map((post: bloginterface, index) => (
               <div
                 key={post._id}
                 className="group relative flex flex-col space-y-2"
@@ -29,6 +29,7 @@ export default async function BlogPage() {
                 {post.previewImage && (
                   <Image
                     src={post.previewImage}
+                    unoptimized
                     alt={post.title}
                     width={100}
                     height={100}
@@ -45,7 +46,7 @@ export default async function BlogPage() {
                     <p className="text-sm my-1 text-muted-foreground">
                       {formatDate(post.createdAt)}
                     </p>
-                    <Link href={`blog/posts/${post.slug}`} className="absolute viewarticle inset-0 cp">
+                    <Link prefetch={false} href={`blog/posts/${post.slug}`} className="absolute viewarticle inset-0 cp">
                       <span className="">View Article</span>
                     </Link>
                   </div>
