@@ -59,7 +59,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <p className="mb-0 ms-3 text_muted">{post.author.userName}</p>
           </div>
         </div>
-        <Image className="my-4 posttimage" src={post.previewImage} alt={post.slug} unoptimized width={100} height={405} />
+        {/* <Image className="my-4 posttimage" src={post.previewImage} alt={post.slug} unoptimized width={100} height={405} /> */}
         <div className="w-100">
           <HtmlConverter htmlString={post.content} />
         </div>

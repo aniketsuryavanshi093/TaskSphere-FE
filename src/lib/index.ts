@@ -37,7 +37,7 @@ export const concatString = (characters, string) => {
 }
 
 export function generateslugs(input: string): string {
-    let str = input.split(" ").join("-")
+    let str = input.split(" ").join("-").replaceAll("?", "")
     return str
 }
 

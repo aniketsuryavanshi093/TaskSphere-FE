@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable no-underscore-dangle */
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Label, Input } from 'reactstrap';
 import { AiOutlineDoubleLeft, AiOutlineDoubleRight } from 'react-icons/ai';
 import './index.css';
@@ -16,7 +16,7 @@ export type PaginationConfigType = {
   showStartEndPage?: boolean,
 }
 
-const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ paginationConfig: {
+const Pagination: React.FC<{ paginationConfig: PaginationConfigType, showRowperpage?: boolean }> = ({ showRowperpage = true, paginationConfig: {
   pageCount,
   itemCount,
   currentPage,
@@ -27,12 +27,17 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
   showStartEndPage = true
 } }) => {
 
+
   const [_currentPage, setCurrentPage] = useState(currentPage || 1);
   const perpagearr = [2, 5, 10, 15, 25, 50];
   const _onPageChange = (page: number) => {
     setCurrentPage(page);
     onPageChange(page);
   };
+  useEffect(() => {
+    setCurrentPage(currentPage)
+  }, [currentPage])
+  console.log("😎😎🤣🤣🤩🤩😀😀😂🥰🥰😃😃😚😚", _currentPage);
 
   const nextPage = () => {
     const updatedPage = currentPage + 1 <= pageCount ? currentPage + 1 : _currentPage;
@@ -42,6 +47,7 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
 
   const prevPage = () => {
     const updatedPage = currentPage - 1 >= 1 ? currentPage - 1 : 1;
+    console.log(currentPage - 1 >= 1, updatedPage, currentPage)
     setCurrentPage(updatedPage);
     onPageChange(updatedPage);
   };
@@ -56,7 +62,7 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
                 Total Entries <strong>{itemCount}</strong>
               </span>
             )}
-            {
+            {showRowperpage &&
               <div className="wrapper mx-2 text_primary ">
                 <Label htmlFor="rowperpage" className="nowrap mx-3 mb-0">
                   Rows per Page
@@ -90,7 +96,7 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
                   </button>
                 )}
                 <button
-                  disabled={_currentPage === 1}
+                  // disabled={_currentPage === 1}
                   type="button"
                   onKeyDown={() => prevPage()}
                   onClick={() => prevPage()}
@@ -143,7 +149,6 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType }> = ({ pagi
           </div>
         )
       }
-
     </div>
   );
 };

@@ -96,7 +96,7 @@ const Task = () => {
                     <TaskFilter projects={userproject || orgProjects} ProjectId={ProjectId} setProjectId={setProjectId} />
                 </div>
             </div>
-            <div className='w-100 py-2 projecttitle'>
+            <div className='w-100 py-2 projecttitletask'>
                 <p className='mb-0 no-wrap'>
                     {!ProjectId.id ? "All Task" : ProjectId.label}
                 </p>

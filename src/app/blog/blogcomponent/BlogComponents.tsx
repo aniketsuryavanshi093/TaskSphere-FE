@@ -20,7 +20,7 @@ const Component = () => {
     const openLoginpopup = () => {
         setOpenModal(true);
     }
-    return (<div className="wrapper justify-end">
+    return (<div className="wrapper my-2 justify-end">
         {
             status === "authenticated" ? (
                 <Link prefetch={false} className='create-blog btn' href="/blog/create-blog"> Create Blog </Link>
