@@ -6,30 +6,32 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { Col } from 'reactstrap';
 
-const BlogPagination: React.FC<{ total: number, totalPages: number }> = ({ total, totalPages }) => {
+const BlogPagination: React.FC<{ total: number, totalPages: number, currentpage: number, }> = ({ total, totalPages, currentpage }) => {
 
-    const { PaginationCOnfig, setpaginationConfig, currentPage } = usePaginationHook();
-    const params = useSearchParams();
+    const { PaginationCOnfig, setpaginationConfig, currentPage, setCurrentPage } = usePaginationHook();
     const router = useRouter()
-    console.log(params);
+    const parsma = useSearchParams()
+
     useEffect(() => {
-        if (currentPage > 1) {
+        if (currentPage) {
             router.push(`/blog?page=${currentPage}`)
         }
-    }, [currentPage])
+    }, [currentPage,])
+
     useEffect(() => {
         setpaginationConfig({
-            itemCount: 100,
-            pagecount: 10,
-            currentpage: 1,
+            itemCount: total,
+            pagecount: totalPages,
+            currentpage: currentpage,
             perpageitemcount: 10,
         });
-    }, [totalPages, total])
+        setCurrentPage((currentpage));
+    }, [totalPages, total,])
     return (
         <div className='wrapper w-100'>
             {PaginationCOnfig && (
                 <Col className="col-12">
-                    <Pagination paginationConfig={PaginationCOnfig as PaginationConfigType} />
+                    <Pagination showRowperpage={false} paginationConfig={PaginationCOnfig as PaginationConfigType} />
                 </Col>
             )}
         </div>

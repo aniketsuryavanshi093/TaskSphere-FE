@@ -1,13 +1,12 @@
 import { Fetch } from "@/lib/apiservice";
 
-export async function getAllposts() {
+export async function getAllposts(page) {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await Fetch({
                 method: "GET",
-                url: `blog/getallblogs`,
+                url: `blog/getallblogs?page=${page}&limit=2`,
             })
-            // console.log(result, "😀😀😀😀");
             resolve(result.data)
         } catch (error: any) {
             reject(error)

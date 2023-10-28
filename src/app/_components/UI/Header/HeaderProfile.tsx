@@ -20,6 +20,7 @@ const Component = () => {
     const { data, status } = useSession()
     const handleLogout = async () => {
         signOut()
+
     };
     console.log(data, status);
 
