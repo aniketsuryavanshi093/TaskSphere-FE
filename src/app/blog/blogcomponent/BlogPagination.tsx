@@ -10,11 +10,10 @@ const BlogPagination: React.FC<{ total: number, totalPages: number, currentpage:
 
     const { PaginationCOnfig, setpaginationConfig, currentPage, setCurrentPage } = usePaginationHook();
     const router = useRouter()
-    const parsma = useSearchParams()
-
+    const params = useSearchParams()
     useEffect(() => {
         if (currentPage) {
-            router.push(`/blog?page=${currentPage}`)
+            router.push(`/blog?page=${currentPage}${params.get("search") ? `&search=${params.get("search")}` : ""}`)
         }
     }, [currentPage,])
 

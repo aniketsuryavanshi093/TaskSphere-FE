@@ -1,11 +1,11 @@
 import { Fetch } from "@/lib/apiservice";
 
-export async function getAllposts(page) {
+export async function getAllposts(page: string, search: string) {
     return new Promise(async (resolve, reject) => {
         try {
             const result = await Fetch({
                 method: "GET",
-                url: `blog/getallblogs?page=${page}&limit=2`,
+                url: search ? `blog/search?page=${page}&isFulsearch=true&search=${search}` : `blog/getallblogs?page=${page}&limit=10`,
             })
             resolve(result.data)
         } catch (error: any) {
@@ -13,8 +13,6 @@ export async function getAllposts(page) {
         }
     });
 }
-
-
 export async function getPostFromParams(slug: string) {
     return new Promise(async (resolve, reject) => {
         try {
@@ -28,4 +26,3 @@ export async function getPostFromParams(slug: string) {
         }
     });
 }
-
