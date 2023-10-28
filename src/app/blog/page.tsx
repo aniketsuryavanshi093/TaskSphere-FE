@@ -1,9 +1,8 @@
 import Image from "next/image"
 import Link from "next/link"
-import BlogButton from "./blogcomponent/BlogComponents"
+import Blogheader from "./blogcomponent/BlogComponents"
 import { formatDate } from "@/lib"
 import { getAllposts } from "@/actions/blogsactions/blogservice"
-import { Suspense } from "react"
 import { bloginterface } from "@/commontypes"
 import BlogPagination from "./blogcomponent/BlogPagination"
 
@@ -13,11 +12,18 @@ export const metadata = {
 export const revalidate = 20;
 
 export default async function BlogPage({ searchParams }) {
+  const searchkey = searchParams['search'];
   const page = searchParams['page'] ?? "1";
-  const allposts: { blogs: bloginterface[], total: number, totalPages: number, currentpage: number } = await getAllposts(page)
+
+  const allposts: { blogs: bloginterface[], total: number, totalPages: number, currentpage: number } = await getAllposts(page, searchkey)
   return (
     <>
-      <BlogButton />
+      <Blogheader />
+      {
+        searchkey && (
+          <p className="my-3 ">Showing results for keyword "{searchkey}"</p>
+        )
+      }
       {allposts?.blogs?.length ? (
         <div className="blogpostgrid cp">
           {allposts?.blogs?.map((post: bloginterface, index) => (

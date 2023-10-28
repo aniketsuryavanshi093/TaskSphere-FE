@@ -10,7 +10,7 @@ const SeeAllbtn = () => {
             <Button
                 color="primary"
                 outline
-                onClick={() => roiter.back()}
+                onClick={() => roiter.push("/blog")}
             >
                 <div className="wrapper">
                     <i className="fa-solid fa-arrow-left me-2"></i>
