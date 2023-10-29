@@ -54,6 +54,8 @@ export type bloginterface = {
 }
 
 export interface projectTypes {
+    [x: string]: number
+    progressCount: number
     membersCount: number
     title: string
     _id: string,

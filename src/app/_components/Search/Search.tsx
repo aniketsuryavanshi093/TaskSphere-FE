@@ -7,7 +7,7 @@ import { bloginterface } from "@/commontypes";
 import Link from "next/link";
 
 type PageProps = {
-  setValue?: (e: string) => void, placeholder: string, searchwrapperclass?: string, searchData: bloginterface[], searchLoading: boolean, waitTime: number, minSearchChar?: number, inpClassname?: string, searchiconclass?: string
+  setValue?: (e: string) => void, placeholder: string, searchwrapperclass?: string, searchData?: bloginterface[], searchLoading?: boolean, waitTime: number, minSearchChar?: number, inpClassname?: string, searchiconclass?: string
 }
 
 const Search: React.FC<PageProps> = ({ setValue, placeholder, searchLoading, waitTime, minSearchChar = 2, searchData, inpClassname, searchiconclass, searchwrapperclass }) => {
@@ -33,7 +33,7 @@ const Search: React.FC<PageProps> = ({ setValue, placeholder, searchLoading, wai
         className={`dashboard-header_search ${inpClassname}`}
         onChange={handleChanges}
       />
-      {searchval.length > 1 && (
+      {searchval?.length > 1 && (
         <>
           {
             searchLoading ? (
@@ -55,12 +55,12 @@ const Search: React.FC<PageProps> = ({ setValue, placeholder, searchLoading, wai
         </>
       )}
       {
-        searchval.length > 1 && !searchLoading && (
+        searchval?.length > 1 && !searchLoading && (
           <div className="searchresult">
             {
-              (!searchLoading && !!searchData.length) ? (
+              (!searchLoading && !!searchData?.length) ? (
                 <>
-                  {searchData.map((elem: bloginterface) => (
+                  {searchData?.map((elem: bloginterface) => (
                     <Link prefetch={false} className="my-2" key={elem._id} href={`blog/posts/${elem.slug}`} >
                       <div className="wrapper my-2 justify-start">
                         <div className="serachimgwrapper">

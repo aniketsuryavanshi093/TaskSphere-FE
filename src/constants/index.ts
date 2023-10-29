@@ -4,11 +4,11 @@ export const dataItems = [
         link: '/dashboard',
         logo: '/images/icons/category.png',
     },
-    {
-        name: 'Messages',
-        link: '/dashboard/messages',
-        logo: '/images/icons/message.svg',
-    },
+    // {
+    //     name: 'Messages',
+    //     link: '/dashboard/messages',
+    //     logo: '/images/icons/message.svg',
+    // },
     {
         name: 'Tasks',
         link: '/dashboard/tasks',
@@ -19,11 +19,11 @@ export const dataItems = [
         link: '/dashboard/members',
         logo: '/images/icons/user.svg',
     },
-    {
-        name: 'Settings',
-        link: '/dashboard/setting',
-        logo: '/images/icons/setting.svg',
-    },
+    // {
+    //     name: 'Settings',
+    //     link: '/dashboard/setting',
+    //     logo: '/images/icons/setting.svg',
+    // },
 ];
 export const Administratortype = ["organization", "member"]
 export const priority = [{ label: 'low', value: "low", img: "https://jira.solulab.com/images/icons/priorities/low.svg" }, { label: 'medium', value: "medium", img: "https://jira.solulab.com/images/icons/priorities/medium.svg" }, { label: 'high', value: "high", img: "https://jira.solulab.com/images/icons/priorities/highest.svg" }]

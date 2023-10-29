@@ -15,15 +15,16 @@ import React from 'react'
 import { Spinner } from 'reactstrap'
 
 const ManageTicket = () => {
-    const { data } = useSession()
+    const { data, status } = useSession()
     const dispatch = useAppDispatch()
     const { data: userproject, isFetching: userisLoading } = useGetProjectsByUserhook(data, true)
     const { data: orgproject, isFetching: orgisLoading } = useGetAllOrganizationsProjecthook(data, null, false, true)
-    console.log((orgproject)?.data?.data?.data, orgproject, userproject);
+    console.log((orgproject || userproject)?.data?.data?.data, "😚😚");
+
     return (
         <div className='w-100'>
             {
-                (orgisLoading || userisLoading) ? (
+                (orgisLoading || userisLoading || status === "loading") ? (
                     <div className='my-5 wrapper w-100'>
                         <Spinner size={"lg"} />
                     </div>
@@ -61,23 +62,21 @@ const ManageTicket = () => {
                                                 <div className='wrapper justify-around'>
                                                     <div className='wrapper datacard flex-column'>
                                                         <p className='mb-0 text-small'>Done</p>
-                                                        <Circularbar value={30} textColor='green' background="white" pathColor='green' />
+                                                        <Circularbar value={Number(((elem.doneCount / elem.ticketsCount) * 100).toFixed(0)) || 0} textColor='green' background="white" pathColor='green' />
                                                     </div>
                                                     <div className='wrapper datacard flex-column'>
                                                         <p className='mb-0 text-small'>To Do</p>
-                                                        <Circularbar value={20} textColor='blue' background="white" pathColor='blue' />
+                                                        <Circularbar value={Number((((elem.ticketsCount - (elem.doneCount + elem.progressCount)) / elem.ticketsCount) * 100).toFixed(0)) || 0} textColor='blue' background="white" pathColor='blue' />
                                                     </div>
                                                     <div className='wrapper datacard flex-column'>
                                                         <p className='mb-0 text-small'>progress</p>
-                                                        <Circularbar value={50} textColor='orange' background="white" pathColor='orange' />
+                                                        <Circularbar value={Number(((elem.progressCount / elem.ticketsCount) * 100).toFixed(0)) || 0} textColor='orange' background="white" pathColor='orange' />
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </Link>
                                 ))
-
-
                             }
                         </div>
                     )

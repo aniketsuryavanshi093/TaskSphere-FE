@@ -32,6 +32,7 @@ const Page = () => {
                 let profilePic = await getDownloadURL(uploadded?.ref);
                 const result = await createBlogAction({ title, previewImage: profilePic, content: editorContent, description, slug: generateslugs(title) }) as { status: string, message: string }
                 setVisible(true)
+                window.scrollTo({ top: 0, left: 0 })
             }
         } catch (error) {
             console.log(error);

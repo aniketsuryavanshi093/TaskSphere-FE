@@ -5,7 +5,9 @@ import "./login.scss"
 import Link from 'next/link';
 import Image from "next/image";
 import LoginForm from "../_components/auth/LoginForm";
-
+export const metadata = {
+  title: "login",
+}
 export default async function Login() {
   const user = await getCurrentUser();
 

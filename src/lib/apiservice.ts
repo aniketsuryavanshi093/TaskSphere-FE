@@ -1,9 +1,9 @@
-import { stringify } from "querystring"
 
 export const Fetch = async ({
     token, method, data, url
 }: { token?: string, method: string, data?: any, url: string }) => {
-    let res = await fetch(`http://localhost:4000/api/v1/${url}`, {
+
+    let res = await fetch(`${process.env.NEXT_SERVERURL}${url}`, {
         method, headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json', // this needs to be defined

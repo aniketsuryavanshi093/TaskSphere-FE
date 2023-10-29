@@ -205,7 +205,7 @@ const CreateTicket: React.FC = () => {
                                 </div>
                                 <div className='wrapper align-items-end justify-between'>
                                     <Row className='wrapper justify-start w-100'>
-                                        <Col lg={5} className=" mt-4">
+                                        <Col lg={4} className=" mt-4">
                                             <Label className='mb-0' htmlFor="priority">Priority</Label>
                                             <CustomDropDownButton
                                                 onselectIcon

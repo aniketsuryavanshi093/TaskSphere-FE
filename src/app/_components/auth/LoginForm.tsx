@@ -16,9 +16,7 @@ import { handleSubmit } from "@/actions/authactions/authactions";
 import { signIn } from "next-auth/react";
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from "@/lib/firebase";
-import { Toast } from "reactstrap";
-import enqueSnackBar from "@/lib/enqueSnackBar";
-import { enqueueSnackbar } from "notistack";
+import { Spinner, } from "reactstrap";
 
 export type FormSignupvalueType = {
     userName?: string;
@@ -266,7 +264,7 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
                             )
                         }
                         <button className="loginbtn  my-2  " type="submit">
-                            {formtype === "login" ? "Login" : "Register"}
+                            {isPending ? <Spinner size="sm" /> : formtype === "login" ? "Login" : "Register"}
                         </button>
                         <button
                             type="button"

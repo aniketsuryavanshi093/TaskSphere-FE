@@ -14,6 +14,7 @@ export async function createTicketAction(values: any) {
                 url: "ticket/create",
                 token: user?.authToken,
             })
+            console.log(result);
             resolve(result)
         } catch (error: any) {
             reject(error)

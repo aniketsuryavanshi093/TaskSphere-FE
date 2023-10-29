@@ -63,7 +63,14 @@
 .profileborder {
     border-bottom: 1px solid rgba(128, 128, 128, 0.431372549);
 }
-
+.activitytextloader{
+    height: 15px;
+    width: 78%;
+}
+.activity-dateloader{
+    height: 15px;
+    width: 40%;
+}
 .usersavebtn {
     background-color: var(--ds-background-brand-bold-hovered, #0055ccba);
     box-shadow: none;
@@ -85,7 +92,7 @@
     white-space: normal;
     box-shadow: none;
     border: none;
-    color: var(--ds-text, #172b4d);
+    color: white;
     font-weight: 500;
 
     &:hover {

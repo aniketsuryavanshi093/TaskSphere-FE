@@ -3,6 +3,9 @@ import UnAuthorizeLayout from "../_components/layouts/UnAuthorizeLayout";
 import LoginForm from "../_components/auth/LoginForm";
 import Image from "next/image";
 import Link from "next/link";
+export const metadata = {
+  title: "Signup",
+}
 
 export default async function Signup() {
   const user = await getCurrentUser()
