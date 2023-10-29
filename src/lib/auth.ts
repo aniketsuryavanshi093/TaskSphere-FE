@@ -3,6 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
 import { NextAuthOptions } from "next-auth";
 import axiosInterceptorInstance from "@/http";
+import { Fetch } from "./apiservice";
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -28,7 +29,7 @@ export const authOptions: NextAuthOptions = {
             },
             async authorize(credentials, _req) {
                 try {
-                    const res = await axiosInterceptorInstance.post('http://localhost:4000/api/v1/auth/login', credentials?.password ? {
+                    const res = await axiosInterceptorInstance.post('auth/login', credentials?.password ? {
                         "loginCredential": credentials?.username,
                         "password": credentials?.password || "",
                     } : {
@@ -80,29 +81,40 @@ export const authOptions: NextAuthOptions = {
                 console.log(params.session?.profilePic || pic, params.session?.userName || usname)
                 params.token.profilePic = params.session?.profilePic || pic
                 params.token.userName = params.session?.userName || usname
-                const res = await fetch('http://localhost:4000/api/v1/auth/update', {
-                    method: "POST", body: JSON.stringify({
+                // const res = await fetch('http://localhost:4000/api/v1/auth/update', {
+                //     method: "POST", body: JSON.stringify(),
+                //     headers: {
+                //         Authorization: `Bearer ${params.token.authToken}`,
+                //         'Content-Type': 'application/json', // this needs to be defined
+                //     },
+                // })
+                await Fetch({
+                    token: params.token.authToken as string,
+                    data: {
                         "email": params.token.email,
                         Bio: params.session?.Bio, userName: params.session?.userName, profilePic: params.session?.profilePic,
-                    }),
-                    headers: {
-                        Authorization: `Bearer ${params.token.authToken}`,
-                        'Content-Type': 'application/json', // this needs to be defined
                     },
+                    url: 'auth/update',
+                    method: "POST"
                 })
-                console.log("😎😎😎😎", await res.json())
             }
             if (params.account?.provider === "google" || params.account?.provider === "github") {
-                const res = await fetch('http://localhost:4000/api/v1/auth/login', {
-                    method: "POST", body: JSON.stringify({
+                // const res = await fetch('http://localhost:4000/api/v1/auth/login', {
+                //     method: "POST", body: JSON.stringify({
+
+                //     }),
+                //     headers: {
+                //         'Content-Type': 'application/json', // this needs to be defined
+                //     },
+                // })
+                const datares = await Fetch({
+                    data: {
                         "loginCredential": params.user.email,
-                        isGoogleLogin: true
-                    }),
-                    headers: {
-                        'Content-Type': 'application/json', // this needs to be defined
+                        isGoogleLogin: true,
                     },
+                    url: 'auth/login',
+                    method: "POST"
                 })
-                const datares = await res.json()
                 if (datares.status === "fail") {
                     return Promise.reject(datares)
                 }

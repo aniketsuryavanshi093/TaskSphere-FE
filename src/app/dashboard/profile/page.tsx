@@ -2,6 +2,9 @@
 import Image from "next/image"
 import "./profile.scss"
 import ProfileForm from "./components/ProfileForm"
+
+
+
 const MyProfile = () => {
     return (
         <div className="profilewrapper ">
@@ -9,7 +12,7 @@ const MyProfile = () => {
             <h4 className="my-2">Manage your personal information</h4>
             <div className="p-2 profileinfobox">
                 <p className="mb-3">
-                    This is an Atlassian account. Edit your personal information and visibility settings through your Atlassian profile.
+                    This is an TaskSphere account. Edit your personal information and visibility settings through your TaskSphere profile.
                 </p>
                 <p className="mb-0">To learn more, view our Terms of Service or Privacy Policy.</p>
             </div>

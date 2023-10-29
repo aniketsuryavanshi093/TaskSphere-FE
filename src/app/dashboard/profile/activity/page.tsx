@@ -3,13 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import { getUserActivity } from "@/apiServices/admin/adminservices";
-import { FormGroup, Input, Label, Spinner } from "reactstrap";
+import { FormGroup, Input, Label, Placeholder, Spinner } from "reactstrap";
 import { ActivityType } from "@/commontypes";
 import Activity from "@/app/_components/UI/Activity/Activity";
 import "../profile.scss";
 import { useAppDispatch, useAppSelector } from "@/redux/dashboardstore/hook";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { setPagination, setactivitystateInfo } from "@/redux/dashboardstore/reducer/activity/activity";
+import Avatar from "@/app/_components/UI/Avatar";
 
 const ProfileActivity = () => {
     const { data } = useSession();
@@ -82,30 +83,52 @@ const ProfileActivity = () => {
                         type="checkbox"
                     />
                     <Label check className="no-wrap" for="exampleCheck">
-                        Show Actiity related to me
+                        Show Activity related to me
                     </Label>
                 </FormGroup>
             </div>
             <div id="scrollableDiv" className="w-100 mb-3 mt-4 scrollbar activitylayout">
-                {activitystateInfo.length > 0 ? (
-                    <InfiniteScroll
-                        loader={<Spinner size="sm"></Spinner>}
-                        dataLength={activitydata?.data?.data?.activities?.count || 10}
-                        next={fetchMoreData}
-                        scrollableTarget="scrollableDiv"
-                        hasMore={
-                            pagination.offset < activitydata?.data?.data?.activities?.totalPages
-                        }
-                    >
-                        {activitystateInfo.map((elem: ActivityType) => (
-                            <Activity key={elem._id} activityInfo={elem} />
-                        ))}
-                    </InfiniteScroll>
-                ) : (
-                    <div className="my-5 wrapper">
-                        <p className="mb-0">No Actvities found</p>
-                    </div>
-                )}
+                {
+                    isLoading && !activitystateInfo.length ?
+                        Array(4)
+                            .fill(0)
+                            .map((_, index) => (
+                                <Placeholder key={index} animation="wave" className="wrapper my-3 w-100">
+                                    <Placeholder
+                                        typeof="img"
+                                        style={{
+                                            height: "40px",
+                                            width: "40px",
+                                        }}
+                                        className="rounded-pill position-relative"
+                                    ></Placeholder>
+                                    <div className='ms-3 w-100 wrapper flex-column align-start'>
+                                        <Placeholder typeof="p" className="activitytextloader wrapper mb-2"></Placeholder>
+                                        <Placeholder typeof="p" className="activity-dateloader "></Placeholder>
+                                    </div>
+                                </Placeholder>
+                            ))
+                        :
+                        activitystateInfo.length > 0 ? (
+                            <InfiniteScroll
+                                loader={<Spinner size="sm"></Spinner>}
+                                dataLength={activitydata?.data?.data?.activities?.count || 10}
+                                next={fetchMoreData}
+                                scrollableTarget="scrollableDiv"
+                                hasMore={
+                                    pagination.offset < activitydata?.data?.data?.activities?.totalPages
+                                }
+                            >
+                                {activitystateInfo.map((elem: ActivityType) => (
+                                    <Activity key={elem._id} activityInfo={elem} />
+                                ))}
+                            </InfiniteScroll>
+                        ) : (
+                            <div className="my-5 wrapper">
+                                <p className="mb-0">No Actvities found</p>
+                            </div>
+                        )
+                }
             </div>
         </div>
     );
