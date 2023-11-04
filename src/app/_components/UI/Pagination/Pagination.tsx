@@ -37,7 +37,6 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType, showRowperp
   useEffect(() => {
     setCurrentPage(currentPage)
   }, [currentPage])
-  console.log("😎😎🤣🤣🤩🤩😀😀😂🥰🥰😃😃😚😚", _currentPage);
 
   const nextPage = () => {
     const updatedPage = currentPage + 1 <= pageCount ? currentPage + 1 : _currentPage;
@@ -47,7 +46,6 @@ const Pagination: React.FC<{ paginationConfig: PaginationConfigType, showRowperp
 
   const prevPage = () => {
     const updatedPage = currentPage - 1 >= 1 ? currentPage - 1 : 1;
-    console.log(currentPage - 1 >= 1, updatedPage, currentPage)
     setCurrentPage(updatedPage);
     onPageChange(updatedPage);
   };

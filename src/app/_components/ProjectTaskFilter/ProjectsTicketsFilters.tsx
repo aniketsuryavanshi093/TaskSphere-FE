@@ -64,6 +64,12 @@ const ProjectsTicketsFilters: React.FC<{ setloading: (e: boolean) => void, type:
             }
         }))
     }
+    useEffect(() => {
+        return () => {
+            handleReset()
+        }
+    }, [])
+
     const handleFilter = (value: any) => {
         if (value === "") {
             dispatch(
