@@ -21,7 +21,7 @@ export default async function BlogPage({ searchParams }) {
       <Blogheader />
       {
         searchkey && (
-          <p className="my-3 ">Showing results for keyword "{searchkey}"</p>
+          <p className="my-3 ">Showing results for keyword &ldquo;{searchkey}&ldquo;</p>
         )
       }
       {allposts?.blogs?.length ? (
