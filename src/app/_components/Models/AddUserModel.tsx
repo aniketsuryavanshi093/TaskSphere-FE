@@ -24,7 +24,7 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void, isMulti: bo
     const queryClient = useQueryClient()
     const animatedComponents = makeAnimated();
     const dispatch = useAppDispatch()
-    const [SelectedSingle, setSelectedSingle] = useState(null)
+    const [SelectedSingle, setSelectedSingle] = useState<any>(null)
     const { addedUsers } = useAppSelector((state) => state.userreducer)
     const [value, setValue] = useState<selectUsers[]>([]);
     useEffect(() => {
@@ -39,7 +39,7 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void, isMulti: bo
             })))
         }
     }, [usersData])
-    const handleChange = (_, action) => {
+    const handleChange = (_: any, action: any) => {
         if (!isMulti) {
             setSelectedSingle(_)
         }
@@ -56,7 +56,7 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void, isMulti: bo
                 if (value) {
                     setValue([...value.filter((o) => o.value !== action?.removedValue?.value)]);
                 } else {
-                    setValue(user);
+                    setValue([]);
                 }
                 break;
             }
@@ -105,7 +105,7 @@ const AddUserModel: React.FC<{ isOpen: boolean, onClose: () => void, isMulti: bo
                         filterOption={createFilter({
                             matchFrom: 'any',
                             ignoreCase: true,
-                            stringify: option => `${option.label}${option.name}`,
+                            stringify: (option: any) => `${option.label}${option?.name}`,
                         })}
                         isMulti={isMulti}
                         placeholder="Select Member"

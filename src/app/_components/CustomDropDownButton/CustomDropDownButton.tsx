@@ -51,7 +51,7 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
   useEffect(() => {
     setoptions(options)
   }, [options])
-  const onSelect = (value: string, label: string, color: string) => {
+  const onSelect = (value: string, label: string, color?: string) => {
     setShowImpLable(label)
     if (color) {
       setStatusCOlor(color)
@@ -109,7 +109,7 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
               <span className="filter_label align-middle">{title}</span>
             ) : (
               <div className='wrapper justify-start'>
-                {onselectIcon && options.find((el) => el.value === selectedValue)?.img && <Image src={options.find((el) => el.value === selectedValue)?.img} alt="xyz" className='me-2 rounded-pill' height={20} width={20} />}
+                {onselectIcon && options.find((el) => el.value === selectedValue)?.img && <Image src={options.find((el) => el.value === selectedValue)?.img as string} alt="xyz" className='me-2 rounded-pill' height={20} width={20} />}
                 <span className="filter_laebl align-middle textcapitilize">
                   {ShowImpLable || title}</span>
               </div>

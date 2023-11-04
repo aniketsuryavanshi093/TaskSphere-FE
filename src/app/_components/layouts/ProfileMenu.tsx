@@ -3,8 +3,10 @@ import Image from 'next/image';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
 import React, { useState } from 'react'
 import Link from 'next/link';
+import { SessionData } from '@/commontypes';
+
 const ProfileMenu: React.FC = () => {
-    const { data, } = useSession()
+    const { data } = useSession() as { data: SessionData | null }
     const [Menu, setMenu] = useState<boolean>(false);
     const handleLogout = async () => {
         signOut()

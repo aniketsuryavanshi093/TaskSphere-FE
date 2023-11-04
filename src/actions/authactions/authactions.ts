@@ -7,14 +7,7 @@ export async function handleSubmit(values: FormSignupvalueType | null, type: str
         try {
             if (submittype === "register") {
                 if (type === "credentials") {
-                    // const loginres = await fetch("http://localhost:4000/api/v1/auth/register", {
-                    //     method: "POST", body: JSON.stringify(values)
-                    //     ,
-                    //     headers: {
-                    //         'Content-Type': 'application/json', // this needs to be defined
-                    //     },
-                    // })
-                    // const res = await loginres.json()
+
                     const res = await Fetch({
                         url: "auth/register",
                         method: "post",

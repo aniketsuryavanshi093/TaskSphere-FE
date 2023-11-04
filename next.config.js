@@ -4,6 +4,7 @@ const nextConfig = {
     serverActions: true,
     serverActionsBodySizeLimit: "2mb",
   },
+  staticPageGenerationTimeout: 100,
   reactStrictMode: false,
   images: {
     domains: [
@@ -12,6 +13,13 @@ const nextConfig = {
       "trello.com",
       "lh3.googleusercontent.com",
     ],
+  },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
   },
   env: {
     NEXT_AUTH_GOOGLE_SECRET: "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",

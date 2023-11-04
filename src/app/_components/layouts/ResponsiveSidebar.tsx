@@ -68,7 +68,7 @@ const ResponsiveSidebar: React.FC<pageProps> = ({ openMobileSidebar, setOpenMobi
               <span
                 className="cp"
                 onClick={() => {
-                  localStorage.clear();
+                  // localStorage.clear();
                   sessionStorage.clear();
                   window.location.reload();
                 }}

@@ -20,7 +20,7 @@ type initialTypes = {
 }
 
 const initialState: initialTypes = {
-  selectedProject: JSON.parse(localStorage.getItem("selectedProject")),
+  selectedProject: typeof window !== "undefined" ? JSON.parse(localStorage.getItem("selectedProject")) : {},
   filterURLValue: { string: "", urlobject: { orderType: "", label: "", userIds: '', priority: "", isforUser: false } },
   ticketInfo: {
     isopen: false,
