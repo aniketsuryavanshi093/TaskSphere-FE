@@ -28,8 +28,10 @@ const AdminProjects = () => {
     );
     useEffect(() => {
         if (orgProjects?.data?.data?.paginatedResults?.length as any) {
+            console.log(currentPage, "currentPagecurrentPage");
+
             const temp = orgProjects?.data?.data?.paginatedResults.map((elem: ProjectsType, i) => ({
-                srNo: (currentPage === 1 ? 0 : currentPage - 1) * PerpageItemCount + i + 1,
+                srNo: ((currentPage === 1 || currentPage === null) ? 0 : currentPage - 1) * PerpageItemCount + i + 1,
                 members: elem.membersCount,
                 active: elem.activeCount,
                 projecttitle: (

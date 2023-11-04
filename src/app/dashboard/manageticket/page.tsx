@@ -19,7 +19,6 @@ const ManageTicket = () => {
     const dispatch = useAppDispatch()
     const { data: userproject, isFetching: userisLoading } = useGetProjectsByUserhook(data, true)
     const { data: orgproject, isFetching: orgisLoading } = useGetAllOrganizationsProjecthook(data, null, false, true)
-    console.log((orgproject || userproject)?.data?.data?.data, "😚😚");
 
     return (
         <div className='w-100'>
