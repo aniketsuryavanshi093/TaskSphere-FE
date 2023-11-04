@@ -1,7 +1,6 @@
 import { CurrentUserObjectType } from "@/commontypes"
 import axiosInterceptorInstance from "@/http"
 import { createHeader } from "@/lib/apiservice"
-
 export const getAllOrganizationsUser = async ({ authToken, id, role, organizationId }: CurrentUserObjectType) => {
     return axiosInterceptorInstance.get(`/members/getAllusers/${role === "organization" ? id : organizationId}`, createHeader(authToken))
 }
@@ -20,6 +19,6 @@ export const GetProjectUsers = async ({ authToken, projectId }: CurrentUserObjec
 }
 
 
-export async function getUserActivity({ authToken }, isForme: boolean, pagination) {
+export async function getUserActivity({ authToken }: { authToken: string }, isForme: boolean, pagination: { offset: number, limit: number }) {
     return axiosInterceptorInstance.get(`activity/all?offset=${pagination.offset}&limit=${pagination.limit}${isForme ? '&isForme=true' : ""}`, createHeader(authToken))
 }

@@ -4,12 +4,13 @@ import React, { useState } from "react";
 import "./dashboardlayout.scss";
 import Link from "next/link";
 import { dataItems } from "@/constants";
-import { dataItemsTypes, projectTypes } from "@/commontypes";
+import { SessionData, dataItemsTypes, projectTypes } from "@/commontypes";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import useGetProjectsByUserhook from "@/hooks/UseQuery/ProjectsQueryHooks/useGetProjectsByUserhook";
 import useGetAllOrganizationsProjecthook from "@/hooks/UseQuery/ProjectsQueryHooks/usegetAllOrganizationsProjecthook";
 import { Placeholder } from "reactstrap";
+import { Session } from "next-auth";
 
 type pageProps = {
   setOpenSidebar: React.Dispatch<React.SetStateAction<boolean>>,
@@ -19,9 +20,9 @@ type pageProps = {
 }
 
 const Sidebar: React.FC<pageProps> = ({ openSidebar, setMobileSidebar, params }) => {
-  const { data } = useSession()
-  const { data: userproject, isLoading: userprojectload } = useGetProjectsByUserhook(data)
-  const { data: orgProjects, isLoading: orgprojload } = useGetAllOrganizationsProjecthook(data)
+  const { data } = useSession() as { data: SessionData | null }
+  const { data: userproject, isLoading: userprojectload } = useGetProjectsByUserhook(data, null)
+  const { data: orgProjects, isLoading: orgprojload } = useGetAllOrganizationsProjecthook(data, null, false, false)
   const [SelectedTab, setSelectedTab] = useState<string>("#7AC555")
   return (
     <div

@@ -10,21 +10,26 @@ export type selectUsers = {
     pic?: string
 }
 
-
-export type CurrentUserObjectType = {
-    authToken: string,
-    createdAt: string,
-    userName: string,
-    email: string,
-    projectId: string
-    id: string,
-    _id: string,
-    name: string
-    isDeleted: false,
-    profilePic: string,
-    organizationName: string,
-    organizationId: string
-    role: string,
+type pagination = {
+    currentPage: number;
+    PerpageItemCount: number;
+    isanalytic: boolean;
+};
+export interface CurrentUserObjectType extends pagination {
+    authToken: string;
+    istaskstats: boolean;
+    createdAt: string;
+    userName: string;
+    email: string;
+    projectId: string;
+    id: string;
+    _id: string;
+    name: string;
+    isDeleted: false;
+    profilePic: string;
+    organizationName: string;
+    organizationId: string;
+    role: string;
     updatedAt: string
 }
 export interface memberInput {
@@ -52,21 +57,30 @@ export type bloginterface = {
     }
     _id: string
 }
-
+export interface SessionData {
+    user: {
+        userName: string;
+        ticketAdministrator: boolean
+        role: "organization" | "member";
+        profilePic: string;
+        // Add other properties as needed
+    };
+    // Add other properties as needed
+}
 export interface projectTypes {
-    [x: string]: number
-    progressCount: number
-    membersCount: number
-    title: string
-    _id: string,
-    members: memberInput[]
-    description: string
-    tasks: any
-    updatedAt: string,
-    ticketsCount: number
-    createdAt: string,
-    logoUrl: string
-    organizationId: string
+    [x: string]: number;
+    progressCount: number;
+    membersCount: number;
+    title: string;
+    _id: string;
+    members: memberInput[];
+    description: string;
+    tasks: any;
+    updatedAt: string;
+    ticketsCount: number;
+    createdAt: string;
+    logoUrl: string;
+    organizationId: string;
 }
 export type comment = {
     repliesData: comment[]

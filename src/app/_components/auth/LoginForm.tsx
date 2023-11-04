@@ -20,6 +20,8 @@ import { Spinner, } from "reactstrap";
 
 export type FormSignupvalueType = {
     userName?: string;
+    profilePic?: string,
+    isGoogleLogin?: boolean;
     name?: string;
     confirmPassword?: string;
     email?: string;
@@ -56,7 +58,7 @@ const LoginForm: React.FC<PageProps> = ({ formtype, user }) => {
             if (formtype === "register") {
                 if (type === "google" || type === "github") {
                     const provider = new GoogleAuthProvider();
-                    const googleresponse = await signInWithPopup(auth, provider);
+                    const googleresponse = await signInWithPopup(auth, provider) as any;
                     await handleSubmit({
                         "name": values?.name,
                         "userName": `${googleresponse?._tokenResponse?.firstName} ${googleresponse?._tokenResponse?.lastName}`,
