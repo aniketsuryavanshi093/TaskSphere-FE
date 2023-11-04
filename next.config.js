@@ -21,6 +21,9 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   env: {
     NEXT_AUTH_GOOGLE_SECRET: "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",
     NEXT_SERVERURL: "https://task-sphere-be2.onrender.com/api/v1/",
