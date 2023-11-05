@@ -11,6 +11,7 @@ import "./dashboardpage.scss"
 import { useSession } from 'next-auth/react'
 import { clearCookies } from '@/lib'
 import DashboardSearch from '../_components/Search/DashboardSearch'
+import TicketInfo from '../_components/UI/TicketInfo/TicketInfo'
 
 type PageProps = {
     children: React.JSX.Element
@@ -19,6 +20,7 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
     const [openSidebar, setOpenSidebar] = useState<boolean>(false);
     const [openMobileSidebar, setOpenMobileSidebar] = useState<boolean>(false);
     const [MobileSidebar, setMobileSidebar] = useState<boolean>(false);
+
     const AuthenticateUserSession: React.JSX.Element = () => {
         const { data } = useSession()
         useEffect(() => {

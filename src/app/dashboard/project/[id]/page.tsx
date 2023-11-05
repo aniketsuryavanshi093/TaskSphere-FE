@@ -13,14 +13,10 @@ import {
 import ProjectsTicketsFilters from "@/app/_components/ProjectTaskFilter/ProjectsTicketsFilters";
 import "./projectpage.scss";
 import DraggableContext from "@/app/_components/UI/DragAndDrop/DraggAbleContext/DraggableContext";
-import { DropResult } from "react-beautiful-dnd";
-import TicketInfo from "@/app/_components/UI/TicketInfo/TicketInfo";
-import { useAppDispatch, useAppSelector } from "@/redux/dashboardstore/hook";
+import { useAppDispatch } from "@/redux/dashboardstore/hook";
 import { setTicketInfoClosed } from "@/redux/dashboardstore/reducer/managetickets/manageticket";
 import AddUserModel from "@/app/_components/Models/AddUserModel";
-import { ticketUpdateValuesType } from "../../manageticket/[id]/page";
 import DragDropLoader from "@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader";
-import useUpdateTicketHook from "@/hooks/useUpdateTicketHook";
 import Link from "next/link";
 import useDragEndHook from "@/app/_components/UI/DragAndDrop/useDragEndHook";
 
@@ -28,9 +24,6 @@ const ProjectPage = () => {
   const { id } = useParams();
   const [Loading, setLoading] = useState<boolean>(false);
   const [Tickets, setTickets] = useState(null);
-  const { ticketInfo } = useAppSelector((state) => state.manageticketreducer);
-  const [pending, startTransition] = useTransition();
-  const { handleUpdateTicket } = useUpdateTicketHook();
   const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(
     null
   );
@@ -197,13 +190,6 @@ const ProjectPage = () => {
           <DraggableContext onDragEnd={onDragEnd} dragDropdata={dragDropData} />
         )}
       </div>
-      {ticketInfo?.isopen && (
-        <TicketInfo
-          isopen={ticketInfo?.isopen}
-          ticketData={ticketInfo?.ticketdata}
-          onClosed={() => dispatch(setTicketInfoClosed())}
-        />
-      )}
       {AdduserModal?.open && (
         <AddUserModel
           isOpen={AdduserModal.open}

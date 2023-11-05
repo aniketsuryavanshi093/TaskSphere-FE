@@ -85,11 +85,7 @@ const ProjectTickets = () => {
                         )
                 }
             </div>
-            {
-                ticketInfo?.isopen && (
-                    <TicketInfo isopen={ticketInfo?.isopen} ticketData={ticketInfo?.ticketdata} onClosed={() => dispatch(setTicketInfoClosed())} />
-                )
-            }
+
         </div>
     )
 }
