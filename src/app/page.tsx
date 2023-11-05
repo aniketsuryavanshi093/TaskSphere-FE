@@ -1,9 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from 'next/image'
 import "./home.scss"
-import Link from 'next/link'
 import Header from './_components/UI/Header/Header'
-
+export const metadata = {
+  title: 'TaskSphere',
+}
 export default function Home() {
   return (
     <main >

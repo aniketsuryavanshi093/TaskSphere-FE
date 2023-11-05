@@ -10,6 +10,7 @@ import ProfileMenu from '../_components/layouts/ProfileMenu'
 import "./dashboardpage.scss"
 import { useSession } from 'next-auth/react'
 import { clearCookies } from '@/lib'
+import DashboardSearch from '../_components/Search/DashboardSearch'
 
 type PageProps = {
     children: React.JSX.Element
@@ -18,7 +19,6 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
     const [openSidebar, setOpenSidebar] = useState<boolean>(false);
     const [openMobileSidebar, setOpenMobileSidebar] = useState<boolean>(false);
     const [MobileSidebar, setMobileSidebar] = useState<boolean>(false);
-    const [SearchValue, setSearchValue] = useState<string>("")
     const AuthenticateUserSession: React.JSX.Element = () => {
         const { data } = useSession()
         useEffect(() => {
@@ -31,13 +31,9 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
                 }
             }
         }, [data?.expires])
-
         return <></>
     }
     return (
-        // <Suspense fallback={
-        //     <div className={`loader `} />
-        // }>
         <AuthProviders>
             <AuthenticateUserSession />
             <SnackbarProvider
@@ -67,7 +63,7 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
                         <div className={`maincontent ${openSidebar && 'largecontent'} scrollbar`} id="style-1">
                             <div className="  top_nav_wrapper">
                                 <div className='wrapper justify-between px-4 w-100' >
-                                    <Search waitTime={1000} setValue={(val) => setSearchValue(val)} placeholder='Search for anything...' />
+                                    <DashboardSearch />
                                     <ProfileMenu />
                                 </div>
                             </div>
@@ -79,7 +75,6 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
                 </Providers>
             </SnackbarProvider>
         </AuthProviders>
-        // </Suspense>
     )
 }
 

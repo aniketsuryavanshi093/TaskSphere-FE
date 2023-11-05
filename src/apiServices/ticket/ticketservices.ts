@@ -15,6 +15,13 @@ export const getProjectDetail = async (payload: { authToken: string, projectId: 
     );
 };
 
+export const getTiccketSearch = async (payload: { authToken: string, search: string }) => {
+    const { authToken, search } = payload;
+
+    return axiosInterceptorInstance.get(
+        `ticket/allTickets?search=${search}`, createHeader(authToken)
+    );
+}
 
 export const getComments = async (payload: { authToken: string, ticketId: string }, pagination: {
     pageNumber: number, pageSize: number

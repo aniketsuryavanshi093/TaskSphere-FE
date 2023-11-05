@@ -38,3 +38,18 @@
     top: 22%;
     left: 5%;
 }
+@media (max-width: 767px) {
+    .blogpostwrapper{
+        width: 100%;
+    }
+    .seeallbtn {
+        top: 11%;
+    }
+    .pposttitle {
+        font-size: 1.3rem;
+        margin-bottom: 0px;
+        line-height: 1.2;
+        color: black;
+        font-weight: 600;
+    }
+  }

@@ -6,7 +6,7 @@ const layout = ({ children }) => {
     return (
         <>
             <Header />
-            <div className="container max-w-4xl py-1 px-0">
+            <div className="container blogsdatawrapper max-w-4xl">
                 {children}
             </div>
         </>

@@ -49,12 +49,12 @@ export type bloginterface = {
     createdAt: string
     previewImage: string
     slug: string
-    author: {
+    author: [{
         _id: string
         profilePic: string
         userName: string
         name: string
-    }
+    }]
     _id: string
 }
 export interface SessionData {
