@@ -9,17 +9,16 @@ import AllTaskList from './_taskcomponent/AllTaskList'
 import { DragDropCOlumnstype, TaskType } from '@/commontypes'
 import DragDropLoader from '@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader'
 import DraggableContext from '@/app/_components/UI/DragAndDrop/DraggAbleContext/DraggableContext'
-import "./tasks.scss"
 import TicketInfo from '@/app/_components/UI/TicketInfo/TicketInfo'
 import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
 import { setTicketInfoClosed } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 import { FormGroup, Input, Label } from 'reactstrap'
 import useDragEndHook from '@/app/_components/UI/DragAndDrop/useDragEndHook'
+import "./tasks.scss"
 
 const Task = () => {
     const { data } = useSession()
     const { data: userproject, isLoading: userprojectload } = useGetProjectsByUserhook(data)
-    const dispatch = useAppDispatch()
     const [showDone, setshowDone] = useState<boolean>(false)
     const { ticketInfo } = useAppSelector((state) => state.manageticketreducer);
     const { data: orgProjects, } = useGetAllOrganizationsProjecthook(data)
@@ -127,14 +126,7 @@ const Task = () => {
                         )
                 }
             </div>
-            {ticketInfo?.isopen && (
-                <TicketInfo
-                    isopen={ticketInfo?.isopen}
-                    ticketData={ticketInfo?.ticketdata}
-                    projectId={ticketInfo.ticketdata?.project?._id}
-                    onClosed={() => dispatch(setTicketInfoClosed())}
-                />
-            )}
+
         </div>
     )
 }

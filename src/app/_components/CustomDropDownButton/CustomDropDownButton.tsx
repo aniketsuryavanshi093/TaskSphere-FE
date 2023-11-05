@@ -43,6 +43,8 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
   }, [selectedvalue])
   useEffect(() => {
     if (defaultValue) {
+      console.log(_options, defaultValue);
+
       setShowImpLable(_options.find(({ value }: optionstype) => value === defaultValue)?.label)
       setStatusCOlor(_options.find(({ value }: optionstype) => value === defaultValue)?.color)
       setSelectedValue(defaultValue);
@@ -65,6 +67,8 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
     }
     setoptions(options)
   };
+  // console.log("ShowImpLable", ShowImpLable);
+
   const [Menu, setMenu] = useState<boolean>(false);
   const handleSearch = (e: string) => {
     if (e) {

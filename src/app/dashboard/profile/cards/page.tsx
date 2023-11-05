@@ -8,10 +8,7 @@ import useTicketsQueryhook from '@/hooks/UseQuery/ticketmanagementhooks/useTicke
 import { DragDropCOlumnstype, TaskType } from '@/commontypes'
 import DragDropLoader from '@/app/_components/UI/DragAndDrop/DragDropLoader/DragDropLoader'
 import DraggableContext from '@/app/_components/UI/DragAndDrop/DraggAbleContext/DraggableContext'
-import TicketInfo from '@/app/_components/UI/TicketInfo/TicketInfo'
-import { useAppDispatch, useAppSelector } from '@/redux/dashboardstore/hook'
 import useDragEndHook from '@/app/_components/UI/DragAndDrop/useDragEndHook'
-import { setTicketInfoClosed } from '@/redux/dashboardstore/reducer/managetickets/manageticket'
 import TaskFilter from '../../tasks/_taskcomponent/TaskFilter'
 import AllTaskList from '../../tasks/_taskcomponent/AllTaskList'
 import "../../tasks/tasks.scss"
@@ -19,9 +16,7 @@ import "../../tasks/tasks.scss"
 const Task = () => {
     const { data } = useSession()
     const { data: userproject, isLoading: userprojectload } = useGetProjectsByUserhook(data)
-    const dispatch = useAppDispatch()
     const [showDone, setshowDone] = useState<boolean>(false)
-    const { ticketInfo } = useAppSelector((state) => state.manageticketreducer);
     const { data: orgProjects, } = useGetAllOrganizationsProjecthook(data)
     const [dragDropData, setdragDropData] = useState<DragDropCOlumnstype | null>(
         null
@@ -125,14 +120,6 @@ const Task = () => {
                         )
                 }
             </div>
-            {ticketInfo?.isopen && (
-                <TicketInfo
-                    isopen={ticketInfo?.isopen}
-                    ticketData={ticketInfo?.ticketdata}
-                    projectId={ticketInfo.ticketdata?.project?._id}
-                    onClosed={() => dispatch(setTicketInfoClosed())}
-                />
-            )}
         </div>
     )
 }

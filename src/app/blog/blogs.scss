@@ -9,9 +9,16 @@
 
 .posttitle {
     font-weight: 800;
-    font-size: 1.5rem;
+ 
+    word-break: break-all;   font-size: 1.2rem;
 }
+.desktopwrapper{
+    display: block;
+}
+.post-subtitle{
+    font-size: 13px;
 
+}
 .postimage {
     background: #f0f0f0;
     width: 100%;
@@ -36,4 +43,60 @@
 
 .blogsearch {
     width: 100% !important;
+}
+.mobliewrapper{
+    display: none;
+}
+@media (max-width: 767px) {
+    .postimagemobile{
+        background: #f0f0f0;
+        border-radius: 8px;
+        width: 80px !important;
+    }
+    .blogpostgrid{
+        gap: 1.1rem;
+    }
+    .datepostmob{
+        font-size: 14px;
+    }
+    .usernameblog{
+        font-size: 14px;
+        color: black;
+        font-weight: 500;
+    }
+    .posttitle{
+            -webkit-line-clamp: 2;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 20px;
+            text-overflow: ellipsis;
+            margin: 10px 0px;
+            margin-bottom: 2px;
+            word-break: auto-phrase;
+    }
+    .blogsdatawrapper{
+        padding: 0px 20px;
+    }
+    .desktopwrapper{
+        display: none;
+    }
+    .mobliewrapper{
+        display: flex;
+        padding-bottom: 14px;
+        border-bottom: 1px solid #60606045;
+    }
+    .blogsearchwrapper{
+        width: 70% !important;
+    }
+    .search-icon {
+        position: absolute;
+        left: 6px !important;
+      
+    }
+    .create-blog{
+        font-size: 12px !important;
+    }
+    .dashboard-header_search{
+        padding: 9px 6px 9px 29px !important;
+    }
 }

@@ -32,8 +32,8 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
     transition: "width ease 0.3s",
   };
   const [UsersList, setUsersList] = useState<
-    [{ value: string; img?: string; label: string; name?: string }]
-  >([{ value: "all", label: "all" }]);
+    [{ value: string; img?: string; label: string; name?: string }] | []
+  >([]);
   const { data } = useSession();
   const { id } = useParams();
 
@@ -64,8 +64,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
       dispatch(setCommentsInfo({ comments: [], isClear: true }))
     }
   }, [])
-  console.log(UsersList, ticketData);
-
+  console.log(ticketData?.assignedTo, "ticketData?.assignedTo");
   return (
     <Offcanvas
       direction="end"
@@ -76,7 +75,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
     >
       <OffcanvasHeader toggle={onClosed}>
         <div className="wrapper w-100 justify-between">
-          <p className="mb-0">{ticketData?.ticketTag}</p>
+          <p className="mb-0">{ticketData?.ticketTag}({ticketData?.project.title})</p>
           {isFull ? (
             <i
               onClick={() => setisFull(!isFull)}
@@ -112,15 +111,20 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
               </div>
               <div className="wrapper my-3 justify-start w-100">
                 <div className="labelticketinfo">Assignee</div>
-                <div className="w-100 ticketinfoproperty">
-                  <CustomDropDownButton
-                    classname="statusselect"
-                    defaultValue={ticketData?.assignedTo}
-                    onDropdownSelect={(value) => console.log(value)}
-                    options={UsersList}
-                    onselectIcon
-                  />
-                </div>
+                {
+                  !!UsersList?.length && (
+                    <div className="w-100 ticketinfoproperty">
+                      <CustomDropDownButton
+                        classname="statusselect"
+                        selectedvalue={ticketData?.assignedTo}
+                        defaultValue={ticketData?.assignedTo}
+                        onDropdownSelect={(value) => console.log(value)}
+                        options={UsersList}
+                        onselectIcon
+                      />
+                    </div>
+                  )
+                }
               </div>
               <div className="wrapper justify-start my-3 w-100">
                 <div className="labelticketinfo">Priority</div>
