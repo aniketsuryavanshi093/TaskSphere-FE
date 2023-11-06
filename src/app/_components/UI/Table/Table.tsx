@@ -232,6 +232,7 @@ const DatatableTables: React.FC<any> = ({
               </MDBTable>
             ) : (
               <>
+                {/* {console.log(data.rows)} */}
                 <MDBDataTable
                   key={data.rows?.length}
                   responsive
@@ -239,7 +240,7 @@ const DatatableTables: React.FC<any> = ({
                   paging={false}
                   data={data}
                   onSort={handelSort}
-                  noRecordsFoundLabel={ norecordslabel||"No record found"}
+                  noRecordsFoundLabel={norecordslabel || "No record found"}
                   searching
                 />
               </>

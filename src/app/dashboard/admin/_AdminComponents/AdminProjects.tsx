@@ -73,7 +73,7 @@ const AdminProjects = () => {
                 column={adminprojectscolumn}
                 paginationConfig={PaginationCOnfig}
                 norecordslabel={!Rows.length ? "No Projects Found" : ""}
-                row={isLoading ? "loading" : Rows || []}
+                row={isLoading ? "loading" : []}
             />
         </div>
     );
