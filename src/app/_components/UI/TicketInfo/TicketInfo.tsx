@@ -37,7 +37,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
   const { data } = useSession();
   const { id } = useParams();
 
-  const { data: usersData } = useGetProjectUsers(data, id || projectId, true);
+  const { data: usersData } = useGetProjectUsers(data, id || projectId || ticketData?.projectId, true);
   useEffect(() => {
     if (usersData?.data?.data?.members?.length) {
       const { members, organizationId } = usersData?.data?.data;
@@ -64,7 +64,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
       dispatch(setCommentsInfo({ comments: [], isClear: true }))
     }
   }, [])
-  console.log(ticketData?.assignedTo, "ticketData?.assignedTo");
+  console.log(ticketData?.assignedTo, "ticketData?.assignedTo", UsersList);
   return (
     <Offcanvas
       direction="end"
