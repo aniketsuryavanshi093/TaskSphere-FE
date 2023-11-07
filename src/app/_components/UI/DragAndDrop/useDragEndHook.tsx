@@ -1,6 +1,7 @@
 import { ticketUpdateValuesType } from '@/app/dashboard/manageticket/[id]/page';
 import { DragDropCOlumnstype } from '@/commontypes';
 import useUpdateTicketHook from '@/hooks/useUpdateTicketHook';
+import enqueSnackBar from '@/lib/enqueSnackBar';
 import { useSession } from 'next-auth/react';
 import React, { useTransition } from 'react'
 import { DropResult } from 'react-beautiful-dnd';
@@ -15,7 +16,14 @@ const useDragEndHook = (projectId: string) => {
         setColumns: React.Dispatch<React.SetStateAction<DragDropCOlumnstype | null>>
     ) => {
         if (!result.destination) return;
+
         const { source, destination } = result;
+        if (columns[source.droppableId].items.find(
+            (el) => el._id === result.draggableId
+        )?.assignedTo !== data?.user.id) {
+            enqueSnackBar({ type: "warning", message: "This task is not assigned to you!" })
+            return
+        }
         if (source.droppableId !== destination.droppableId) {
             const values: ticketUpdateValuesType = {
                 status: destination.droppableId,

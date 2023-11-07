@@ -214,7 +214,7 @@ export default function Home() {
             <div className="col-md-6">
               <div className="box">
                 <div className="img-box">
-                  <Image width={100} height={100} src="/images/case-1.jpg" alt="" />
+                  <Image unoptimized width={100} height={100} src="/images/case-1.jpg" alt="" />
                 </div>
                 <div className="detail-box">
                   <h5>
@@ -235,7 +235,7 @@ export default function Home() {
             <div className="col-md-6">
               <div className="box">
                 <div className="img-box">
-                  <Image width={100} height={100} src="/images/case-2.jpg" alt="" />
+                  <Image unoptimized width={100} height={100} src="/images/case-2.jpg" alt="" />
                 </div>
                 <div className="detail-box">
                   <h5>
@@ -308,7 +308,7 @@ export default function Home() {
                   <div className="col-md-10 mx-auto">
                     <div className="box">
                       <div className="img-box">
-                        <Image width={100} height={100} src="/images/client.jpg" alt="" />
+                        <Image unoptimized width={100} height={100} src="/images/client.jpg" alt="" />
                       </div>
                       <div className="detail-box">
                         <div className="client_info">
@@ -343,7 +343,7 @@ export default function Home() {
                   <div className="col-md-10 mx-auto">
                     <div className="box">
                       <div className="img-box">
-                        <Image width={100} height={100} src="/images/client.jpg" alt="" />
+                        <Image unoptimized width={100} height={100} src="/images/client.jpg" alt="" />
                       </div>
                       <div className="detail-box">
                         <div className="client_info">
@@ -431,7 +431,7 @@ export default function Home() {
                     TaskSphere
                   </h4>
                   <p>
-                    Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful
+                    TaskSphere is here to supercharge your project management journey. Join our ever-growing community today and experience the difference! 🎉
                   </p>
                 </div>
               </div>
@@ -514,8 +514,8 @@ export default function Home() {
         <footer className="footer_section">
           <div className="container">
             <p>
-              &copy; <span id="displayYear"></span> All Rights Reserved By
-              <a href="https://html.design/">Free Html Templates</a>
+              &copy; <span id="displayYear"></span> All Rights Reserved By&nbsp;
+              <a href="https://task-sphere-fe.vercel.app/">TaskSphere</a>
             </p>
           </div>
         </footer>

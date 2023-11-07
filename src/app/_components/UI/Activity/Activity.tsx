@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Avatar from '../Avatar';
 import moment from 'moment';
 import { generateInitials } from '@/lib';
+import Link from 'next/link';
 type activityprops = {
     assignedetail?: undefined | {
         _id: string
@@ -89,7 +90,7 @@ const Activity: React.FC<{ activityInfo: ActivityType, key: string }> = ({ activ
                     <p className='activitytext wrapper mb-0'><span className='assignename'>{ActivityDetail?.creatordetail?.userName}</span> &nbsp; {ActivityDetail?.actionperformedtext} {ActivityDetail.tickettitle && <a href='#' >&nbsp;{ActivityDetail.tickettitle} &nbsp;</a>} {ActivityDetail.secondrytext ? ActivityDetail.secondrytext : null}
                         {ActivityDetail.assignedetail && <span className='mx-2 assignename wrapper'> <Avatar size={24} initials={generateInitials(ActivityDetail?.assignedetail?.userName)} image={ActivityDetail?.assignedetail?.profilePic} /> &nbsp; {ActivityDetail?.assignedetail?.userName} </span>}
                     </p>
-                    <p className='activity-date mb-0'>{moment(activityInfo.createdAt).format('MMMM Do YYYY, h:mm:ss a')}. on board <span className='activityproject'>{activityInfo?.projectData.title}</span> </p>
+                    <p className='activity-date mb-0'>{moment(activityInfo.createdAt).format('MMMM Do YYYY, h:mm:ss a')}. on board <Link prefetch={false} href={`/dashboard/project/${activityInfo.projectId}`}><span className='activityproject'>{activityInfo?.projectData.title}</span></Link> </p>
                 </div>
             </div >
         )
@@ -97,5 +98,3 @@ const Activity: React.FC<{ activityInfo: ActivityType, key: string }> = ({ activ
 }
 
 export default Activity
-
-// from todo to in progress

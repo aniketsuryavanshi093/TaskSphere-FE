@@ -190,7 +190,15 @@
   margin-left: 20px!important;
   margin-bottom: 5px!important;
 }
+.statusselectdisable {
+  background: #e1e1e1 !important;
+  cursor: no-drop !important;
+  
+}
+.statusselectdisable:hover {
+  background: #e1e1e1 !important;
 
+}
 @media only screen and (max-width: 600px) {
   .custom-dropdown {
     padding: 0;

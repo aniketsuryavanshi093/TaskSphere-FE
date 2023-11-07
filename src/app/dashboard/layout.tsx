@@ -12,6 +12,7 @@ import { useSession } from 'next-auth/react'
 import { clearCookies } from '@/lib'
 import DashboardSearch from '../_components/Search/DashboardSearch'
 import TicketInfo from '../_components/UI/TicketInfo/TicketInfo'
+import Image from 'next/image'
 
 type PageProps = {
     children: React.JSX.Element
@@ -65,7 +66,17 @@ const DashBoardLayout: React.FC<PageProps> = ({ children }) => {
                         <div className={`maincontent ${openSidebar && 'largecontent'} scrollbar`} id="style-1">
                             <div className="  top_nav_wrapper">
                                 <div className='wrapper justify-between px-4 w-100' >
-                                    <DashboardSearch />
+                                    <div className='wrapper justify-start'>
+                                        <Image
+                                            className="d-lg-none me-2 cp"
+                                            src="/images/icons/menu-light.png"
+                                            onClick={() => setOpenMobileSidebar(!openMobileSidebar)}
+                                            alt="test"
+                                            width={25}
+                                            height={25}
+                                        />
+                                        <DashboardSearch />
+                                    </div>
                                     <ProfileMenu />
                                 </div>
                             </div>

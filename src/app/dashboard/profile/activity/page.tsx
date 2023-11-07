@@ -21,6 +21,7 @@ const ProfileActivity = () => {
     const {
         data: activitydata,
         isLoading,
+        refetch,
         isError,
         error,
     } = useQuery({
@@ -34,7 +35,7 @@ const ProfileActivity = () => {
         refetchOnReconnect: false,
         staleTime: 1000 * 60 * 5,
         retry: false,
-        refetchOnmount: false,
+        refetchOnmount: true,
         queryFn: () => getUserActivity(data?.user, isForme, pagination),
     });
     const dispatch = useAppDispatch();
@@ -62,30 +63,35 @@ const ProfileActivity = () => {
 
     return (
         <div className="activitywrapper px-3 py-2">
-            <div className="wrapper mt-3 justify-start">
-                <div className="wrapper ">
-                    <i className="fa-solid fa-list-ul"></i>
-                    <p className="header-title mx-3">Activity</p>
+            <div className="wrapper mt-3 justify-between">
+                <div className="wrapper justify-start">
+                    <div className="wrapper ">
+                        <i className="fa-solid fa-list-ul"></i>
+                        <p className="header-title mx-3">Activity</p>
+                    </div>
+                    <FormGroup check className="mb-0">
+                        <Input
+                            id="exampleCheck"
+                            onChange={(e) => {
+                                dispatch(setactivitystateInfo({
+                                    isClear: true,
+                                    comments: []
+                                }))
+                                setshowforme(!isForme);
+                            }}
+                            checked={isForme}
+                            name="check"
+                            style={{ border: "1px solid " }}
+                            type="checkbox"
+                        />
+                        <Label check className="no-wrap" for="exampleCheck">
+                            Show Activity related to me
+                        </Label>
+                    </FormGroup>
                 </div>
-                <FormGroup check className="mb-0">
-                    <Input
-                        id="exampleCheck"
-                        onChange={(e) => {
-                            dispatch(setactivitystateInfo({
-                                isClear: true,
-                                comments: []
-                            }))
-                            setshowforme(!isForme);
-                        }}
-                        checked={isForme}
-                        name="check"
-                        style={{ border: "1px solid " }}
-                        type="checkbox"
-                    />
-                    <Label check className="no-wrap" for="exampleCheck">
-                        Show Activity related to me
-                    </Label>
-                </FormGroup>
+                <div className="wrapper">
+                    <i className="fa-solid fa-rotate-right fa-rotate-270 me-3" style={{ fontSize: "20px" }} onClick={() => refetch()}></i>
+                </div>
             </div>
             <div id="scrollableDiv" className="w-100 mb-3 mt-4 scrollbar activitylayout">
                 {

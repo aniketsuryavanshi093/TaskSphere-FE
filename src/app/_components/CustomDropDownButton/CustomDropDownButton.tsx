@@ -15,6 +15,7 @@ type Pageprops = {
   icon?: string,
   options: optionstype[],
   onselectIcon?: boolean
+  disabled?: boolean
   selectedvalue?: string,
   classname?: string,
   searchable?: boolean,
@@ -29,6 +30,7 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
   options, selectedvalue, onselectIcon,
   onDropdownSelect, searchable,
   defaultValue,
+  disabled,
   reset_value,
 }) => {
   const [selectedValue, setSelectedValue] = useState(selectedvalue);
@@ -43,8 +45,6 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
   }, [selectedvalue])
   useEffect(() => {
     if (defaultValue) {
-      console.log(_options, defaultValue);
-
       setShowImpLable(_options.find(({ value }: optionstype) => value === defaultValue)?.label)
       setStatusCOlor(_options.find(({ value }: optionstype) => value === defaultValue)?.color)
       setSelectedValue(defaultValue);
@@ -88,6 +88,7 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
   }, [StatusCOlor])
   return (
     <Dropdown
+      disabled={disabled}
       isOpen={Menu}
       toggle={() => {
         setoptions(options)
@@ -96,7 +97,7 @@ const CustomDropDownButton: React.FC<Pageprops> = ({
       style={{ transform: 'none' }}
       className={title === 'Filter' ? 'filterbox' : 'align-self-center dropdownwrapper px-0'}
     >
-      <DropdownToggle className={`btn custom-dropdown ${classname || ""} `} id={`dropdown-basic${defaultValue || selectedValue}`}>
+      <DropdownToggle className={`btn custom-dropdown ${disabled && "statusselectdisable"} ${classname || ""} `} id={`dropdown-basic${defaultValue || selectedValue}`}>
         <div className='wrapper justify-between w-100'>
           <div className='wrapper '>
             {icon && (
