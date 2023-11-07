@@ -9,9 +9,9 @@ const useTicketsQueryhook = ({ id = "", filterURLValue, frompage }: { id?: strin
         queryFn: () => getAllTickets({ id, filterURL: filterURLValue, authToken: data?.user?.authToken }),
         enabled: data?.user && frompage ? true : false,
         refetchOnReconnect: false,
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
+        refetchOnMount: true
     })
-
 }
 
 export default useTicketsQueryhook

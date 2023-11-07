@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useRef } from "react";
+import React, { useState, useEffect, memo, useRef, useTransition } from "react";
 import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 import "./ticketinfo.scss";
 import { CurrentUserObjectType, TaskType } from "@/commontypes";
@@ -14,6 +14,8 @@ import Commentsection from "./CommentSection";
 import { setCommentsInfo } from "@/redux/dashboardstore/reducer/comments/comments";
 import { useAppDispatch, useAppSelector } from "@/redux/dashboardstore/hook";
 import { useQueryClient } from "@tanstack/react-query";
+import useUpdateTicketHook from "@/hooks/useUpdateTicketHook";
+import enqueSnackBar from "@/lib/enqueSnackBar";
 
 type pageprops = {
   isopen: boolean;
@@ -24,8 +26,11 @@ type pageprops = {
 
 const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, projectId }) => {
   const { isUpdated } = useAppSelector(state => state.commentreducer)
+  const [pending, startTransition] = useTransition();
+  const { id } = useParams();
   const [isFull, setisFull] = useState(false);
   const queryClient = useQueryClient()
+  const { handleUpdateTicket } = useUpdateTicketHook(id || projectId || ticketData?.projectId);
   const dispatch = useAppDispatch()
   const ticketInfoWrapperStyle: React.CSSProperties = {
     width: isFull ? "77%" : "37%",
@@ -35,7 +40,6 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
     [{ value: string; img?: string; label: string; name?: string }] | []
   >([]);
   const { data } = useSession();
-  const { id } = useParams();
 
   const { data: usersData } = useGetProjectUsers(data, id || projectId || ticketData?.projectId, true);
   useEffect(() => {
@@ -64,7 +68,28 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
       dispatch(setCommentsInfo({ comments: [], isClear: true }))
     }
   }, [])
-  console.log(ticketData?.assignedTo, "ticketData?.assignedTo", UsersList);
+  const getUsernamefromlist = (val: string) => {
+    return UsersList?.find(
+      ({ value: tempval, img, name }) => (
+        val === tempval
+      ))?.name
+  }
+  const handleChange = (type: string, value: string) => {
+    if (data?.user?.ticketAdministrator || data?.user.id === ticketData?.assignedTo || data?.user.role === "organization") {
+      startTransition(() => handleUpdateTicket({
+        status: type === "status" ? value : ticketData?.status,
+        updatedBy: data?.user.id,
+        currentstatus: ticketData?.status,
+        assignedTo: type === "assignedTo" ? value : ticketData?.assignedTo,
+        projectId: ticketData?.projectId,
+        ticketId: ticketData?._id,
+        priority: type === 'priority' ? value : ticketData?.priority,
+        ticketDatachanged: `${type === "assignedTo" ? "assigned" : type} ${type === "assignedTo" ? "ticket" : ticketData[type]} to ${type === "assignedTo" ? getUsernamefromlist(value) : value}`
+      }))
+    }
+  }
+  console.log(UsersList, ticketData, ticketData?.createdByOrg);
+
   return (
     <Offcanvas
       direction="end"
@@ -102,9 +127,10 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
                 <div className="w-100 ticketinfoproperty">
                   <CustomDropDownButton
                     classname="statusselect"
+                    disabled={!(data?.user?.ticketAdministrator || data?.user.id === ticketData?.assignedTo || data?.user.role === "organization")}
                     selectedvalue={ticketData?.status}
                     defaultValue={ticketData?.status}
-                    onDropdownSelect={(value) => console.log(value)}
+                    onDropdownSelect={(value) => handleChange("status", value)}
                     options={statusoptions}
                   />
                 </div>
@@ -116,9 +142,10 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
                     <div className="w-100 ticketinfoproperty">
                       <CustomDropDownButton
                         classname="statusselect"
+                        disabled={!(data?.user?.ticketAdministrator || data?.user.id === ticketData?.assignedTo || data?.user.role === "organization")}
                         selectedvalue={ticketData?.assignedTo}
                         defaultValue={ticketData?.assignedTo}
-                        onDropdownSelect={(value) => console.log(value)}
+                        onDropdownSelect={(value) => handleChange("assignedTo", value)}
                         options={UsersList}
                         onselectIcon
                       />
@@ -132,9 +159,10 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
                   <CustomDropDownButton
                     defaultValue={ticketData?.priority}
                     classname="statusselect"
+                    disabled={!(data?.user?.ticketAdministrator || data?.user.id === ticketData?.assignedTo || data?.user.role === "organization")}
                     onselectIcon
                     onDropdownSelect={(value) => {
-                      console.log(value);
+                      handleChange('priority', value);
                     }}
                     options={priority}
                   />
@@ -147,6 +175,7 @@ const TicketInfo: React.FC<pageprops> = ({ isopen, onClosed, ticketData, project
                     defaultValue={ticketData?.label}
                     classname="statusselect"
                     onDropdownSelect={(value) => console.log(value)}
+                    disabled={!(data?.user?.ticketAdministrator || data?.user.id === ticketData?.assignedTo || data?.user.role === "organization")}
                     options={[...label]}
                   />
                 </div>

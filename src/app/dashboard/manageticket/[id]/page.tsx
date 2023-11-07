@@ -16,6 +16,8 @@ export type ticketUpdateValuesType = {
     status: string;
     updatedBy: string | undefined;
     currentstatus: string | undefined;
+    ticketDatachanged?: string,
+    priority?: string;
     assignedTo: string | undefined;
     projectId: string | string[];
     ticketId: string;
