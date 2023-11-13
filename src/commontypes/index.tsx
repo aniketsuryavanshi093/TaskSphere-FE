@@ -45,8 +45,8 @@ export type bloginterface = {
     description: any
     title: string
     content: string
-
     createdAt: string
+    updatedAt: string
     previewImage: string
     slug: string
     author: [{
