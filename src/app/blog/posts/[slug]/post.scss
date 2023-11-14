@@ -1,7 +1,7 @@
 .blogpostwrapper {
     width: 70%;
     margin: auto;
-    margin-top: 50px;
+    margin-top: 30px;
 
     .fa {
         font-family: inherit !important;
@@ -15,9 +15,10 @@
 }
 
 .pposttitle {
-    font-size: 3rem;
-    line-height: 1;
-    color: black;
+ font-size: 2rem;
+        line-height: 1;
+        color: black;
+        margin-bottom: 0px;
 }
 
 .postdata {
@@ -35,7 +36,7 @@
 }
 
 .seeallbtn {
-    top: 22%;
+    top: 17%;
     left: 5%;
 }
 @media (max-width: 767px) {

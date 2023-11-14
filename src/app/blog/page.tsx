@@ -11,13 +11,13 @@ export const metadata = {
   title: 'Blog',
 }
 export const revalidate = 60;
+export const dynamic = 'force-dynamic'
 
 export default async function BlogPage({ searchParams }) {
   const searchkey = searchParams['search'];
   const page = searchParams['page'] ?? '1';
 
   const allposts: { blogs: bloginterface[], total: number, totalPages: number, currentpage: number } = await getAllposts(page, searchkey)
-  console.log(allposts.blogs[0]);
 
   return (
     <>
@@ -61,7 +61,6 @@ export default async function BlogPage({ searchParams }) {
                   </div>
                 )}
               </div>
-
               <Link
                 key={post._id}
                 prefetch={false} href={`blog/posts/${post.slug}`}
@@ -102,7 +101,7 @@ export default async function BlogPage({ searchParams }) {
       ) : (
         <p>No posts published.</p>
       )}
-      <BlogPagination currentpage={allposts.currentpage} total={allposts.total} totalPages={allposts.totalPages} />
+      <BlogPagination currentpage={allposts.currentpage} paginationurl="blog" total={allposts.total} totalPages={allposts.totalPages} />
     </>
   )
 }

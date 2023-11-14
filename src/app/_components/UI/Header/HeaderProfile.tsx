@@ -61,6 +61,14 @@ const Component = () => {
                                 Dashboard
                             </DropdownItem>
                         </Link>
+                        <Link prefetch={false} href="/blog/userblogs">
+                            <DropdownItem tag="span" className="text_primary profile_dropdown_menu_item">
+                                {/* <i className="uil uil-user-circle font-size-18 align-middle me-2" />
+                                 */}
+                                <i className="fa-solid fa-blog font-size-18 align-middle me-2"></i>
+                                My Blogs
+                            </DropdownItem>
+                        </Link>
                         <button
                             type="button"
                             onClick={handleLogout}

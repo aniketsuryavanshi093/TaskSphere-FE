@@ -73,7 +73,7 @@ const Component = () => {
             <Search SearchDataComponent={SearchDataComponent} searchData={data?.data.data.blogs as bloginterface[]} searchLoading={isLoading} searchwrapperclass='blogsearchwrapper' inpClassname='blogsearch' placeholder='Find what you are looking for?' setValue={onSetvalue} waitTime={1000} />
             {
                 status === "authenticated" ? (
-                    <Link prefetch={false} className='create-blog no-wrap btn' href="/blog/create-blog"> Create Blog </Link>
+                    <Link prefetch={false} className='create-blog no-wrap btn btn-outline-primary' href="/blog/create-blog"> Create Blog </Link>
                 )
                     :
                     (

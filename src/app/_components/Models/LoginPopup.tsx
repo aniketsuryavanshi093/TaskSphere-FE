@@ -110,6 +110,16 @@ const LoginPopup: React.FC<{ isOpen: boolean, onClose: () => void, }> = ({ isOpe
                             </div>
                             <div>
                                 <button
+                                    type="submit"
+                                    className=" guestloginbtn my-2 py-2 px-2"
+                                >
+                                    <div className="wrapper ">
+                                        <p className="mb-0 ms-2">
+                                            SignIn
+                                        </p>
+                                    </div>
+                                </button>
+                                <button
                                     type="button"
                                     onClick={() => {
                                         startTransition(() => handleServerAction(null, "google",))

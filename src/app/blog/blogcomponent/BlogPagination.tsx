@@ -3,20 +3,18 @@ import Pagination from '@/app/_components/UI/Pagination/Pagination';
 import { PaginationConfigType } from '@/commontypes';
 import usePaginationHook from '@/hooks/usePaginationHook';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { Col } from 'reactstrap';
 
-const BlogPagination: React.FC<{ total: number, totalPages: number, currentpage: number, }> = ({ total, totalPages, currentpage }) => {
-
+const BlogPagination: React.FC<{ total: number, paginationurl: string, totalPages: number, currentpage: number, additionalparams?: string }> = ({ total, additionalparams, totalPages, currentpage, paginationurl }) => {
     const { PaginationCOnfig, setpaginationConfig, currentPage, setCurrentPage } = usePaginationHook();
     const router = useRouter()
     const params = useSearchParams()
     useEffect(() => {
         if (currentPage) {
-            router.push(`/blog?page=${currentPage}${params.get("search") ? `&search=${params.get("search")}` : ""}`)
+            router.push(`/${paginationurl}?page=${currentPage}${params.get("search") ? `&search=${params.get("search")}` : ""}${additionalparams || ""}`)
         }
-    }, [currentPage,])
-
+    }, [currentPage])
     useEffect(() => {
         setpaginationConfig({
             itemCount: total,
