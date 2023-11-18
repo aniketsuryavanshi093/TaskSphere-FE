@@ -63,9 +63,9 @@ const AdminCreateProject = () => {
             const result = await createProjectaction(val) as { status: string, message: string }
             if (result?.status === "fail") {
                 enqueSnackBar({ type: "error", message: result.message, })
-                queryClient.invalidateQueries({ queryKey: ["orgainzationprojects"] })
                 return
             }
+            queryClient.invalidateQueries({ queryKey: ["orgainzationprojects"] })
             enqueSnackBar({ type: "success", message: "Project created Successfully!" })
             resetForm()
         } catch (error) {
