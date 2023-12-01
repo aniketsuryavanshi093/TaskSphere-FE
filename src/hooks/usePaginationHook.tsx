@@ -5,7 +5,7 @@ import { useState } from 'react';
 const usePaginationHook = () => {
   const [PerpageItemCount, setPerpageItemCount] = useState<number>(5);
   const [PaginationCOnfig, setsetPaginationCOnfig] = useState<PaginationConfigType>({});
-  const [currentPage, setCurrentPage] = useState<number>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
